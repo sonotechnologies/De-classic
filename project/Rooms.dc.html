@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}</style>
+</helmet>
+<div data-screen-label="Rooms" style="min-height:100vh;background:#FFFFFF">
+  <dc-import name="Header" active="rooms" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+  <section data-anim="wipe" style="background:#B1ECEC;padding:clamp(40px,6vw,80px) 0 clamp(140px,16vw,240px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:flex;flex-wrap:wrap;gap:24px 64px;align-items:flex-end;justify-content:space-between">
+      <div>
+        <span data-anim="rise" data-delay="160" style="display:block;font-size:14px;font-weight:600;color:#0B5C5C;margin-bottom:16px">rooms</span>
+        <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(48px,8vw,116px);line-height:0.9;letter-spacing:-0.055em">
+          <span data-anim="rise" data-delay="220" style="display:block">four rooms,</span>
+          <span data-anim="rise" data-delay="280" style="display:block">all air-cooled</span>
+        </h1>
+      </div>
+      <p style="margin:0;font-size:17px;line-height:1.6;max-width:360px">Every room has air conditioning, Wi-Fi, a smart TV and its own bathroom. Breakfast is ₦3,000 extra.</p>
+    </div>
+  </section>
+  <section aria-label="Room list" style="margin-top:clamp(-200px,-13vw,-100px);padding-bottom:clamp(72px,9vw,128px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:flex;flex-wrap:wrap;gap:56px clamp(24px,4vw,64px);align-items:flex-start">
+      <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="4">
+        <article data-reveal="" style="flex:{{ r.flex }};min-width:min(100%,300px);margin-top:{{ r.offset }};display:flex;flex-direction:column;gap:16px">
+          <a href="Room%20Detail.dc.html" style="position:relative;display:block">
+            <div style="aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:#E8F9F9">
+              <img src="{{ r.img }}" alt="{{ r.alt }}" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div data-sticker="" style="position:absolute;top:-16px;right:-12px;width:96px;height:96px;border-radius:999px;background:#111111;color:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(8deg)">
+              <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.04em;line-height:1">{{ r.short }}</span>
+              <span style="font-size:11px;font-weight:600">per night</span>
+            </div>
+          </a>
+          <h2 style="margin:4px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,3vw,44px);letter-spacing:-0.05em;line-height:0.95">{{ r.name }}</h2>
+          <span style="font-size:16px;color:#5B6B6B;line-height:1.5">{{ r.amen }}</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid #D5E5E5;padding-top:16px">
+            <span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.03em">{{ r.price }}</span> <span style="font-size:14px;color:#5B6B6B">per night</span></span>
+            <div style="display:flex;gap:16px;align-items:center">
+              <a href="Room%20Detail.dc.html" style="color:#0B5C5C;font-weight:600;text-decoration:none;display:inline-flex;gap:8px;transition:gap 180ms ease-out" style-hover="gap:12px;color:#0B5C5C">Details <span>→</span></a>
+              <a href="Book.dc.html" style="display:inline-flex;align-items:center;height:48px;padding:0 22px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#0B5C5C;color:#FFFFFF">Request</a>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+  <dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { m: window.innerWidth < 760 };
+  componentDidMount() { this.onR = () => this.setState({ m: window.innerWidth < 760 }); window.addEventListener('resize', this.onR); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const P = (id) => `https://images.unsplash.com/photo-${id}?w=900&q=70&auto=format&fit=crop`;
+    const m = this.state.m;
+    const data = [
+      ['standard room', '₦25k', '₦25,000', 'Double bed · air conditioning · smart TV', '1522771739844-6a9f6d5f14af'],
+      ['deluxe room', '₦35k', '₦35,000', 'Queen bed · work desk · fast Wi-Fi', '1631049307264-da0ec9d70304'],
+      ['twin room', '₦38k', '₦38,000', 'Two beds · tiled floor · air conditioning', '1595576508898-0ad5c879a061'],
+      ['executive room', '₦50k', '₦50,000', 'King bed · sitting area · mini fridge', '1618773928121-c32242e63f39'],
+    ];
+    const rooms = data.map(([name, short, price, amen, id], i) => ({ name, short, price, amen, img: P(id), alt: `Stand-in photo: ${name}`,
+      flex: i % 2 ? '5 1 0' : '7 1 0', offset: !m && i % 2 ? '160px' : '0px' }));
+    return { rooms };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}</style>
+</helmet>
+<div data-screen-label="Locations" style="min-height:100vh;background:#FFFFFF">
+  <dc-import name="Header" active="locations" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+  <section data-anim="wipe" style="background:#B1ECEC;padding:clamp(40px,6vw,80px) 0 clamp(180px,20vw,300px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+      <span data-anim="rise" data-delay="120" style="display:block;font-size:14px;font-weight:600;color:#0B5C5C;margin-bottom:16px">look for the aqua building</span>
+      <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(48px,8.6vw,124px);line-height:0.9;letter-spacing:-0.055em">
+        <span data-anim="rise" data-delay="180" style="display:block">12 example street,</span>
+        <span data-anim="rise" data-delay="240" style="display:block">agric, ikorodu</span>
+      </h1>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:32px">
+        <a href="https://maps.google.com/?q=Agric+Ikorodu" style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#0B5C5C;color:#FFFFFF">Get directions</a>
+        <a href="tel:+2348000000000" style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;border:1.5px solid #111111;color:#111111;font-weight:600;text-decoration:none" style-hover="background:#111111;color:#FFFFFF">Call +234 800 000 0000</a>
+      </div>
+    </div>
+  </section>
+  <section style="max-width:1240px;margin:clamp(-240px,-16vw,-140px) auto 0;padding:0 clamp(20px,4vw,40px)">
+    <div data-anim="settle" data-delay="320" style="aspect-ratio:21/9;min-height:280px;border-radius:24px;overflow:hidden;background:repeating-linear-gradient(135deg,#E8F9F9 0 14px,#FFFFFF 14px 28px);border:1px solid #D5E5E5;display:flex;align-items:center;justify-content:center">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5B6B6B;background:#FFFFFF;padding:8px 14px;border-radius:999px;border:1px solid #D5E5E5">map embed · pin on De Classic, Agric</span>
+    </div>
+  </section>
+  <section style="max-width:1240px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,40px) clamp(72px,9vw,128px);display:flex;flex-wrap:wrap;gap:48px clamp(40px,7vw,120px)">
+    <div style="flex:1 1 320px">
+      <h2 style="margin:0 0 20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,4vw,56px);line-height:0.95;letter-spacing:-0.05em">close to</h2>
+      <sc-for list="{{ near }}" as="n" hint-placeholder-count="5">
+        <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid #D5E5E5;font-size:17px">
+          <span>{{ n.place }}</span><span style="color:#5B6B6B;white-space:nowrap">{{ n.time }}</span>
+        </div>
+      </sc-for>
+      <p style="margin:20px 0 0;font-size:15px;color:#5B6B6B;line-height:1.6">Free parking on site. Reception is open 24 hours.</p>
+    </div>
+    <div data-reveal="" style="flex:1.2 1 360px;display:flex;flex-direction:column;gap:12px">
+      <div style="aspect-ratio:3/2;border-radius:24px;overflow:hidden;background:#B1ECEC;position:relative;display:flex;align-items:flex-end;justify-content:center">
+        <div style="position:absolute;left:0;right:0;bottom:0;height:22%;background:#FFFFFF"></div>
+        <div style="position:relative;width:62%;height:70%;background:#FFFFFF;border:3px solid #111111;border-bottom:0;border-radius:6px 6px 0 0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:10%;padding:8% 8% 0">
+          <div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div>
+          <div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div>
+          <div style="grid-column:2 / 4;background:#111111;border-radius:6px 6px 0 0"></div>
+        </div>
+      </div>
+      <span style="font-size:13px;color:#5B6B6B">Drawing of the building. Replace with a daylight photo of the exterior.</span>
+    </div>
+  </section>
+  <dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return { near: [
+      { place: 'Agric junction', time: '5 min drive' }, { place: 'Ikorodu garage', time: '15 min drive' },
+      { place: 'Ikorodu ferry terminal', time: '20 min drive' }, { place: 'Lagos State University of Science and Technology', time: '20 min drive' },
+    ] };
+  }
+}
+</script>
+</body>
+</html>

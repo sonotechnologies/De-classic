@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<footer data-block="" style="background:#B1ECEC;color:#111111;font-family:Figtree,sans-serif;padding:72px 0 {{ bottomPad }};overflow:hidden">
+  <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+    <div style="display:flex;flex-wrap:wrap;gap:40px 64px">
+      <div style="flex:1 1 260px;display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">find us</span>
+        <span style="font-size:18px;line-height:1.5">12 Example Street, Agric<br>Ikorodu, Lagos</span>
+        <a href="Locations.dc.html" style="color:#0B5C5C;font-weight:600;text-decoration:none;display:inline-flex;gap:8px;transition:gap 180ms ease-out" style-hover="gap:12px;color:#0B5C5C">Get directions <span>→</span></a>
+      </div>
+      <div style="flex:1 1 220px;display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">talk to us</span>
+        <a href="tel:+2348000000000" style="font-size:18px;color:#111111;text-decoration:none;font-weight:600">+234 800 000 0000</a>
+        <a href="https://wa.me/2348000000000" style="font-size:18px;color:#111111;text-decoration:none;font-weight:600">WhatsApp us</a>
+      </div>
+      <nav aria-label="Footer" style="flex:1 1 220px;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;align-content:start">
+        <a href="Rooms.dc.html" style="color:#111111;text-decoration:none;font-size:16px" style-hover="color:#0B5C5C">Rooms</a>
+        <a href="Bar.dc.html" style="color:#111111;text-decoration:none;font-size:16px" style-hover="color:#0B5C5C">The bar</a>
+        <a href="Gallery.dc.html" style="color:#111111;text-decoration:none;font-size:16px" style-hover="color:#0B5C5C">Gallery</a>
+        <a href="Offers.dc.html" style="color:#111111;text-decoration:none;font-size:16px" style-hover="color:#0B5C5C">Offers</a>
+        <a href="Locations.dc.html" style="color:#111111;text-decoration:none;font-size:16px" style-hover="color:#0B5C5C">Locations</a>
+        <a href="Book.dc.html" style="color:#111111;text-decoration:none;font-size:16px;font-weight:600" style-hover="color:#0B5C5C">Book now</a>
+      </nav>
+    </div>
+    <div aria-hidden="true" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:15.4vw;letter-spacing:-0.06em;line-height:0.8;margin:64px 0 0;white-space:nowrap">de classic</div>
+    <div style="border-top:1.5px solid #111111;margin-top:28px;padding-top:16px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px">
+      <span>© 2026 De Classic Hotel, Ikorodu</span>
+      <span>Photos are stand-ins, not De Classic Hotel. Prices and details are samples.</span>
+    </div>
+  </div>
+</footer>
+<a href="https://wa.me/2348000000000" aria-label="Chat on WhatsApp" style="position:fixed;right:20px;bottom:{{ waBottom }};width:56px;height:56px;border-radius:999px;background:#111111;display:flex;align-items:center;justify-content:center;z-index:90;transition:background 180ms ease-out" style-hover="background:#0B5C5C">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+</a>
+<sc-if value="{{ showBar }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;background:#FFFFFF;border-top:1px solid #D5E5E5;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:95;font-family:Figtree,sans-serif">
+    <div style="display:flex;flex-direction:column;line-height:1.1">
+      <span style="font-size:13px;font-weight:600;color:#0B5C5C">{{ barLabel }}</span>
+      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.03em">{{ barPrice }}</span>
+    </div>
+    <a href="{{ barHref }}" style="display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;font-size:16px;text-decoration:none">{{ barCta }}</a>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;560px&quot;},&quot;stickyBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;barLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;rooms from&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;barPrice&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;₦25,000&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;barHref&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Book.dc.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;barCta&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Book now&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { m: window.innerWidth < 760 };
+  componentDidMount() { this.onR = () => this.setState({ m: window.innerWidth < 760 }); window.addEventListener('resize', this.onR); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const m = this.state.m, bar = m && this.props.stickyBar !== false;
+    return { showBar: bar, bottomPad: bar ? '112px' : '40px', waBottom: bar ? '88px' : '24px',
+      barLabel: this.props.barLabel ?? 'rooms from', barPrice: this.props.barPrice ?? '₦25,000',
+      barHref: this.props.barHref ?? 'Book.dc.html', barCta: this.props.barCta ?? 'Book now' };
+  }
+}
+</script>
+</body>
+</html>

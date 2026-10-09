@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#0E0E0F;color:#FFFFFF;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#C9A24B}a:hover{color:#FFFFFF}:focus-visible{outline:3px solid #C9A24B;outline-offset:3px}</style>
+</helmet>
+<div data-screen-label="Bar" style="min-height:100vh;background:#0E0E0F">
+  <dc-import name="Header" active="the bar" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+  <section style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,104px) clamp(20px,4vw,40px) 0">
+    <span data-anim="rise" data-delay="100" style="display:block;font-size:14px;font-weight:600;color:#C9A24B;margin-bottom:16px">the bar · ground floor</span>
+    <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(56px,11vw,160px);line-height:0.88;letter-spacing:-0.06em;color:#C9A24B">
+      <span data-anim="rise" data-delay="160" style="display:block">lights off,</span>
+      <span data-anim="rise" data-delay="220" style="display:block">glasses up</span>
+    </h1>
+  </section>
+  <section style="max-width:1240px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(20px,4vw,40px) 0;display:flex;flex-wrap:wrap;gap:40px clamp(40px,6vw,96px);align-items:flex-end">
+    <div data-anim="settle" data-delay="300" style="flex:1.5 1 420px;aspect-ratio:16/9;border-radius:24px;overflow:hidden;background:#222">
+      <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=1400&q=70&auto=format&fit=crop" alt="Stand-in photo: a lit bar counter at night" style="width:100%;height:100%;object-fit:cover;display:block">
+    </div>
+    <div style="flex:1 1 300px;display:flex;flex-direction:column">
+      <span style="font-size:14px;font-weight:600;color:#C9A24B;margin-bottom:8px">opening hours</span>
+      <sc-for list="{{ hours }}" as="h" hint-placeholder-count="3">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0;border-bottom:1px solid #2A2A2A">
+          <span style="font-size:16px;color:#CFCFCF">{{ h.d }}</span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(24px,2.4vw,34px);letter-spacing:-0.03em">{{ h.t }}</span>
+        </div>
+      </sc-for>
+      <p style="margin:20px 0 0;font-size:16px;line-height:1.6;color:#CFCFCF">Music from Thursday to Sunday. Guests staying the night get their first drink free.</p>
+    </div>
+  </section>
+  <section aria-label="Menu" style="max-width:1240px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,40px)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:40px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(40px,5vw,72px);line-height:0.95;letter-spacing:-0.05em;color:#C9A24B">the menu</h2>
+      <span style="font-size:14px;color:#CFCFCF">Sample menu and prices</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px clamp(40px,6vw,96px)">
+      <sc-for list="{{ menu }}" as="c" hint-placeholder-count="4">
+        <div data-reveal="">
+          <h3 style="margin:0 0 8px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:28px;letter-spacing:-0.03em;color:#C9A24B">{{ c.cat }}</h3>
+          <sc-for list="{{ c.items }}" as="i" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid #2A2A2A;font-size:17px">
+              <span>{{ i.n }}</span><span style="font-weight:600;white-space:nowrap">{{ i.p }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:64px;display:flex;flex-wrap:wrap;gap:20px 32px;align-items:center;justify-content:space-between;border-top:1.5px solid #C9A24B;padding-top:32px">
+      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(26px,3vw,40px);letter-spacing:-0.04em">stay the night, skip the drive home</span>
+      <a href="Book.dc.html" style="display:inline-flex;align-items:center;height:56px;padding:0 30px;border-radius:999px;background:#C9A24B;color:#111111;font-weight:600;font-size:16px;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#FFFFFF;color:#111111">Book a room</a>
+    </div>
+  </section>
+  <dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const it = (a) => a.map(([n, p]) => ({ n, p }));
+    return {
+      hours: [{ d: 'Mon to Thu', t: '6pm – 1am' }, { d: 'Fri and Sat', t: '6pm – 3am' }, { d: 'Sunday', t: '5pm – 12am' }],
+      menu: [
+        { cat: 'cocktails', items: it([['Chapman', '₦3,500'], ['De Classic sunset', '₦5,000'], ['Mojito', '₦5,000'], ['Long Island', '₦6,500']]) },
+        { cat: 'beer and stout', items: it([['Star', '₦1,500'], ['Guinness', '₦1,800'], ['Heineken', '₦2,000'], ['Desperados', '₦2,500']]) },
+        { cat: 'spirits', items: it([['Hennessy VS, glass', '₦4,000'], ['Jameson, glass', '₦3,000'], ['Hennessy VS, bottle', '₦75,000'], ['Jameson, bottle', '₦45,000']]) },
+        { cat: 'small chops', items: it([['Peppered gizzard', '₦4,000'], ['Suya platter', '₦6,000'], ['Asun', '₦5,000'], ['Small chops tray', '₦7,500']]) },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

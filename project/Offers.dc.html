@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}</style>
+</helmet>
+<div data-screen-label="Offers" style="min-height:100vh;background:#FFFFFF">
+  <dc-import name="Header" active="offers" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+  <section style="max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(20px,4vw,40px) clamp(32px,4vw,48px)">
+    <span data-anim="rise" data-delay="100" style="display:block;font-size:14px;font-weight:600;color:#0B5C5C;margin-bottom:16px">offers</span>
+    <h1 data-anim="rise" data-delay="160" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(48px,8vw,116px);line-height:0.9;letter-spacing:-0.055em">deals, while<br>they last</h1>
+  </section>
+  <sc-if value="{{ hasOffers }}" hint-placeholder-val="{{ true }}">
+    <section style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px) clamp(72px,9vw,128px);display:flex;flex-direction:column;gap:20px">
+      <sc-for list="{{ offers }}" as="o" hint-placeholder-count="3">
+        <article data-reveal="" style="background:#B1ECEC;border-radius:24px;padding:clamp(28px,4vw,56px);display:flex;flex-wrap:wrap;gap:24px clamp(32px,6vw,96px);align-items:flex-end">
+          <div style="flex:1.4 1 320px;display:flex;flex-direction:column;gap:20px;align-items:flex-start">
+            <span style="background:#FFFFFF;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">{{ o.ends }}</span>
+            <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(36px,5vw,72px);line-height:0.92;letter-spacing:-0.055em">{{ o.title }}</h2>
+          </div>
+          <div style="flex:1 1 280px;display:flex;flex-direction:column;gap:20px;align-items:flex-start">
+            <p style="margin:0;font-size:17px;line-height:1.6">{{ o.body }}</p>
+            <a href="{{ o.href }}" style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#0B5C5C;color:#FFFFFF">{{ o.cta }}</a>
+          </div>
+        </article>
+      </sc-for>
+    </section>
+  </sc-if>
+  <sc-if value="{{ noOffers }}" hint-placeholder-val="{{ false }}">
+    <section style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px) clamp(72px,9vw,128px)">
+      <div style="background:#B1ECEC;border-radius:24px;padding:clamp(32px,5vw,72px);display:flex;flex-direction:column;gap:20px;align-items:flex-start">
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(36px,5vw,72px);line-height:0.92;letter-spacing:-0.055em">no deals right now</h2>
+        <p style="margin:0;font-size:17px;line-height:1.6;max-width:440px">New offers usually go up at the start of the month. The rooms are still good value in the meantime.</p>
+        <a href="Rooms.dc.html" style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;text-decoration:none">See the rooms</a>
+      </div>
+    </section>
+  </sc-if>
+  <dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showEmptyState&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const empty = this.props.showEmptyState ?? false;
+    return { hasOffers: !empty, noOffers: empty, offers: [
+      { ends: 'ends 31 october', title: 'two nights, ₦10k off', body: 'Book any room for Friday and Saturday and we take ₦10,000 off the total. Mention the offer in your request.', cta: 'Book the weekend', href: 'Book.dc.html' },
+      { ends: 'every thursday', title: 'two cocktails for one', body: 'At the bar from 6pm to 9pm. Any cocktail on the menu.', cta: 'See the bar', href: 'Bar.dc.html' },
+      { ends: 'ends 30 november', title: 'birthday? the cake is on us', body: 'Book a room for your birthday night and we bring a cake to your table at the bar.', cta: 'Tell us the date', href: 'Book.dc.html' },
+    ] };
+  }
+}
+</script>
+</body>
+</html>

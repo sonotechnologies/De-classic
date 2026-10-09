@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:2px}input,select,textarea,button{font-family:Figtree,sans-serif}</style>
+</helmet>
+<div data-screen-label="Admin" style="min-height:100vh;background:#FFFFFF">
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;background:#E8F9F9">
+    <div style="width:100%;max-width:400px;background:#FFFFFF;border:1px solid #D5E5E5;border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-0.05em;line-height:1">de classic</span>
+        <span style="font-size:15px;color:#5B6B6B">Staff sign in</span>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Email or phone</span>
+        <input type="text" value="frontdesk@declassic.ng" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111"></label>
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Password</span>
+        <input type="password" value="{{ pw }}" onChange="{{ setPw }}" style="height:48px;border:1.5px solid {{ pwBorder }};border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111">
+        <sc-if value="{{ loginError }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#C62828">That password doesn't match. Try again or ask the manager to reset it.</span></sc-if>
+      </label>
+      <button onClick="{{ signIn }}" style="height:48px;border:0;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;font-size:16px;cursor:pointer" style-hover="background:#0B5C5C">{{ signInLabel }}</button>
+      <a href="#overview" style="font-size:14px;text-align:center;text-decoration:none">Forgot password?</a>
+    </div>
+    <span style="margin-top:16px;font-size:13px;color:#5B6B6B">Any password works in this prototype. Leave it empty to see the error.</span>
+  </div>
+</sc-if>
+
+<sc-if value="{{ inApp }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;min-height:100vh">
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <aside style="width:240px;flex:none;border-right:1px solid #D5E5E5;padding:20px 12px;display:flex;flex-direction:column;gap:2px;position:sticky;top:0;height:100vh;overflow:auto">
+      <div style="padding:4px 12px 20px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.05em;line-height:1">de classic</span>
+        <span style="font-size:13px;color:#5B6B6B">Admin</span>
+      </div>
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="11">
+        <a href="{{ n.href }}" style="display:flex;align-items:center;justify-content:space-between;height:40px;padding:0 12px;border-radius:10px;background:{{ n.bg }};color:#111111;text-decoration:none;font-size:15px;font-weight:{{ n.weight }}" style-hover="background:#E8F9F9;color:#111111">
+          <span>{{ n.label }}</span>
+          <sc-if value="{{ n.hasCount }}" hint-placeholder-val="{{ false }}"><span style="background:#111111;color:#FFFFFF;border-radius:999px;font-size:12px;font-weight:600;padding:1px 8px">{{ n.count }}</span></sc-if>
+        </a>
+      </sc-for>
+      <div style="margin-top:auto;padding:16px 12px 4px;border-top:1px solid #D5E5E5;display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:14px;font-weight:600">Adaeze Okafor</span>
+        <span style="font-size:13px;color:#5B6B6B">Owner · all branches</span>
+        <a href="#login" style="font-size:14px;text-decoration:none;margin-top:6px">Sign out</a>
+      </div>
+    </aside>
+  </sc-if>
+
+  <main ref="{{ mainRef }}" style="flex:1;min-width:0;padding:{{ mainPad }}">
+    <div style="max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+      <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:-8px">
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;letter-spacing:-0.05em">de classic</span>
+          <span style="font-size:13px;color:#5B6B6B">Agric branch</span>
+        </div>
+      </sc-if>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <sc-if value="{{ hasBack }}" hint-placeholder-val="{{ false }}"><a href="{{ backHref }}" style="font-size:14px;font-weight:600;text-decoration:none">← {{ backLabel }}</a></sc-if>
+          <h1 style="margin:0;font-size:28px;font-weight:700;letter-spacing:-0.01em">{{ pageTitle }}</h1>
+          <sc-if value="{{ hasSub }}" hint-placeholder-val="{{ false }}"><span style="font-size:15px;color:#5B6B6B">{{ pageSub }}</span></sc-if>
+        </div>
+        <sc-if value="{{ hasAction }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ actionHref }}" style="display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;font-size:15px;text-decoration:none" style-hover="background:#0B5C5C;color:#FFFFFF">{{ actionLabel }}</a>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ s.overview }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:12px">
+          <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="3">
+            <a href="{{ t.href }}" style="background:{{ t.bg }};border:1px solid #D5E5E5;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:6px;color:#111111;text-decoration:none">
+              <span style="font-size:14px;color:#111111">{{ t.label }}</span>
+              <span style="font-size:36px;font-weight:700;letter-spacing:-0.02em;line-height:1">{{ t.value }}</span>
+            </a>
+          </sc-for>
+        </div>
+        <div style="border:1px solid #D5E5E5;border-radius:16px;overflow:hidden">
+          <div style="padding:14px 18px;border-bottom:1px solid #D5E5E5;font-size:15px;font-weight:600;background:#E8F9F9">Requests this week by branch</div>
+          <sc-for list="{{ branchTotals }}" as="b" hint-placeholder-count="2">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 18px;border-bottom:1px solid #D5E5E5;font-size:15px"><span>{{ b.name }}</span><span style="font-weight:600">{{ b.total }}</span></div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between"><h2 style="margin:0;font-size:18px;font-weight:700">Latest requests</h2><a href="#reservations" style="font-size:14px;font-weight:600;text-decoration:none">See all →</a></div>
+      </sc-if>
+
+      <sc-if value="{{ s.reservations }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="search" placeholder="Search name, phone or reference" style="flex:1 1 240px;height:44px;border:1.5px solid #D5E5E5;border-radius:999px;padding:0 16px;font-size:15px;outline:none" style-focus="border-color:#111111">
+        </div>
+        <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px">
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="6">
+            <button onClick="{{ f.pick }}" aria-pressed="{{ f.on }}" style="flex:none;height:40px;padding:0 16px;border-radius:999px;border:1.5px solid {{ f.border }};background:{{ f.bg }};color:#111111;font-size:14px;font-weight:600;cursor:pointer">{{ f.label }}</button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ showResList }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#E8F9F9;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+            <span style="font-size:18px;font-weight:700">No {{ filterName }} reservations</span>
+            <span style="font-size:15px;color:#5B6B6B">Nothing matches this filter right now.</span>
+            <button onClick="{{ clearFilter }}" style="height:44px;padding:0 20px;border-radius:999px;border:1.5px solid #111111;background:#FFFFFF;font-weight:600;font-size:15px;cursor:pointer">Show all reservations</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ resTable }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid #D5E5E5;border-radius:16px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:1.4fr 1.2fr 1fr 0.9fr 0.9fr 110px;gap:16px;padding:12px 18px;background:#E8F9F9;font-size:13px;font-weight:600;color:#111111">
+              <span>Guest</span><span>Dates</span><span>Room</span><span>Branch</span><span>Reference</span><span>Status</span>
+            </div>
+            <sc-for list="{{ resRows }}" as="r" hint-placeholder-count="6">
+              <a href="#reservation" style="display:grid;grid-template-columns:1.4fr 1.2fr 1fr 0.9fr 0.9fr 110px;gap:16px;align-items:center;padding:14px 18px;border-top:1px solid #D5E5E5;color:#111111;text-decoration:none;font-size:15px" style-hover="background:#F6FCFC;color:#111111">
+                <span style="display:flex;flex-direction:column"><span style="font-weight:600">{{ r.guest }}</span><span style="font-size:13px;color:#5B6B6B">{{ r.phone }}</span></span>
+                <span>{{ r.dates }}</span><span>{{ r.room }}</span><span>{{ r.branch }}</span><span style="color:#5B6B6B">{{ r.ref }}</span>
+                <span style="justify-self:start;background:{{ r.tagBg }};color:{{ r.tagFg }};border-radius:999px;padding:3px 10px;font-size:13px;font-weight:600;white-space:nowrap">{{ r.status }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ resCards }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ resRows }}" as="r" hint-placeholder-count="5">
+              <a href="#reservation" style="border:1px solid #D5E5E5;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;color:#111111;text-decoration:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+                  <span style="font-weight:600;font-size:16px">{{ r.guest }}</span>
+                  <span style="background:{{ r.tagBg }};color:{{ r.tagFg }};border-radius:999px;padding:3px 10px;font-size:13px;font-weight:600;white-space:nowrap">{{ r.status }}</span>
+                </div>
+                <span style="font-size:15px">{{ r.dates }} · {{ r.room }}</span>
+                <span style="font-size:13px;color:#5B6B6B">{{ r.ref }} · {{ r.branch }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ s.reservation }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:520px">
+          <a href="tel:+2348031234567" style="display:flex;align-items:center;justify-content:center;height:56px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;font-size:16px;text-decoration:none">Call guest</a>
+          <a href="https://wa.me/2348031234567" style="display:flex;align-items:center;justify-content:center;height:56px;border-radius:999px;border:1.5px solid #111111;color:#111111;font-weight:600;font-size:16px;text-decoration:none">WhatsApp</a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:24px">
+          <div style="flex:1.3 1 320px;display:flex;flex-direction:column;gap:20px">
+            <div style="border:1px solid #D5E5E5;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+              <span style="font-size:14px;font-weight:600">Status</span>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <sc-for list="{{ statusOpts }}" as="o" hint-placeholder-count="7">
+                  <button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="height:40px;padding:0 14px;border-radius:999px;border:1.5px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }};font-size:14px;font-weight:600;cursor:pointer">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <dl style="margin:0;border:1px solid #D5E5E5;border-radius:16px;padding:6px 18px;display:grid;grid-template-columns:auto 1fr;gap:0 24px;font-size:15px">
+              <sc-for list="{{ detail }}" as="d" hint-placeholder-count="8">
+                <dt style="color:#5B6B6B;padding:11px 0;border-bottom:1px solid #EEF4F4">{{ d.k }}</dt><dd style="margin:0;padding:11px 0;border-bottom:1px solid #EEF4F4;font-weight:600">{{ d.v }}</dd>
+              </sc-for>
+            </dl>
+          </div>
+          <div style="flex:1 1 280px;display:flex;flex-direction:column;gap:20px">
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Staff notes</span>
+              <textarea rows="4" placeholder="Visible to staff only" style="border:1.5px solid #D5E5E5;border-radius:12px;padding:12px 14px;font-size:15px;outline:none;resize:vertical" style-focus="border-color:#111111">Arriving late, around 10pm. Asked for a quiet room.</textarea></label>
+            <button onClick="{{ save }}" style="align-self:flex-start;height:44px;padding:0 20px;border-radius:999px;border:0;background:#111111;color:#FFFFFF;font-weight:600;font-size:15px;cursor:pointer">Save note</button>
+            <div style="display:flex;flex-direction:column">
+              <span style="font-size:14px;font-weight:600;margin-bottom:8px">History</span>
+              <sc-for list="{{ history }}" as="h" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:2px;padding:10px 0 10px 16px;border-left:2px solid #D5E5E5">
+                  <span style="font-size:15px">{{ h.what }}</span><span style="font-size:13px;color:#5B6B6B">{{ h.when }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ s.rooms }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;border:1px solid #D5E5E5;border-radius:16px;overflow:hidden">
+          <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="4">
+            <a href="#room-edit" style="display:flex;align-items:center;gap:16px;padding:14px 16px;border-bottom:1px solid #D5E5E5;color:#111111;text-decoration:none" style-hover="background:#F6FCFC;color:#111111">
+              <img src="{{ r.img }}" alt="" style="width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none">
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-weight:600;font-size:16px">{{ r.name }}</span><span style="background:#FFF4D6;color:#6B5310;border-radius:6px;padding:1px 6px;font-size:12px;font-weight:600">Sample</span></span>
+                <span style="font-size:14px;color:#5B6B6B">{{ r.price }} · {{ r.count }} · {{ r.branch }}</span>
+              </div>
+              <span style="font-size:13px;font-weight:600;color:{{ r.liveFg }};flex:none">{{ r.live }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ s.roomEdit }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:620px;display:flex;flex-direction:column;gap:18px">
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Room name</span><input type="text" value="Deluxe room" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111"></label>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px">
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Price per night (₦)</span><input type="number" value="35000" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111"></label>
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Number of rooms</span><input type="number" value="8" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111"></label>
+          </div>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Branch</span><select style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;background:#FFFFFF;outline:none"><option>Agric</option><option>Ikorodu town</option></select></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Description</span><textarea rows="3" style="border:1.5px solid #D5E5E5;border-radius:12px;padding:12px 14px;font-size:16px;outline:none;resize:vertical" style-focus="border-color:#111111">A bright room on the first floor with a queen bed, a work desk and a window over the street.</textarea></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Amenities</span><span style="font-size:13px;color:#5B6B6B">The first three show on the room card.</span><input type="text" value="Queen bed, Air conditioning, Fast Wi-Fi, Smart TV, Work desk" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111"></label>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:14px;font-weight:600">Photos</span>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px">
+              <sc-for list="{{ roomPhotos }}" as="p" hint-placeholder-count="4"><img src="{{ p }}" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;display:block"></sc-for>
+              <button style="aspect-ratio:1/1;border:1.5px dashed #5B6B6B;border-radius:12px;background:#FFFFFF;font-size:14px;font-weight:600;color:#0B5C5C;cursor:pointer">+ Add</button>
+            </div>
+          </div>
+          <label style="display:flex;align-items:center;gap:12px;min-height:44px;font-size:16px"><input type="checkbox" checked="{{ true }}" style="width:22px;height:22px;accent-color:#111111"> Show this room on the website</label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid #D5E5E5;padding-top:18px">
+            <button onClick="{{ save }}" style="height:48px;padding:0 24px;border-radius:999px;border:0;background:#111111;color:#FFFFFF;font-weight:600;font-size:16px;cursor:pointer">Save changes</button>
+            <a href="#rooms" style="display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;border:1.5px solid #111111;color:#111111;font-weight:600;font-size:16px;text-decoration:none">Cancel</a>
+            <button onClick="{{ askDelete }}" style="margin-left:auto;height:48px;padding:0 16px;border:0;background:transparent;color:#9B2C2C;font-weight:600;font-size:15px;cursor:pointer">Delete room</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ s.menu }}" hint-placeholder-val="{{ false }}">
+        <sc-for list="{{ menu }}" as="c" hint-placeholder-count="3">
+          <div style="border:1px solid #D5E5E5;border-radius:16px;overflow:hidden">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:#E8F9F9"><span style="font-size:15px;font-weight:700">{{ c.cat }}</span><button style="height:36px;padding:0 14px;border-radius:999px;border:1.5px solid #111111;background:#FFFFFF;font-weight:600;font-size:14px;cursor:pointer">+ Item</button></div>
+            <sc-for list="{{ c.items }}" as="i" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid #D5E5E5;font-size:15px">
+                <span style="flex:1">{{ i.n }}</span>
+                <span style="background:#FFF4D6;color:#6B5310;border-radius:6px;padding:1px 6px;font-size:12px;font-weight:600">Sample</span>
+                <span style="font-weight:600;min-width:72px;text-align:right">{{ i.p }}</span>
+                <a href="#menu" style="font-size:14px;font-weight:600;text-decoration:none">Edit</a>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </sc-if>
+
+      <sc-if value="{{ s.gallery }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(46%,160px),1fr));gap:10px">
+          <button style="aspect-ratio:1/1;border:1.5px dashed #5B6B6B;border-radius:14px;background:#E8F9F9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer"><span style="font-size:15px;font-weight:600;color:#111111">+ Upload photos</span><span style="font-size:13px;color:#5B6B6B">JPG or PNG, up to 10MB</span></button>
+          <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="8">
+            <div style="position:relative">
+              <img src="{{ g.src }}" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px;display:block">
+              <span style="position:absolute;left:8px;top:8px;background:#FFFFFF;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600">{{ g.cat }}</span>
+              <span style="position:absolute;right:8px;top:8px;background:#FFF4D6;color:#6B5310;border-radius:6px;padding:2px 6px;font-size:12px;font-weight:600">Sample</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ s.offers }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;border:1px solid #D5E5E5;border-radius:16px;overflow:hidden">
+          <sc-for list="{{ offers }}" as="o" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:16px;padding:16px 18px;border-bottom:1px solid #D5E5E5;flex-wrap:wrap">
+              <div style="flex:1 1 220px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600;font-size:16px">{{ o.title }}</span><span style="font-size:14px;color:#5B6B6B">{{ o.ends }}</span></div>
+              <span style="background:{{ o.tagBg }};color:{{ o.tagFg }};border-radius:999px;padding:3px 10px;font-size:13px;font-weight:600">{{ o.state }}</span>
+              <a href="#offers" style="font-size:14px;font-weight:600;text-decoration:none">Edit</a>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ s.branches }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px">
+          <sc-for list="{{ branches }}" as="b" hint-placeholder-count="2">
+            <div style="border:1px solid #D5E5E5;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:18px;font-weight:700">{{ b.name }}</span><span style="background:#DDF3E1;color:#1B6B34;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:600">Taking bookings</span></div>
+              <span style="font-size:15px;line-height:1.5">{{ b.address }}</span>
+              <span style="font-size:15px;color:#5B6B6B">{{ b.phone }} · {{ b.rooms }}</span>
+              <a href="#branches" style="font-size:14px;font-weight:600;text-decoration:none;margin-top:4px">Edit branch →</a>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ s.staff }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;border:1px solid #D5E5E5;border-radius:16px;overflow:hidden">
+          <sc-for list="{{ staff }}" as="p" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid #D5E5E5;flex-wrap:wrap">
+              <span style="width:40px;height:40px;border-radius:999px;background:#B1ECEC;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:none">{{ p.initials }}</span>
+              <div style="flex:1 1 180px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">{{ p.name }}</span><span style="font-size:14px;color:#5B6B6B">{{ p.contact }}</span></div>
+              <span style="font-size:14px;font-weight:600">{{ p.role }}</span>
+              <span style="font-size:14px;color:#5B6B6B;min-width:96px">{{ p.branch }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ s.settings }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:620px;display:flex;flex-direction:column;gap:18px">
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Hotel name</span><input type="text" value="De Classic Hotel" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111"></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">WhatsApp number for requests</span><span style="font-size:13px;color:#5B6B6B">New requests are sent here and to the front desk email.</span><input type="tel" value="+234 800 000 0000" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111"></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Front desk email</span><input type="email" value="frontdesk@declassic.ng" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none" style-focus="border-color:#111111"></label>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px">
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Check-in time</span><input type="time" value="14:00" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none"></label>
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Check-out time</span><input type="time" value="12:00" style="height:48px;border:1.5px solid #D5E5E5;border-radius:12px;padding:0 14px;font-size:16px;outline:none"></label>
+          </div>
+          <label style="display:flex;align-items:center;gap:12px;min-height:44px;font-size:16px"><input type="checkbox" checked="{{ true }}" style="width:22px;height:22px;accent-color:#111111"> Send me a WhatsApp alert for every new request</label>
+          <label style="display:flex;align-items:center;gap:12px;min-height:44px;font-size:16px"><input type="checkbox" checked="{{ false }}" style="width:22px;height:22px;accent-color:#111111"> Pause online requests (site shows "call to book")</label>
+          <div style="display:flex;gap:10px;border-top:1px solid #D5E5E5;padding-top:18px">
+            <button onClick="{{ save }}" style="height:48px;padding:0 24px;border-radius:999px;border:0;background:#111111;color:#FFFFFF;font-weight:600;font-size:16px;cursor:pointer">Save settings</button>
+            <a href="#overview" style="display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;border:1.5px solid #111111;color:#111111;font-weight:600;font-size:16px;text-decoration:none">Cancel</a>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ s.more }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;border:1px solid #D5E5E5;border-radius:16px;overflow:hidden">
+          <sc-for list="{{ moreLinks }}" as="n" hint-placeholder-count="7">
+            <a href="{{ n.href }}" style="display:flex;justify-content:space-between;align-items:center;min-height:56px;padding:0 18px;border-bottom:1px solid #D5E5E5;color:#111111;text-decoration:none;font-size:16px"><span>{{ n.label }}</span><span style="color:#5B6B6B">›</span></a>
+          </sc-for>
+          <a href="#login" style="display:flex;align-items:center;min-height:56px;padding:0 18px;color:#9B2C2C;text-decoration:none;font-size:16px;font-weight:600">Sign out</a>
+        </div>
+      </sc-if>
+    </div>
+  </main>
+</div>
+
+<sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+  <nav aria-label="Admin" style="position:fixed;left:0;right:0;bottom:0;height:68px;background:#FFFFFF;border-top:1px solid #D5E5E5;display:grid;grid-template-columns:repeat(4,1fr);z-index:50">
+    <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+      <a href="{{ t.href }}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#111111;text-decoration:none;font-size:13px;font-weight:{{ t.weight }}">
+        <span style="width:44px;height:6px;border-radius:999px;background:{{ t.bar }}"></span>{{ t.label }}
+      </a>
+    </sc-for>
+  </nav>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{ confirming }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-label="Confirm delete" style="position:fixed;inset:0;background:rgba(17,17,17,0.4);display:flex;align-items:center;justify-content:center;padding:20px;z-index:200">
+    <div style="background:#FFFFFF;border-radius:20px;padding:24px;max-width:400px;width:100%;display:flex;flex-direction:column;gap:14px">
+      <span style="font-size:20px;font-weight:700">Delete deluxe room?</span>
+      <span style="font-size:15px;line-height:1.5;color:#5B6B6B">It will disappear from the website. Past reservations for this room are kept.</span>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
+        <button onClick="{{ cancelDelete }}" style="height:44px;padding:0 20px;border-radius:999px;border:1.5px solid #111111;background:#FFFFFF;font-weight:600;font-size:15px;cursor:pointer">Keep it</button>
+        <button onClick="{{ doDelete }}" style="height:44px;padding:0 20px;border-radius:999px;border:0;background:#9B2C2C;color:#FFFFFF;font-weight:600;font-size:15px;cursor:pointer">Delete room</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div role="status" style="position:fixed;left:50%;bottom:{{ toastBottom }};transform:translateX(-50%);background:#1B6B34;color:#FFFFFF;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:600;z-index:150;white-space:nowrap">{{ toastText }}</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  mainRef = React.createRef();
+  state = { m: window.innerWidth < 760, screen: (location.hash || '#overview').slice(1), filter: 'all', status: 'New', pw: '', tried: false, confirming: false, toast: '' };
+  componentDidMount() {
+    this.onR = () => this.setState({ m: window.innerWidth < 760 });
+    this.onH = () => { this.setState({ screen: (location.hash || '#overview').slice(1), confirming: false }); window.scrollTo(0, 0); if (this.mainRef.current) this.mainRef.current.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180, easing: 'ease-out' }); };
+    window.addEventListener('resize', this.onR); window.addEventListener('hashchange', this.onH);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); window.removeEventListener('hashchange', this.onH); clearTimeout(this.t); }
+  flash(msg) { this.setState({ toast: msg }); clearTimeout(this.t); this.t = setTimeout(() => this.setState({ toast: '' }), 2200); }
+  renderVals() {
+    const { m, screen, filter, status, pw, tried } = this.state;
+    const TAG = { New: ['#B1ECEC', '#111111'], Confirmed: ['#DDF3E1', '#1B6B34'], 'Checked in': ['#0B5C5C', '#FFFFFF'], Completed: ['#ECEEEE', '#4A5757'], Declined: ['#F8E1E1', '#8A2A2A'], Cancelled: ['#F8E1E1', '#8A2A2A'], 'No-show': ['#F8E1E1', '#8A2A2A'] };
+    const P = (id) => `https://images.unsplash.com/photo-${id}?w=300&q=60&auto=format&fit=crop`;
+    const res = [
+      ['Tolu Adebayo', '0803 123 4567', '16 – 18 Oct', 'Deluxe', 'Agric', 'DC-4827', 'New'],
+      ['Chinedu Eze', '0816 555 0192', '15 – 16 Oct', 'Standard', 'Agric', 'DC-4826', 'New'],
+      ['Bisi Lawal', '0705 220 1180', 'Today – 11 Oct', 'Executive', 'Ikorodu town', 'DC-4825', 'Confirmed'],
+      ['Femi Ogun', '0902 410 7733', 'Today – 9 Oct', 'Twin', 'Agric', 'DC-4824', 'Checked in'],
+      ['Amaka Nwosu', '0813 909 2214', '12 – 13 Oct', 'Standard', 'Ikorodu town', 'DC-4823', 'New'],
+      ['Seyi Bakare', '0806 772 3301', '5 – 7 Oct', 'Deluxe', 'Agric', 'DC-4822', 'Completed'],
+      ['Kunle Ade', '0809 118 4420', '6 – 7 Oct', 'Standard', 'Agric', 'DC-4821', 'No-show'],
+      ['Ngozi Obi', '0703 650 8812', '20 – 22 Oct', 'Twin', 'Ikorodu town', 'DC-4820', 'Declined'],
+    ].map(([guest, phone, dates, room, branch, ref, st]) => ({ guest, phone, dates, room, branch, ref, status: st, tagBg: TAG[st][0], tagFg: TAG[st][1] }));
+    const fList = ['all', 'New', 'Confirmed', 'Checked in', 'Completed', 'Cancelled'];
+    const rows = screen === 'overview' ? res.slice(0, 5) : res.filter((r) => filter === 'all' || r.status === filter);
+    const titles = { overview: ['Overview', 'Wednesday 8 October'], reservations: ['Reservations', '8 this week across 2 branches'], reservation: ['Tolu Adebayo', 'DC-4827 · requested 2 hours ago'],
+      rooms: ['Rooms', ''], 'room-edit': ['Edit room', ''], menu: ['Bar menu', 'Changes show on the website straight away'], gallery: ['Gallery', '10 photos'], offers: ['Offers', ''], branches: ['Branches', ''], staff: ['Staff', ''], settings: ['Settings', ''], more: ['More', ''] };
+    const sc = titles[screen] ? screen : (screen === 'login' ? 'login' : 'overview');
+    const [pageTitle, pageSub] = titles[sc] || ['', ''];
+    const actions = { rooms: ['Add room', '#room-edit'], offers: ['New offer', '#offers'], staff: ['Invite staff', '#staff'], branches: ['Add branch', '#branches'], menu: ['Add category', '#menu'] };
+    const backs = { reservation: ['Reservations', '#reservations'], 'room-edit': ['Rooms', '#rooms'] };
+    const section = { reservation: 'reservations', 'room-edit': 'rooms' }[sc] || sc;
+    const navItems = [['Overview', 'overview'], ['Reservations', 'reservations', 3], ['Rooms', 'rooms'], ['Bar menu', 'menu'], ['Gallery', 'gallery'], ['Offers', 'offers'], ['Branches', 'branches'], ['Staff', 'staff'], ['Settings', 'settings']];
+    const nav = navItems.map(([label, k, count]) => ({ label, href: '#' + k, count, hasCount: !!count, bg: section === k ? '#B1ECEC' : 'transparent', weight: section === k ? 600 : 500 }));
+    const moreKeys = ['menu', 'gallery', 'offers', 'branches', 'staff', 'settings', 'more'];
+    const tabs = [['Overview', 'overview'], ['Reservations', 'reservations'], ['Rooms', 'rooms'], ['More', 'more']].map(([label, k]) => {
+      const on = k === 'more' ? moreKeys.includes(section) : section === k;
+      return { label, href: '#' + k, bar: on ? '#111111' : 'transparent', weight: on ? 700 : 500 };
+    });
+    const s = { overview: sc === 'overview', reservations: sc === 'reservations', reservation: sc === 'reservation', rooms: sc === 'rooms', roomEdit: sc === 'room-edit', menu: sc === 'menu', gallery: sc === 'gallery', offers: sc === 'offers', branches: sc === 'branches', staff: sc === 'staff', settings: sc === 'settings', more: sc === 'more' };
+    const showResList = s.overview || s.reservations;
+    const it = (a) => a.map(([n, p]) => ({ n, p }));
+    return {
+      mainRef: this.mainRef, isLogin: sc === 'login', inApp: sc !== 'login', mobile: m, desktop: !m, s,
+      mainPad: m ? '16px 16px 96px' : '32px 40px 64px', toastBottom: m ? '84px' : '32px',
+      pw, setPw: (e) => this.setState({ pw: e.target.value }), loginError: tried && !pw, pwBorder: tried && !pw ? '#C62828' : '#D5E5E5', signInLabel: 'Sign in',
+      signIn: () => { if (!pw) return this.setState({ tried: true }); this.setState({ tried: false }); location.hash = '#overview'; },
+      nav, tabs, moreLinks: navItems.slice(3).map(([label, k]) => ({ label, href: '#' + k })),
+      pageTitle, pageSub, hasSub: !!pageSub, hasAction: !!actions[sc], actionLabel: (actions[sc] || [])[0], actionHref: (actions[sc] || [])[1],
+      hasBack: !!backs[sc], backLabel: (backs[sc] || [])[0], backHref: (backs[sc] || [])[1],
+      tiles: [
+        { label: 'New requests', value: '3', href: '#reservations', bg: '#B1ECEC' },
+        { label: "Today's arrivals", value: '2', href: '#reservations', bg: '#FFFFFF' },
+        { label: 'Requests this week', value: '8', href: '#reservations', bg: '#FFFFFF' },
+      ],
+      branchTotals: [{ name: 'Agric', total: '5 requests · 3 confirmed' }, { name: 'Ikorodu town', total: '3 requests · 1 confirmed' }],
+      filters: fList.map((k) => ({ label: k === 'all' ? 'All' : k, on: filter === k ? 'true' : 'false', bg: filter === k ? '#B1ECEC' : '#FFFFFF', border: filter === k ? '#111111' : '#D5E5E5', pick: () => this.setState({ filter: k }) })),
+      showResList, resRows: rows, noResults: showResList && rows.length === 0, resTable: showResList && !m && rows.length > 0, resCards: showResList && m && rows.length > 0,
+      filterName: filter.toLowerCase(), clearFilter: () => this.setState({ filter: 'all' }),
+      statusOpts: Object.keys(TAG).map((k) => ({ label: k, on: status === k ? 'true' : 'false', bg: status === k ? TAG[k][0] : '#FFFFFF', fg: status === k ? TAG[k][1] : '#111111', border: status === k ? '#111111' : '#D5E5E5',
+        pick: () => { this.setState({ status: k }); this.flash(`Status changed to ${k}`); } })),
+      detail: [['Phone', '0803 123 4567 (WhatsApp)'], ['Room', 'Deluxe room'], ['Branch', 'Agric'], ['Check in', 'Thu 16 Oct, from 2pm'], ['Check out', 'Sat 18 Oct, by 12 noon'], ['Guests', '2 adults'], ['Estimated total', '₦70,000'], ['Guest note', 'Birthday on Friday']].map(([k, v]) => ({ k, v })),
+      history: [{ what: `Status set to ${status}`, when: 'Just now · Adaeze' }, { what: 'Request received from the website', when: 'Today, 10:42' }, { what: 'WhatsApp alert sent to front desk', when: 'Today, 10:42' }],
+      rooms: [['Standard room', '₦25,000', '10 rooms', 'Both branches', '1522771739844-6a9f6d5f14af', true], ['Deluxe room', '₦35,000', '8 rooms', 'Agric', '1631049307264-da0ec9d70304', true], ['Twin room', '₦38,000', '6 rooms', 'Both branches', '1595576508898-0ad5c879a061', true], ['Executive room', '₦50,000', '4 rooms', 'Agric', '1618773928121-c32242e63f39', false]]
+        .map(([name, price, count, branch, id, live]) => ({ name, price, count, branch, img: P(id), live: live ? 'On website' : 'Hidden', liveFg: live ? '#1B6B34' : '#5B6B6B' })),
+      roomPhotos: ['1631049307264-da0ec9d70304', '1540518614846-7eded433c457', '1552321554-5fefe8c9ef14', '1505693416388-ac5ce068fe85'].map(P),
+      menu: [{ cat: 'Cocktails', items: it([['Chapman', '₦3,500'], ['De Classic sunset', '₦5,000'], ['Mojito', '₦5,000']]) }, { cat: 'Beer and stout', items: it([['Star', '₦1,500'], ['Guinness', '₦1,800']]) }, { cat: 'Small chops', items: it([['Peppered gizzard', '₦4,000'], ['Suya platter', '₦6,000']]) }],
+      gallery: [['1522771739844-6a9f6d5f14af', 'Rooms'], ['1514362545857-3bc16c4c7d1b', 'Bar'], ['1595576508898-0ad5c879a061', 'Rooms'], ['1552321554-5fefe8c9ef14', 'Rooms'], ['1572116469696-31de0f17cc34', 'Bar'], ['1631049307264-da0ec9d70304', 'Rooms'], ['1551024709-8f23befc6f87', 'Bar']].map(([id, cat]) => ({ src: P(id), cat })),
+      offers: [['Two nights, ₦10k off', 'Ends 31 October', 'Live'], ['Two cocktails for one', 'Every Thursday', 'Live'], ['Birthday? The cake is on us', 'Starts 1 November', 'Scheduled'], ['Easter weekend rate', 'Ended 21 April', 'Ended']]
+        .map(([title, ends, st]) => ({ title, ends, state: st, tagBg: st === 'Live' ? '#DDF3E1' : st === 'Scheduled' ? '#B1ECEC' : '#ECEEEE', tagFg: st === 'Live' ? '#1B6B34' : st === 'Scheduled' ? '#111111' : '#4A5757' })),
+      branches: [{ name: 'Agric', address: '12 Example Street, Agric, Ikorodu, Lagos', phone: '+234 800 000 0000', rooms: '28 rooms' }, { name: 'Ikorodu town', address: '4 Sample Road, Ikorodu, Lagos', phone: '+234 800 000 0001', rooms: '16 rooms' }],
+      staff: [['Adaeze Okafor', 'adaeze@declassic.ng', 'Owner', 'All branches'], ['Musa Bello', '0812 000 1111', 'Manager', 'Agric'], ['Funke Ajayi', '0813 000 2222', 'Front desk', 'Agric'], ['Ibrahim Sani', '0814 000 3333', 'Front desk', 'Ikorodu town']]
+        .map(([name, contact, role, branch]) => ({ name, contact, role, branch, initials: name.split(' ').map((w) => w[0]).join('') })),
+      save: () => this.flash('Saved'), askDelete: () => this.setState({ confirming: true }), cancelDelete: () => this.setState({ confirming: false }),
+      doDelete: () => { this.setState({ confirming: false }); location.hash = '#rooms'; this.flash('Room deleted'); },
+      confirming: this.state.confirming, toast: !!this.state.toast, toastText: this.state.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>

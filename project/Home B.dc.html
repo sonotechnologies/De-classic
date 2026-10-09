@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}::-webkit-scrollbar{height:0}</style>
+</helmet>
+<div data-screen-label="Home B" style="min-height:100vh;background:#FFFFFF">
+  <dc-import name="Header" active="" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+
+  <section aria-label="Welcome" style="position:relative">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(20px,4vw,40px) 0">
+      <span data-anim="rise" data-delay="120" style="display:block;font-size:14px;font-weight:600;color:#0B5C5C;margin-bottom:16px">the aqua building in agric, ikorodu</span>
+      <h1 aria-label="rooms upstairs. bar downstairs." style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(52px,10.4vw,150px);line-height:0.9;letter-spacing:-0.06em">
+        <span data-anim="rise" data-delay="180" style="display:block">rooms upstairs.</span>
+      </h1>
+    </div>
+    <div data-anim="wipe" style="background:#B1ECEC;padding-bottom:clamp(48px,6vw,88px)">
+      <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+        <div aria-hidden="true" data-anim="rise" data-delay="260" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(52px,10.4vw,150px);line-height:0.9;letter-spacing:-0.06em;padding-top:0.06em">bar downstairs.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:32px clamp(32px,5vw,80px);margin-top:clamp(32px,4vw,56px);align-items:flex-start">
+          <div style="flex:1 1 340px;display:flex;flex-direction:column;gap:24px;max-width:520px">
+            <p style="margin:0;font-size:clamp(17px,1.4vw,20px);line-height:1.6;text-wrap:pretty">Clean, modern rooms from ₦25,000 a night. Cocktails, cold beer and suya from six. Your spot in Ikorodu.</p>
+            <form action="Book.dc.html" style="background:#FFFFFF;border-radius:24px;padding:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:4px">
+              <label style="display:flex;flex-direction:column;gap:2px;padding:12px 16px">
+                <span style="font-size:13px;font-weight:600;color:#0B5C5C">check in</span>
+                <input type="date" value="2026-10-16" style="border:0;font:500 16px Figtree,sans-serif;color:#111111;background:transparent;padding:0;min-height:24px">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:2px;padding:12px 16px">
+                <span style="font-size:13px;font-weight:600;color:#0B5C5C">check out</span>
+                <input type="date" value="2026-10-18" style="border:0;font:500 16px Figtree,sans-serif;color:#111111;background:transparent;padding:0;min-height:24px">
+              </label>
+              <button type="submit" style="grid-column:1 / -1;min-height:56px;border:0;border-radius:999px;background:#111111;color:#FFFFFF;font:600 16px Figtree,sans-serif;cursor:pointer;transition:background 180ms ease-out" style-hover="background:#0B5C5C">Check availability</button>
+            </form>
+          </div>
+          <div style="flex:1.3 1 380px;display:flex;gap:16px;align-items:flex-start;margin-bottom:{{ photoHang }};position:relative;z-index:2">
+            <div data-anim="settle" data-delay="360" style="flex:1.25;position:relative">
+              <div style="aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:#E8F9F9">
+                <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=70&auto=format&fit=crop" alt="Stand-in photo: a deluxe room with a made bed" style="width:100%;height:100%;object-fit:cover;display:block">
+              </div>
+              <div data-sticker="" style="position:absolute;bottom:-20px;left:-14px;width:96px;height:96px;border-radius:999px;background:#111111;color:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-10deg)">
+                <span style="font-size:11px;font-weight:600">rooms from</span>
+                <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.04em;line-height:1">₦25k</span>
+              </div>
+            </div>
+            <div data-anim="settle" data-delay="440" style="flex:1;margin-top:clamp(40px,8vw,120px);aspect-ratio:1/1;border-radius:24px;overflow:hidden;background:#222">
+              <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&q=70&auto=format&fit=crop" alt="Stand-in photo: cocktails at the bar" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Rooms" style="padding:clamp(64px,15vw,220px) 0 clamp(64px,8vw,120px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:32px">
+        <h2 data-reveal="" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5vw,72px);line-height:0.95;letter-spacing:-0.05em">four rooms, honest prices</h2>
+        <a href="Rooms.dc.html" style="color:#0B5C5C;font-weight:600;text-decoration:none;display:inline-flex;gap:8px;transition:gap 180ms ease-out" style-hover="gap:12px;color:#0B5C5C">Compare rooms <span>→</span></a>
+      </div>
+      <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="4">
+        <a href="Room%20Detail.dc.html" data-reveal="" style="display:grid;grid-template-columns:clamp(96px,14vw,180px) minmax(0,1fr) auto;gap:clamp(16px,3vw,48px);align-items:center;padding:clamp(16px,2vw,24px) 0;border-top:1.5px solid #111111;color:#111111;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#E8F9F9">
+          <div style="aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:#E8F9F9">
+            <img src="{{ r.img }}" alt="{{ r.alt }}" style="width:100%;height:100%;object-fit:cover;display:block">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4.4vw,64px);letter-spacing:-0.05em;line-height:0.95">{{ r.name }}</span>
+            <span style="font-size:clamp(14px,1.2vw,16px);color:#5B6B6B;line-height:1.5">{{ r.amen }}</span>
+          </div>
+          <div data-sticker="" style="width:clamp(68px,7vw,96px);height:clamp(68px,7vw,96px);border-radius:999px;background:#111111;color:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(8deg)">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(18px,2vw,26px);letter-spacing:-0.04em;line-height:1">{{ r.short }}</span>
+            <span style="font-size:10px;font-weight:600">per night</span>
+          </div>
+        </a>
+      </sc-for>
+      <div style="border-top:1.5px solid #111111"></div>
+    </div>
+  </section>
+
+  <section data-lights="" aria-label="The bar" style="background:#0E0E0F;color:#FFFFFF;padding:clamp(64px,8vw,120px) 0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:flex;flex-wrap:wrap;gap:48px clamp(40px,7vw,120px)">
+      <div style="flex:1 1 340px;display:flex;flex-direction:column;gap:20px">
+        <span style="font-size:14px;font-weight:600;color:#C9A24B">lights off</span>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,7vw,104px);line-height:0.9;letter-spacing:-0.06em;color:#C9A24B">downstairs, from six</h2>
+        <div style="aspect-ratio:1/1;max-width:360px;border-radius:24px;overflow:hidden;margin-top:12px;background:#222">
+          <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&q=70&auto=format&fit=crop" alt="Stand-in photo: a drink being poured" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+      </div>
+      <div style="flex:1 1 360px;display:flex;flex-direction:column;gap:36px;justify-content:flex-end">
+        <sc-for list="{{ menu }}" as="c" hint-placeholder-count="2">
+          <div style="display:flex;flex-direction:column">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.03em;color:#C9A24B;margin-bottom:8px">{{ c.cat }}</span>
+            <sc-for list="{{ c.items }}" as="i" hint-placeholder-count="3">
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid #2A2A2A;font-size:17px">
+                <span>{{ i.n }}</span><span style="font-weight:600">{{ i.p }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <a href="Bar.dc.html" style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#C9A24B;color:#111111;font-weight:600;text-decoration:none">Full menu and hours</a>
+          <span style="font-size:14px;color:#CFCFCF">Sample menu</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-block="" aria-label="Offers" style="background:#FFFFFF;padding:clamp(64px,8vw,120px) 0 clamp(48px,6vw,80px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+      <h2 data-reveal="" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5vw,72px);line-height:0.95;letter-spacing:-0.05em">deals, while they last</h2>
+    </div>
+    <div style="overflow-x:auto;margin-top:32px;scroll-snap-type:x mandatory">
+      <div style="display:flex;gap:16px;padding:0 max(clamp(20px,4vw,40px), calc((100% - 1240px) / 2 + 40px));width:max-content">
+        <sc-for list="{{ offers }}" as="o" hint-placeholder-count="3">
+          <div style="width:clamp(290px,34vw,460px);scroll-snap-align:start;background:#B1ECEC;border-radius:24px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:18px;min-height:320px">
+            <span style="align-self:flex-start;background:#FFFFFF;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">{{ o.ends }}</span>
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,3vw,44px);line-height:0.95;letter-spacing:-0.05em">{{ o.title }}</h3>
+            <p style="margin:0;font-size:16px;line-height:1.6">{{ o.body }}</p>
+            <a href="{{ o.href }}" style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#0B5C5C;color:#FFFFFF">{{ o.cta }}</a>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Gallery" style="padding:0 0 clamp(72px,9vw,128px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;align-items:end">
+      <img data-reveal="" src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=700&q=70&auto=format&fit=crop" alt="Stand-in photo: bathroom" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:24px;display:block">
+      <img data-reveal="" src="https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=900&q=70&auto=format&fit=crop" alt="Stand-in photo: twin room" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:24px;display:block">
+      <div style="display:flex;flex-direction:column;gap:20px;padding-bottom:8px">
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,4vw,56px);line-height:0.95;letter-spacing:-0.05em">see it before you come</h2>
+        <a href="Gallery.dc.html" style="color:#0B5C5C;font-weight:600;text-decoration:none;display:inline-flex;gap:8px;transition:gap 180ms ease-out" style-hover="gap:12px;color:#0B5C5C">Open the gallery <span>→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { m: window.innerWidth < 760 };
+  componentDidMount() { this.onR = () => this.setState({ m: window.innerWidth < 760 }); window.addEventListener('resize', this.onR); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const P = (id) => `https://images.unsplash.com/photo-${id}?w=500&q=70&auto=format&fit=crop`;
+    return {
+      photoHang: this.state.m ? '0px' : 'clamp(-200px, -12vw, -100px)',
+      rooms: [
+        { name: 'standard room', short: '₦25k', amen: 'Double bed · air conditioning · smart TV', img: P('1522771739844-6a9f6d5f14af'), alt: 'Stand-in photo: standard room' },
+        { name: 'deluxe room', short: '₦35k', amen: 'Queen bed · work desk · fast Wi-Fi', img: P('1631049307264-da0ec9d70304'), alt: 'Stand-in photo: deluxe room' },
+        { name: 'twin room', short: '₦38k', amen: 'Two beds · tiled floor · air conditioning', img: P('1595576508898-0ad5c879a061'), alt: 'Stand-in photo: twin room' },
+        { name: 'executive room', short: '₦50k', amen: 'King bed · sitting area · mini fridge', img: P('1618773928121-c32242e63f39'), alt: 'Stand-in photo: executive room' },
+      ],
+      menu: [
+        { cat: 'cocktails', items: [{ n: 'Chapman', p: '₦3,500' }, { n: 'De Classic sunset', p: '₦5,000' }, { n: 'Mojito', p: '₦5,000' }] },
+        { cat: 'small chops', items: [{ n: 'Peppered gizzard', p: '₦4,000' }, { n: 'Suya platter', p: '₦6,000' }] },
+      ],
+      offers: [
+        { ends: 'ends 31 october', title: 'two nights, ₦10k off', body: 'Book any room for Friday and Saturday and we take ₦10,000 off the total.', cta: 'Book the weekend', href: 'Book.dc.html' },
+        { ends: 'every thursday', title: 'two cocktails for one', body: 'At the bar from 6pm to 9pm.', cta: 'See the bar', href: 'Bar.dc.html' },
+        { ends: 'ends 30 november', title: 'birthday? the cake is on us', body: 'Book a room for your birthday night and we bring the cake to the bar.', cta: 'Tell us the date', href: 'Book.dc.html' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

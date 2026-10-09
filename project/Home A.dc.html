@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}::-webkit-scrollbar{height:0}</style>
+</helmet>
+<div data-screen-label="Home A" style="min-height:100vh;background:#FFFFFF">
+  <dc-import name="Header" active="" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+
+  <section aria-label="Welcome" style="position:relative">
+    <div data-anim="wipe" style="background:#B1ECEC;padding:clamp(40px,6vw,88px) 0 0">
+      <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+        <div style="max-width:calc(100% - clamp(0px, 36vw, 520px))">
+          <span data-anim="rise" data-delay="200" style="display:block;font-size:14px;font-weight:600;color:#0B5C5C;margin-bottom:20px">agric, ikorodu · rooms and a bar</span>
+          <h1 aria-label="your room in ikorodu is ready" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(48px,8.3vw,120px);line-height:0.92;letter-spacing:-0.055em">
+            <span data-anim="rise" data-delay="260" style="display:block">your room</span>
+            <span data-anim="rise" data-delay="320" style="display:block">in ikorodu</span>
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+      <div aria-hidden="true" data-anim="rise" data-delay="380" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(48px,8.3vw,120px);line-height:0.92;letter-spacing:-0.055em;padding-top:0.04em">is ready</div>
+      <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+        <div data-anim="settle" data-delay="420" style="margin-top:24px;aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:#E8F9F9">
+          <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=900&q=70&auto=format&fit=crop" alt="Stand-in photo: a made double bed beside a window" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+      </sc-if>
+      <div style="display:flex;flex-wrap:wrap;gap:24px 40px;align-items:flex-end;margin-top:28px;max-width:calc(100% - clamp(0px, 36vw, 520px))">
+        <p style="margin:0;font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:#5B6B6B;max-width:420px;text-wrap:pretty">Clean, modern rooms from ₦25,000 a night, five minutes from Agric junction. The bar downstairs opens at six.</p>
+      </div>
+    </div>
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <div data-anim="settle" data-delay="420" style="position:absolute;top:clamp(40px,5vw,72px);right:max(clamp(20px,4vw,40px), calc((100% - 1240px) / 2 + 40px));width:clamp(260px,32vw,460px)">
+        <div style="aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:#E8F9F9">
+          <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=900&q=70&auto=format&fit=crop" alt="Stand-in photo: a made double bed beside a window" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+        <div data-sticker="" style="position:absolute;top:-18px;left:-18px;width:104px;height:104px;border-radius:999px;background:#111111;color:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-9deg);transition:transform 200ms ease-out" style-hover="transform:rotate(-18deg)">
+          <span style="font-size:11px;font-weight:600">from</span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-0.04em;line-height:1">₦25k</span>
+          <span style="font-size:11px;font-weight:600">per night</span>
+        </div>
+      </div>
+    </sc-if>
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(28px,3vw,40px) clamp(20px,4vw,40px) 0">
+      <form data-anim="settle" data-delay="480" action="Book.dc.html" style="background:#FFFFFF;border:1.5px solid #111111;border-radius:{{ barRadius }};display:flex;flex-wrap:wrap;align-items:stretch;gap:0;padding:8px;max-width:calc(100% - clamp(0px, 36vw, 520px) + 120px)">
+        <label style="flex:1 1 140px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 20px">
+          <span style="font-size:13px;font-weight:600;color:#0B5C5C">check in</span>
+          <input type="date" value="2026-10-16" style="border:0;font:500 16px Figtree,sans-serif;color:#111111;background:transparent;padding:0;min-height:24px">
+        </label>
+        <label style="flex:1 1 140px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 20px;border-left:1px solid #D5E5E5">
+          <span style="font-size:13px;font-weight:600;color:#0B5C5C">check out</span>
+          <input type="date" value="2026-10-18" style="border:0;font:500 16px Figtree,sans-serif;color:#111111;background:transparent;padding:0;min-height:24px">
+        </label>
+        <label style="flex:1 1 150px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 20px;border-left:1px solid #D5E5E5">
+          <span style="font-size:13px;font-weight:600;color:#0B5C5C">room</span>
+          <select style="border:0;font:500 16px Figtree,sans-serif;color:#111111;background:transparent;padding:0;min-height:24px">
+            <option>Any room</option><option>Standard</option><option>Deluxe</option><option>Twin</option><option>Executive</option>
+          </select>
+        </label>
+        <button type="submit" style="flex:1 1 160px;min-height:56px;border:0;border-radius:999px;background:#111111;color:#FFFFFF;font:600 16px Figtree,sans-serif;cursor:pointer;transition:background 180ms ease-out" style-hover="background:#0B5C5C">Check availability</button>
+      </form>
+    </div>
+  </section>
+
+  <section aria-label="Rooms" style="padding:clamp(72px,9vw,128px) 0 clamp(56px,7vw,96px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div>
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">four kinds of room</span>
+        <h2 data-reveal="" style="margin:8px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5vw,72px);line-height:0.95;letter-spacing:-0.05em">pick your room</h2>
+      </div>
+      <a href="Rooms.dc.html" style="color:#0B5C5C;font-weight:600;text-decoration:none;display:inline-flex;gap:8px;font-size:16px;transition:gap 180ms ease-out" style-hover="gap:12px;color:#0B5C5C">Compare all rooms <span>→</span></a>
+    </div>
+    <div style="overflow-x:auto;scroll-snap-type:x mandatory;margin-top:36px">
+      <div style="display:flex;gap:clamp(16px,2vw,28px);padding:20px max(clamp(20px,4vw,40px), calc((100% - 1240px) / 2 + 40px)) 8px;width:max-content">
+        <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="4">
+          <a href="Room%20Detail.dc.html" style="width:clamp(270px,26vw,340px);scroll-snap-align:start;color:#111111;text-decoration:none;display:flex;flex-direction:column;gap:14px">
+            <div style="position:relative">
+              <div style="aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:#E8F9F9">
+                <img src="{{ r.img }}" alt="{{ r.alt }}" style="width:100%;height:100%;object-fit:cover;display:block">
+              </div>
+              <div data-sticker="" style="position:absolute;top:-14px;right:-10px;width:84px;height:84px;border-radius:999px;background:#111111;color:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(8deg)">
+                <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.04em;line-height:1">{{ r.short }}</span>
+                <span style="font-size:10px;font-weight:600">per night</span>
+              </div>
+            </div>
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(22px,1.9vw,26px);letter-spacing:-0.03em;line-height:1">{{ r.name }}</span>
+            <span style="font-size:15px;color:#5B6B6B;line-height:1.5">{{ r.amen }}</span>
+            <span style="font-size:15px;font-weight:600;color:#0B5C5C">See room →</span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section data-lights="" aria-label="The bar" style="background:#0E0E0F;color:#FFFFFF;padding:clamp(64px,8vw,120px) 0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:flex;flex-wrap:wrap;gap:40px clamp(40px,6vw,96px);align-items:center">
+      <div style="flex:1 1 360px;display:flex;flex-direction:column;gap:20px">
+        <span style="font-size:14px;font-weight:600;color:#C9A24B">the bar</span>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(40px,6vw,88px);line-height:0.92;letter-spacing:-0.055em;color:#C9A24B">the bar opens at six</h2>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px">
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(26px,2.6vw,36px);letter-spacing:-0.03em">6pm till late</span>
+          <span style="font-size:16px;color:#CFCFCF">Every day. Cocktails, cold beer, suya and small chops.</span>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <a href="Bar.dc.html" style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#C9A24B;color:#111111;font-weight:600;font-size:16px;text-decoration:none">See the menu</a>
+        </div>
+      </div>
+      <div data-reveal="" style="flex:1.4 1 420px;aspect-ratio:16/9;border-radius:24px;overflow:hidden;background:#222">
+        <img src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=1200&q=70&auto=format&fit=crop" alt="Stand-in photo: a lit bar counter at night" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+    </div>
+  </section>
+
+  <section data-block="" aria-label="Offers" style="background:#FFFFFF;padding:clamp(64px,8vw,120px) 0 clamp(40px,5vw,64px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+      <h2 data-reveal="" style="margin:0 0 32px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5vw,72px);line-height:0.95;letter-spacing:-0.05em">this month only</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:20px">
+        <div data-reveal="" style="flex:1.6 1 420px;background:#B1ECEC;border-radius:24px;padding:clamp(28px,3.5vw,48px);display:flex;flex-direction:column;gap:20px;min-height:300px">
+          <span style="align-self:flex-start;background:#FFFFFF;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">ends 31 october</span>
+          <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(32px,3.6vw,52px);line-height:0.95;letter-spacing:-0.05em">two nights, ₦10k off</h3>
+          <p style="margin:0;font-size:17px;line-height:1.6;max-width:420px">Book any room for Friday and Saturday and we take ₦10,000 off the total.</p>
+          <a href="Book.dc.html" style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#0B5C5C;color:#FFFFFF">Book the weekend</a>
+        </div>
+        <div data-reveal="" style="flex:1 1 300px;background:#B1ECEC;border-radius:24px;padding:clamp(28px,3.5vw,48px);display:flex;flex-direction:column;gap:20px;min-height:300px">
+          <span style="align-self:flex-start;background:#FFFFFF;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">every thursday</span>
+          <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,2.8vw,40px);line-height:0.95;letter-spacing:-0.05em">two cocktails for one</h3>
+          <p style="margin:0;font-size:17px;line-height:1.6">At the bar from 6pm to 9pm.</p>
+          <a href="Offers.dc.html" style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;border:1.5px solid #111111;color:#111111;font-weight:600;text-decoration:none" style-hover="background:#111111;color:#FFFFFF">All offers</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Gallery" style="padding:clamp(40px,5vw,64px) 0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <h2 data-reveal="" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5vw,72px);line-height:0.95;letter-spacing:-0.05em">have a look</h2>
+      <a href="Gallery.dc.html" style="color:#0B5C5C;font-weight:600;text-decoration:none;display:inline-flex;gap:8px;transition:gap 180ms ease-out" style-hover="gap:12px;color:#0B5C5C">Open the gallery <span>→</span></a>
+    </div>
+    <div style="overflow-x:auto;margin-top:32px">
+      <div style="display:flex;gap:16px;align-items:flex-end;padding:0 max(clamp(20px,4vw,40px), calc((100% - 1240px) / 2 + 40px));width:max-content">
+        <img src="https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=800&q=70&auto=format&fit=crop" alt="Stand-in photo: twin room with tiled floor" style="height:clamp(220px,24vw,340px);aspect-ratio:3/2;object-fit:cover;border-radius:24px;display:block">
+        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=70&auto=format&fit=crop" alt="Stand-in photo: a cocktail on the bar" style="height:clamp(180px,18vw,260px);aspect-ratio:1/1;object-fit:cover;border-radius:24px;display:block">
+        <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=70&auto=format&fit=crop" alt="Stand-in photo: white bathroom" style="height:clamp(220px,24vw,340px);aspect-ratio:4/5;object-fit:cover;border-radius:24px;display:block">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=70&auto=format&fit=crop" alt="Stand-in photo: deluxe room" style="height:clamp(180px,18vw,260px);aspect-ratio:3/2;object-fit:cover;border-radius:24px;display:block">
+        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=70&auto=format&fit=crop" alt="Stand-in photo: drinks at the bar" style="height:clamp(220px,24vw,340px);aspect-ratio:4/5;object-fit:cover;border-radius:24px;display:block">
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Location" style="padding:clamp(56px,7vw,96px) 0 clamp(72px,9vw,128px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:flex;flex-wrap:wrap;gap:40px clamp(40px,6vw,96px);align-items:center">
+      <div style="flex:1 1 340px;display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">look for the aqua building</span>
+        <h2 data-reveal="" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5vw,72px);line-height:0.95;letter-spacing:-0.05em">12 example street, agric</h2>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#5B6B6B;max-width:420px">Five minutes from Agric junction, with parking on site.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <a href="Locations.dc.html" style="display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#0B5C5C;color:#FFFFFF">Get directions</a>
+          <a href="tel:+2348000000000" style="display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;border:1.5px solid #111111;color:#111111;font-weight:600;text-decoration:none" style-hover="background:#111111;color:#FFFFFF">Call the front desk</a>
+        </div>
+      </div>
+      <div data-reveal="" style="flex:1.2 1 380px;aspect-ratio:3/2;border-radius:24px;overflow:hidden;background:#B1ECEC;position:relative;display:flex;align-items:flex-end;justify-content:center;padding:0 12%">
+        <div style="position:absolute;left:0;right:0;bottom:0;height:22%;background:#FFFFFF"></div>
+        <div style="position:relative;width:62%;height:70%;background:#FFFFFF;border:3px solid #111111;border-bottom:0;border-radius:6px 6px 0 0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:10%;padding:8% 8% 0">
+          <div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div>
+          <div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div>
+          <div style="grid-column:2 / 4;background:#111111;border-radius:6px 6px 0 0"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { m: window.innerWidth < 760 };
+  componentDidMount() { this.onR = () => this.setState({ m: window.innerWidth < 760 }); window.addEventListener('resize', this.onR); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const P = (id) => `https://images.unsplash.com/photo-${id}?w=700&q=70&auto=format&fit=crop`;
+    const rooms = [
+      { name: 'standard room', short: '₦25k', amen: 'Double bed · air conditioning · smart TV', img: P('1522771739844-6a9f6d5f14af'), alt: 'Stand-in photo: standard double room' },
+      { name: 'deluxe room', short: '₦35k', amen: 'Queen bed · work desk · fast Wi-Fi', img: P('1631049307264-da0ec9d70304'), alt: 'Stand-in photo: deluxe room' },
+      { name: 'twin room', short: '₦38k', amen: 'Two beds · tiled floor · air conditioning', img: P('1595576508898-0ad5c879a061'), alt: 'Stand-in photo: twin room' },
+      { name: 'executive room', short: '₦50k', amen: 'King bed · sitting area · mini fridge', img: P('1618773928121-c32242e63f39'), alt: 'Stand-in photo: executive room' },
+    ];
+    return { rooms, mobile: this.state.m, desktop: !this.state.m, barRadius: this.state.m ? '24px' : '999px' };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}</style>
+</helmet>
+<div data-screen-label="Gallery" style="min-height:100vh;background:#FFFFFF">
+  <dc-import name="Header" active="gallery" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+  <section style="max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(20px,4vw,40px) 0;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-end">
+    <h1 data-anim="rise" data-delay="120" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(48px,8vw,116px);line-height:0.9;letter-spacing:-0.055em">have a look</h1>
+    <div role="group" aria-label="Filter photos" style="display:flex;gap:8px;flex-wrap:wrap">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+        <button onClick="{{ f.pick }}" aria-pressed="{{ f.on }}" style="height:44px;padding:0 20px;border-radius:999px;border:1.5px solid #111111;background:{{ f.bg }};color:{{ f.fg }};font:600 15px Figtree,sans-serif;cursor:pointer">{{ f.label }}</button>
+      </sc-for>
+    </div>
+  </section>
+  <section style="max-width:1240px;margin:0 auto;padding:40px clamp(20px,4vw,40px) clamp(72px,9vw,128px)">
+    <div style="columns:3 280px;column-gap:16px">
+      <sc-for list="{{ shown }}" as="p" hint-placeholder-count="9">
+        <button onClick="{{ p.open }}" aria-label="{{ p.alt }}" style="display:block;width:100%;margin:0 0 16px;padding:0;border:0;background:#E8F9F9;border-radius:24px;overflow:hidden;cursor:zoom-in;break-inside:avoid">
+          <img src="{{ p.src }}" alt="{{ p.alt }}" style="width:100%;aspect-ratio:{{ p.ratio }};object-fit:cover;display:block">
+        </button>
+      </sc-for>
+      <sc-if value="{{ showExterior }}" hint-placeholder-val="{{ false }}">
+        <div style="break-inside:avoid;margin:0 0 16px;aspect-ratio:3/2;border-radius:24px;overflow:hidden;background:#B1ECEC;position:relative;display:flex;align-items:flex-end;justify-content:center">
+          <div style="position:absolute;left:0;right:0;bottom:0;height:22%;background:#FFFFFF"></div>
+          <div style="position:relative;width:62%;height:70%;background:#FFFFFF;border:3px solid #111111;border-bottom:0;border-radius:6px 6px 0 0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:10%;padding:8% 8% 0">
+            <div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div>
+            <div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div><div style="background:#B1ECEC;border:2px solid #111111;border-radius:6px"></div>
+            <div style="grid-column:2 / 4;background:#111111;border-radius:6px 6px 0 0"></div>
+          </div>
+        </div>
+        <p style="break-inside:avoid;margin:0 0 16px;font-size:15px;color:#5B6B6B;line-height:1.6">Exterior photos come once the building is shot in daylight. This is a drawing of it until then.</p>
+      </sc-if>
+    </div>
+  </section>
+  <sc-if value="{{ viewing }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-label="Photo viewer" style="position:fixed;inset:0;z-index:300;background:#FFFFFF;display:flex;flex-direction:column">
+      <div style="height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,40px)">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">{{ counter }}</span>
+        <button onClick="{{ close }}" aria-label="Close viewer" style="width:44px;height:44px;border-radius:999px;border:1.5px solid #111111;background:#FFFFFF;font-size:22px;cursor:pointer;color:#111111">×</button>
+      </div>
+      <div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 clamp(20px,4vw,40px)">
+        <img src="{{ current.src }}" alt="{{ current.alt }}" style="max-width:100%;max-height:100%;border-radius:24px;display:block;object-fit:contain">
+      </div>
+      <div style="height:96px;display:flex;align-items:center;justify-content:center;gap:12px">
+        <button onClick="{{ prev }}" aria-label="Previous photo" style="height:48px;padding:0 24px;border-radius:999px;border:1.5px solid #111111;background:#FFFFFF;font:600 15px Figtree,sans-serif;cursor:pointer;color:#111111">← Previous</button>
+        <button onClick="{{ next }}" aria-label="Next photo" style="height:48px;padding:0 24px;border-radius:999px;border:0;background:#111111;color:#FFFFFF;font:600 15px Figtree,sans-serif;cursor:pointer">Next →</button>
+      </div>
+    </div>
+  </sc-if>
+  <dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { f: 'all', v: -1 };
+  renderVals() {
+    const P = (id) => `https://images.unsplash.com/photo-${id}?w=1000&q=70&auto=format&fit=crop`;
+    const all = [
+      ['1522771739844-6a9f6d5f14af', 'rooms', '4/5', 'standard room'], ['1514362545857-3bc16c4c7d1b', 'bar', '1/1', 'a cocktail'],
+      ['1595576508898-0ad5c879a061', 'rooms', '3/2', 'twin room'], ['1552321554-5fefe8c9ef14', 'rooms', '4/5', 'bathroom'],
+      ['1572116469696-31de0f17cc34', 'bar', '3/2', 'the bar counter'], ['1631049307264-da0ec9d70304', 'rooms', '1/1', 'deluxe room'],
+      ['1551024709-8f23befc6f87', 'bar', '4/5', 'drinks'], ['1618773928121-c32242e63f39', 'rooms', '3/2', 'executive room'],
+      ['1505693416388-ac5ce068fe85', 'rooms', '4/5', 'bedside'], ['1470337458703-46ad1756a187', 'bar', '1/1', 'a drink being poured'],
+    ].map(([id, cat, ratio, a]) => ({ src: P(id), cat, ratio, alt: `Stand-in photo: ${a}` }));
+    const f = this.state.f;
+    const list = all.filter((p) => f === 'all' || p.cat === f);
+    const shown = list.map((p, i) => ({ ...p, open: () => this.setState({ v: i }) }));
+    const v = this.state.v;
+    const filters = ['all', 'rooms', 'bar', 'exterior'].map((k) => ({ label: k, on: f === k ? 'true' : 'false',
+      bg: f === k ? '#111111' : '#FFFFFF', fg: f === k ? '#FFFFFF' : '#111111', pick: () => this.setState({ f: k, v: -1 }) }));
+    return { filters, shown, showExterior: f === 'all' || f === 'exterior', viewing: v >= 0 && v < list.length,
+      current: list[v] || {}, counter: `${v + 1} of ${list.length}`, close: () => this.setState({ v: -1 }),
+      prev: () => this.setState({ v: (v - 1 + list.length) % list.length }), next: () => this.setState({ v: (v + 1) % list.length }) };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#F3F5F5;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}</style>
+</helmet>
+<div style="width:1560px;padding:64px;display:flex;flex-direction:column;gap:48px">
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:64px;letter-spacing:-0.05em;line-height:0.95">de classic · tokens, components, states</h1>
+    <div style="display:flex;gap:20px;font-size:15px;font-weight:600"><a href="De%20Classic%20Site%20Overview.dc.html" style="text-decoration:none">Public site →</a><a href="De%20Classic%20Admin%20Overview.dc.html" style="text-decoration:none">Admin →</a></div>
+  </div>
+
+  <section data-screen-label="Colour" style="background:#FFFFFF;border-radius:24px;padding:48px;display:flex;flex-direction:column;gap:28px">
+    <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-0.05em">colour</h2>
+    <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:12px">
+      <sc-for list="{{ colours }}" as="c" hint-placeholder-count="9">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="aspect-ratio:1/1.1;border-radius:16px;background:{{ c.hex }};border:1px solid #D5E5E5"></div>
+          <span style="font-weight:700;font-size:16px">{{ c.name }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5B6B6B">{{ c.hex }}</span>
+          <span style="font-size:13px;line-height:1.45;color:#5B6B6B">{{ c.use }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;height:40px;border-radius:999px;overflow:hidden;border:1px solid #D5E5E5">
+      <div style="flex:50;background:#FFFFFF;display:flex;align-items:center;padding:0 16px;font-size:13px;font-weight:600">White ~50%</div>
+      <div style="flex:33;background:#B1ECEC;display:flex;align-items:center;padding:0 16px;font-size:13px;font-weight:600">Aqua ~33%</div>
+      <div style="flex:13;background:#111111;color:#FFFFFF;display:flex;align-items:center;padding:0 16px;font-size:13px;font-weight:600">Ink</div>
+      <div style="flex:4;background:#C9A24B"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+      <div style="background:#B1ECEC;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px"><span style="font-size:18px;font-weight:700">Ink on aqua</span><span style="font-size:14px">Pass · 13.9:1</span></div>
+      <div style="background:#B1ECEC;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;color:#0B5C5C"><span style="font-size:18px;font-weight:700">Deep teal on aqua</span><span style="font-size:14px">Pass · 5.9:1</span></div>
+      <div style="background:#0E0E0F;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;color:#C9A24B"><span style="font-size:18px;font-weight:700">Gold on night</span><span style="font-size:14px">Pass · 8.4:1 · bar only</span></div>
+      <div style="background:#FFFFFF;border:1.5px dashed #9B2C2C;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px"><span style="font-size:18px;font-weight:700;color:#111111">Never</span><span style="font-size:14px;color:#5B6B6B">White on aqua, gold or aqua on white, gradients, glows, text shadows</span></div>
+    </div>
+  </section>
+
+  <section data-screen-label="Type" style="background:#FFFFFF;border-radius:24px;padding:48px;display:flex;flex-direction:column;gap:8px">
+    <h2 style="margin:0 0 20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-0.05em">type</h2>
+    <sc-for list="{{ type }}" as="t" hint-placeholder-count="7">
+      <div style="display:grid;grid-template-columns:260px 1fr;gap:32px;align-items:baseline;padding:18px 0;border-top:1px solid #D5E5E5">
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:700;font-size:15px">{{ t.role }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5B6B6B;line-height:1.6">{{ t.spec }}</span></div>
+        <span style="font-family:{{ t.family }};font-weight:{{ t.weight }};font-size:{{ t.size }};letter-spacing:{{ t.ls }};line-height:{{ t.lh }};color:{{ t.color }}">{{ t.sample }}</span>
+      </div>
+    </sc-for>
+  </section>
+
+  <section data-screen-label="Spacing and radius" style="background:#FFFFFF;border-radius:24px;padding:48px;display:grid;grid-template-columns:1.4fr 1fr;gap:64px">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-0.05em">spacing</h2>
+      <span style="font-size:15px;color:#5B6B6B;line-height:1.6">8px base. Content width 1240px on a 12-column grid. Page gutter 20px on mobile, 40px on desktop. Section padding scales 64 → 128.</span>
+      <div style="display:flex;align-items:flex-end;gap:14px">
+        <sc-for list="{{ space }}" as="s" hint-placeholder-count="10">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:{{ s.px }};height:{{ s.px }};background:#B1ECEC;border-radius:4px"></div><span style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ s.v }}</span></div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-0.05em">radius</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:1;background:#E8F9F9;border:1.5px solid #111111;border-radius:12px"></div><span style="font-size:13px"><b>12</b> admin fields</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:1;background:#E8F9F9;border:1.5px solid #111111;border-radius:16px"></div><span style="font-size:13px"><b>16</b> site fields, admin cards</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:1;background:#E8F9F9;border:1.5px solid #111111;border-radius:24px"></div><span style="font-size:13px"><b>24</b> photos, blocks</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:1;background:#E8F9F9;border:1.5px solid #111111;border-radius:999px"></div><span style="font-size:13px"><b>pill</b> buttons, tags, sticker</span></div>
+      </div>
+      <span style="font-size:15px;color:#5B6B6B;line-height:1.6">No drop shadows. Depth comes from photos overlapping the paint line.</span>
+    </div>
+  </section>
+
+  <section data-screen-label="Components" style="background:#FFFFFF;border-radius:24px;padding:48px;display:flex;flex-direction:column;gap:40px">
+    <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-0.05em">components</h2>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <span style="font-size:14px;font-weight:600;color:#0B5C5C">header · desktop and mobile</span>
+      <div style="transform:translateZ(0);border:1px solid #D5E5E5;border-radius:16px;overflow:hidden"><dc-import name="Header" active="rooms" hint-size="100%,72px"></dc-import></div>
+      <div style="display:flex;gap:24px;align-items:flex-start">
+        <div style="width:390px;border:1px solid #D5E5E5;border-radius:16px;overflow:hidden;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 20px">
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-0.05em">de classic</span>
+          <div style="display:flex;gap:8px"><span style="display:inline-flex;align-items:center;height:44px;padding:0 22px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;font-size:15px">Book now</span><span style="width:44px;height:44px;border-radius:999px;border:1.5px solid #111111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px"><span style="width:16px;height:2px;background:#111111"></span><span style="width:16px;height:2px;background:#111111"></span></span></div>
+        </div>
+        <div style="width:260px;height:340px;background:#B1ECEC;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:12px;font-weight:600;color:#0B5C5C;margin-bottom:12px">mobile menu, open</span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:36px;letter-spacing:-0.04em;line-height:1.05">home</span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:36px;letter-spacing:-0.04em;line-height:1.05">rooms</span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:36px;letter-spacing:-0.04em;line-height:1.05">the bar</span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:36px;letter-spacing:-0.04em;line-height:1.05">gallery</span>
+          <span style="margin-top:auto;display:flex;align-items:center;justify-content:center;height:48px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600">Book now</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">buttons</span>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <span style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600">Primary</span>
+          <span style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#0B5C5C;color:#FFFFFF;font-weight:600">Primary · hover</span>
+          <span style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;border:1.5px solid #111111;color:#111111;font-weight:600">Secondary</span>
+          <span style="display:inline-flex;align-items:center;gap:8px;color:#0B5C5C;font-weight:600">Text link <span>→</span></span>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <span style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;outline:3px solid #111111;outline-offset:3px">Focus ring</span>
+          <span style="display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600"><span style="width:16px;height:16px;border-radius:999px;border:2px solid #5B6B6B;border-top-color:#FFFFFF"></span>Sending…</span>
+          <span style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#D5E5E5;color:#5B6B6B;font-weight:600">Disabled</span>
+          <span style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;background:#0E0E0F;outline:12px solid #0E0E0F"><span style="display:inline-flex;align-items:center;height:44px;padding:0 22px;border-radius:999px;background:#C9A24B;color:#111111;font-weight:600">Bar primary</span></span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">form fields</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Default</span><span style="height:56px;border:1.5px solid #D5E5E5;border-radius:16px;padding:0 16px;display:flex;align-items:center;color:#5B6B6B">080 0000 0000</span></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Focus</span><span style="height:56px;border:1.5px solid #111111;border-radius:16px;padding:0 16px;display:flex;align-items:center">Tolu Adebayo</span></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Error</span><span style="height:56px;border:1.5px solid #C62828;border-radius:16px;padding:0 16px;display:flex;align-items:center">0803 12</span><span style="font-size:14px;color:#C62828;font-weight:500">That number looks short. Use 11 digits.</span></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Select (native on phones)</span><span style="height:56px;border:1.5px solid #D5E5E5;border-radius:16px;padding:0 16px;display:flex;align-items:center;justify-content:space-between">Deluxe room · ₦35,000<span>▾</span></span></label>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:300px 1fr 1fr;gap:48px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">room card + price sticker</span>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="position:relative"><div style="aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:#E8F9F9"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=70&auto=format&fit=crop" alt="Stand-in photo: deluxe room" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+            <div style="position:absolute;top:-14px;right:-10px;width:84px;height:84px;border-radius:999px;background:#111111;color:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(8deg)"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.04em;line-height:1">₦35k</span><span style="font-size:10px;font-weight:600">per night</span></div></div>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.03em;line-height:1">deluxe room</span>
+          <span style="font-size:15px;color:#5B6B6B">Queen bed · work desk · fast Wi-Fi</span>
+          <span style="font-size:15px;font-weight:600;color:#0B5C5C">See room →</span>
+        </div>
+        <span style="font-size:13px;color:#5B6B6B;line-height:1.5">Sticker: 84–104px, tilted 8–10°, tilts 18° on hover, pops in with a spin.</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">offer card</span>
+        <div style="background:#B1ECEC;border-radius:24px;padding:36px;display:flex;flex-direction:column;gap:18px;min-height:340px">
+          <span style="align-self:flex-start;background:#FFFFFF;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">ends 31 october</span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:0.95;letter-spacing:-0.05em">two nights, ₦10k off</span>
+          <span style="font-size:16px;line-height:1.6">Book any room for Friday and Saturday and we take ₦10,000 off the total.</span>
+          <span style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600">Book the weekend</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">menu list · bar only</span>
+        <div style="background:#0E0E0F;color:#FFFFFF;border-radius:24px;padding:36px;min-height:340px">
+          <span style="display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:28px;letter-spacing:-0.03em;color:#C9A24B;margin-bottom:8px">cocktails</span>
+          <sc-for list="{{ menuItems }}" as="i" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid #2A2A2A;font-size:17px"><span>{{ i.n }}</span><span style="font-weight:600">{{ i.p }}</span></div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">booking bar · on the paint line, then sticky on mobile</span>
+        <div style="position:relative;padding:40px 24px;border-radius:24px;overflow:hidden;background:linear-gradient(#B1ECEC 50%,#FFFFFF 50%);border:1px solid #D5E5E5">
+          <div style="background:#FFFFFF;border:1.5px solid #111111;border-radius:999px;display:flex;padding:8px;position:relative">
+            <div style="flex:1;padding:8px 18px;display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:600;color:#0B5C5C">check in</span><span style="font-weight:500">16 Oct</span></div>
+            <div style="flex:1;padding:8px 18px;border-left:1px solid #D5E5E5;display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:600;color:#0B5C5C">check out</span><span style="font-weight:500">18 Oct</span></div>
+            <div style="flex:1;padding:8px 18px;border-left:1px solid #D5E5E5;display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:600;color:#0B5C5C">room</span><span style="font-weight:500">Any room</span></div>
+            <span style="flex:1.1;display:flex;align-items:center;justify-content:center;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600">Check availability</span>
+          </div>
+        </div>
+        <div style="width:390px;background:#FFFFFF;border:1px solid #D5E5E5;border-radius:16px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;flex-direction:column;line-height:1.1"><span style="font-size:13px;font-weight:600;color:#0B5C5C">rooms from</span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.03em">₦25,000</span></div>
+          <span style="display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600">Book now</span>
+        </div>
+        <span style="font-size:13px;color:#5B6B6B">The split behind the bar is the paint line: one hard edge, no blend.</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">gallery grid · whatsapp button · status tags</span>
+        <div style="display:grid;grid-template-columns:2fr 1fr;grid-template-rows:120px 120px;gap:10px">
+          <img src="https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=600&q=70&auto=format&fit=crop" alt="Stand-in photo: twin room" style="grid-row:1 / 3;width:100%;height:100%;object-fit:cover;border-radius:24px">
+          <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=300&q=70&auto=format&fit=crop" alt="Stand-in photo: cocktail" style="width:100%;height:100%;object-fit:cover;border-radius:24px">
+          <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=300&q=70&auto=format&fit=crop" alt="Stand-in photo: bathroom" style="width:100%;height:100%;object-fit:cover;border-radius:24px">
+        </div>
+        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+          <span style="width:56px;height:56px;border-radius:999px;background:#111111;display:flex;align-items:center;justify-content:center;flex:none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg></span>
+          <sc-for list="{{ tags }}" as="t" hint-placeholder-count="7"><span style="background:{{ t.bg }};color:{{ t.fg }};border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600">{{ t.label }}</span></sc-for>
+          <span style="background:#FFF4D6;color:#6B5310;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600">Sample</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <span style="font-size:14px;font-weight:600;color:#0B5C5C">footer</span>
+      <div style="transform:translateZ(0);border-radius:16px;overflow:hidden;height:560px"><dc-import name="Footer" sticky-bar="{{ false }}" hint-size="100%,560px"></dc-import></div>
+    </div>
+  </section>
+
+  <section data-screen-label="States" style="background:#FFFFFF;border-radius:24px;padding:48px;display:flex;flex-direction:column;gap:40px">
+    <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-0.05em">states</h2>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <span style="font-size:14px;font-weight:600;color:#0B5C5C">loading · flat blocks in aqua tint, opacity pulses 0.6 → 1 every 1.2s, no shimmer</span>
+      <div style="display:grid;grid-template-columns:300px 300px 1fr;gap:40px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="aspect-ratio:4/5;border-radius:24px;background:#E8F9F9"></div>
+          <div style="height:26px;width:70%;border-radius:8px;background:#E8F9F9"></div>
+          <div style="height:16px;width:90%;border-radius:6px;background:#E8F9F9"></div>
+          <span style="font-size:13px;color:#5B6B6B">Room card, site</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="aspect-ratio:3/2;border-radius:24px;background:#E8F9F9"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="aspect-ratio:1;border-radius:24px;background:#E8F9F9"></div><div style="aspect-ratio:1;border-radius:24px;background:#E8F9F9"></div></div>
+          <span style="font-size:13px;color:#5B6B6B">Gallery grid, site</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="border:1px solid #D5E5E5;border-radius:16px;overflow:hidden">
+            <div style="height:44px;background:#E8F9F9"></div>
+            <sc-for list="{{ skelRows }}" as="r" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:1.4fr 1.2fr 1fr 110px;gap:16px;align-items:center;padding:16px 18px;border-top:1px solid #D5E5E5">
+                <div style="height:14px;width:{{ r.a }};border-radius:6px;background:#EEF4F4"></div><div style="height:14px;width:{{ r.b }};border-radius:6px;background:#EEF4F4"></div><div style="height:14px;width:60%;border-radius:6px;background:#EEF4F4"></div><div style="height:22px;width:80px;border-radius:999px;background:#EEF4F4"></div>
+              </div>
+            </sc-for>
+          </div>
+          <span style="font-size:13px;color:#5B6B6B">Reservations table, admin. Tiles on Overview show "–" until loaded.</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <span style="font-size:14px;font-weight:600;color:#0B5C5C">empty · lowercase headline and aqua block on the site, plain sentence case in the admin, always one clear button</span>
+      <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:16px;align-items:stretch">
+        <div style="background:#B1ECEC;border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+          <span style="font-size:12px;font-weight:600;color:#0B5C5C">site · no offers</span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:40px;line-height:0.92;letter-spacing:-0.05em">no deals right now</span>
+          <span style="font-size:15px;line-height:1.6">New offers usually go up at the start of the month.</span>
+          <span style="margin-top:auto;display:inline-flex;align-items:center;height:48px;padding:0 22px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600">See the rooms</span>
+        </div>
+        <sc-for list="{{ empties }}" as="e" hint-placeholder-count="3">
+          <div style="background:#E8F9F9;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+            <span style="font-size:12px;font-weight:600;color:#0B5C5C">{{ e.where }}</span>
+            <span style="font-size:18px;font-weight:700">{{ e.title }}</span>
+            <span style="font-size:14px;line-height:1.5;color:#5B6B6B">{{ e.body }}</span>
+            <span style="margin-top:auto;display:inline-flex;align-items:center;height:44px;padding:0 18px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;font-size:14px">{{ e.cta }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">error · plain words beside the field, plus a banner when the request itself fails</span>
+        <div role="alert" style="background:#FDECEC;border:1.5px solid #C62828;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:16px;font-weight:700;color:#8A2A2A">Your request didn't send</span>
+          <span style="font-size:15px;line-height:1.5">The connection dropped. Your details are still here. Try again, or send them to us on WhatsApp.</span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;font-size:14px">Try again</span><span style="display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;border:1.5px solid #111111;font-weight:600;font-size:14px">Send on WhatsApp</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Price per night (₦)</span><span style="height:48px;border:1.5px solid #C62828;border-radius:12px;padding:0 14px;display:flex;align-items:center">35,0OO</span><span style="font-size:14px;color:#C62828">Use numbers only, like 35000.</span></label>
+          <div style="background:#FDECEC;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;align-self:start"><span style="font-size:14px;font-weight:700;color:#8A2A2A">Couldn't save. Check 1 field.</span><span style="font-size:13px">Admin form summary, shown above Save.</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:14px;font-weight:600;color:#0B5C5C">success · plain green in the admin, full aqua on the site</span>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <span style="background:#1B6B34;color:#FFFFFF;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:600">Saved</span>
+          <span style="background:#1B6B34;color:#FFFFFF;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:600">Status changed to Confirmed</span>
+        </div>
+        <div style="background:#B1ECEC;border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:13px;font-weight:600;color:#0B5C5C">request sent · your reference</span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:88px;line-height:0.85;letter-spacing:-0.06em">dc-4827</span>
+          <span style="font-size:15px;line-height:1.5">The front desk will call or WhatsApp you within the hour.</span>
+          <a href="Confirmation.dc.html" style="font-size:14px;font-weight:600;text-decoration:none">Full confirmation screen →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Motion" style="background:#FFFFFF;border-radius:24px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-0.05em">motion</h2>
+      <span style="font-size:15px;line-height:1.6;color:#5B6B6B">150–400ms, ease-out cubic-bezier(.2,.8,.2,1). Mobile keeps wipes and stickers only. Reduced motion turns everything into 200ms fades. Admin uses a 180ms fade between screens and nothing else.</span>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ motion }}" as="m" hint-placeholder-count="7">
+        <div style="display:grid;grid-template-columns:150px 1fr 90px;gap:16px;padding:12px 0;border-top:1px solid #D5E5E5;font-size:15px">
+          <span style="font-weight:700">{{ m.n }}</span><span style="color:#5B6B6B">{{ m.d }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:13px">{{ m.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const BG = "'Bricolage Grotesque',sans-serif", FT = 'Figtree,sans-serif';
+    return {
+      colours: [['Aqua', '#B1ECEC', 'Hero block, sections, footer, big flat panels'], ['Aqua tint', '#E8F9F9', 'Soft cards, form backgrounds, loading'], ['White', '#FFFFFF', 'Main page background'], ['Ink', '#111111', 'Headlines, body, primary buttons, stickers'], ['Deep teal', '#0B5C5C', 'Links, icons, small labels, hover'], ['Slate', '#5B6B6B', 'Secondary text'], ['Line', '#D5E5E5', 'Borders and dividers'], ['Gold', '#C9A24B', 'Logo and bar only. Estimate, sample from logo'], ['Night', '#0E0E0F', 'Bar background only']]
+        .map(([name, hex, use]) => ({ name, hex, use })),
+      type: [
+        ['Hero headline', 'Bricolage 800 · 48 → 120 · lh 0.92 · ls -0.055em', BG, 800, '120px', '-0.055em', '0.92', '#111111', 'your room is ready'],
+        ['Section headline', 'Bricolage 800 · 34 → 72 · lh 0.95 · ls -0.05em', BG, 800, '72px', '-0.05em', '0.95', '#111111', 'pick your room'],
+        ['Card title', 'Bricolage 700 · 20 → 26', BG, 700, '26px', '-0.03em', '1', '#111111', 'deluxe room'],
+        ['Price', 'Bricolage 800 · 22 → 28, "per night" in Figtree 14', BG, 800, '28px', '-0.03em', '1', '#111111', '₦35,000'],
+        ['Body', 'Figtree 400 · 16 → 18 · lh 1.6 · ink or slate', FT, 400, '18px', '0', '1.6', '#111111', 'Clean, modern rooms from ₦25,000 a night, five minutes from Agric junction.'],
+        ['Button', 'Figtree 600 · 15 → 16', FT, 600, '16px', '0', '1.2', '#111111', 'Request this room'],
+        ['Label', 'Figtree 600 · 13 → 14 · lowercase · deep teal', FT, 600, '14px', '0', '1.2', '#0B5C5C', 'the bar · from'],
+      ].map(([role, spec, family, weight, size, ls, lh, color, sample]) => ({ role, spec, family, weight, size, ls, lh, color, sample })),
+      space: [4, 8, 12, 16, 20, 24, 32, 40, 56, 72].map((v) => ({ v, px: v + 'px' })),
+      menuItems: [['Chapman', '₦3,500'], ['De Classic sunset', '₦5,000'], ['Mojito', '₦5,000'], ['Long Island', '₦6,500']].map(([n, p]) => ({ n, p })),
+      tags: [['New', '#B1ECEC', '#111111'], ['Confirmed', '#DDF3E1', '#1B6B34'], ['Checked in', '#0B5C5C', '#FFFFFF'], ['Completed', '#ECEEEE', '#4A5757'], ['Declined', '#F8E1E1', '#8A2A2A'], ['Cancelled', '#F8E1E1', '#8A2A2A'], ['No-show', '#F8E1E1', '#8A2A2A']].map(([label, bg, fg]) => ({ label, bg, fg })),
+      skelRows: [{ a: '70%', b: '55%' }, { a: '55%', b: '65%' }, { a: '80%', b: '50%' }, { a: '60%', b: '60%' }],
+      empties: [
+        { where: 'admin · rooms', title: 'No rooms yet', body: 'Add your first room type. It shows on the website once you switch it on.', cta: 'Add room' },
+        { where: 'admin · gallery', title: 'No photos yet', body: 'Upload photos of rooms, the bar and the building. JPG or PNG.', cta: 'Upload photos' },
+        { where: 'admin · bar menu', title: 'The menu is empty', body: 'The bar page hides the menu until you add at least one item.', cta: 'Add category' },
+      ],
+      motion: [['Page load', 'Aqua wipes down to the paint line, headline rises line by line, photo and booking bar settle', '400ms'], ['Price sticker', 'Pops in from 0 with a -60° spin; tilts further on hover', '380ms'], ['Scroll', 'Photos and headlines rise 32px; colour blocks slide up 96px over the one before', '400ms'], ['Lights off', 'Bar section cuts from white to night when 30% visible', 'instant'], ['Buttons', 'Ink pill fills to deep teal; arrow links nudge 4px right', '180ms'], ['Book form', 'Steps slide 40px sideways in the direction of travel', '260ms'], ['Confirmation', 'Aqua fills, then the reference code rises', '400ms']].map(([n, d, t]) => ({ n, d, t })),
+    };
+  }
+}
+</script>
+</body>
+</html>

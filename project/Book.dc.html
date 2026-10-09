@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}</style>
+</helmet>
+<div data-screen-label="Book" style="min-height:100vh;background:#FFFFFF">
+  <dc-import name="Header" active="" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+  <main style="max-width:640px;margin:0 auto;padding:clamp(40px,6vw,72px) 20px clamp(72px,9vw,120px);display:flex;flex-direction:column;gap:32px">
+    <div>
+      <span style="display:block;font-size:14px;font-weight:600;color:#0B5C5C;margin-bottom:12px">{{ stepLabel }}</span>
+      <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,6vw,80px);line-height:0.92;letter-spacing:-0.055em">{{ title }}</h1>
+      <div style="display:flex;gap:6px;margin-top:20px" aria-hidden="true">
+        <span style="height:6px;flex:1;border-radius:999px;background:#111111"></span>
+        <span style="height:6px;flex:1;border-radius:999px;background:{{ bar2 }}"></span>
+      </div>
+    </div>
+    <div ref="{{ panelRef }}" style="display:flex;flex-direction:column;gap:20px">
+      <sc-if value="{{ step1 }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Check in</span>
+            <input type="date" value="{{ f.checkIn }}" onChange="{{ set.checkIn }}" style="height:56px;border:1.5px solid #D5E5E5;border-radius:16px;padding:0 16px;font:500 16px Figtree,sans-serif;color:#111111;background:#FFFFFF;outline:none" style-focus="border-color:#111111"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Check out</span>
+            <input type="date" value="{{ f.checkOut }}" onChange="{{ set.checkOut }}" style="height:56px;border:1.5px solid #D5E5E5;border-radius:16px;padding:0 16px;font:500 16px Figtree,sans-serif;color:#111111;background:#FFFFFF;outline:none" style-focus="border-color:#111111"></label>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Room</span>
+          <select value="{{ f.room }}" onChange="{{ set.room }}" style="height:56px;border:1.5px solid #D5E5E5;border-radius:16px;padding:0 16px;font:500 16px Figtree,sans-serif;color:#111111;background:#FFFFFF;outline:none" style-focus="border-color:#111111">
+            <option value="standard">Standard room · ₦25,000</option><option value="deluxe">Deluxe room · ₦35,000</option><option value="twin">Twin room · ₦38,000</option><option value="executive">Executive room · ₦50,000</option>
+          </select></label>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Guests</span>
+          <select value="{{ f.guests }}" onChange="{{ set.guests }}" style="height:56px;border:1.5px solid #D5E5E5;border-radius:16px;padding:0 16px;font:500 16px Figtree,sans-serif;color:#111111;background:#FFFFFF;outline:none" style-focus="border-color:#111111">
+            <option value="1">1 adult</option><option value="2">2 adults</option><option value="3">3 adults</option>
+          </select></label>
+        <sc-if value="{{ dateError }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:15px;color:#C62828;font-weight:500">Check out needs to be after check in.</span></sc-if>
+      </sc-if>
+      <sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Full name</span>
+          <input type="text" value="{{ f.name }}" onChange="{{ set.name }}" autocomplete="name" placeholder="As it will appear at check in" style="height:56px;border:1.5px solid {{ nameBorder }};border-radius:16px;padding:0 16px;font:500 16px Figtree,sans-serif;color:#111111;background:#FFFFFF;outline:none" style-focus="border-color:#111111">
+          <sc-if value="{{ nameError }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:15px;color:#C62828;font-weight:500">Please add your name.</span></sc-if></label>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Phone number</span>
+          <input type="tel" value="{{ f.phone }}" onChange="{{ set.phone }}" autocomplete="tel" placeholder="080 0000 0000" style="height:56px;border:1.5px solid {{ phoneBorder }};border-radius:16px;padding:0 16px;font:500 16px Figtree,sans-serif;color:#111111;background:#FFFFFF;outline:none" style-focus="border-color:#111111">
+          <sc-if value="{{ phoneError }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:15px;color:#C62828;font-weight:500">That number looks short. Use 11 digits, like 080 0000 0000.</span></sc-if></label>
+        <label style="display:flex;align-items:center;gap:12px;min-height:44px;font-size:16px"><input type="checkbox" checked="{{ f.wa }}" onChange="{{ set.wa }}" style="width:22px;height:22px;accent-color:#111111"> This number is on WhatsApp</label>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Anything we should know? <span style="font-weight:400;color:#5B6B6B">Optional</span></span>
+          <textarea value="{{ f.note }}" onChange="{{ set.note }}" rows="3" placeholder="Late arrival, birthday, extra pillow" style="border:1.5px solid #D5E5E5;border-radius:16px;padding:14px 16px;font:500 16px Figtree,sans-serif;color:#111111;background:#FFFFFF;outline:none;resize:vertical" style-focus="border-color:#111111"></textarea></label>
+      </sc-if>
+    </div>
+    <div style="background:#E8F9F9;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:12px">
+      <span style="font-size:14px;font-weight:600;color:#0B5C5C">your stay</span>
+      <div style="display:flex;justify-content:space-between;gap:16px;font-size:16px"><span>{{ sum.room }}</span><span style="font-weight:600">{{ sum.rate }}</span></div>
+      <div style="display:flex;justify-content:space-between;gap:16px;font-size:16px"><span>{{ sum.dates }}</span><span style="font-weight:600">{{ sum.nights }}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-top:1px solid #D5E5E5;padding-top:12px">
+        <span style="font-size:16px">Estimated total</span>
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-0.03em">{{ sum.total }}</span>
+      </div>
+      <span style="font-size:14px;color:#5B6B6B;line-height:1.5">Nothing to pay now. The hotel confirms by phone or WhatsApp, and you pay at check in.</span>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ back }}" style="height:56px;padding:0 28px;border-radius:999px;border:1.5px solid #111111;background:#FFFFFF;color:#111111;font:600 16px Figtree,sans-serif;cursor:pointer">Back</button>
+      </sc-if>
+      <button onClick="{{ next }}" style="flex:1;min-width:200px;height:56px;padding:0 28px;border-radius:999px;border:0;background:#111111;color:#FFFFFF;font:600 16px Figtree,sans-serif;cursor:pointer;transition:background 180ms ease-out" style-hover="background:#0B5C5C">{{ cta }}</button>
+    </div>
+  </main>
+  <dc-import name="Footer" sticky-bar="{{ false }}" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { step: 1, tried: false, f: { checkIn: '2026-10-16', checkOut: '2026-10-18', room: 'deluxe', guests: '2', name: '', phone: '', wa: true, note: '' } };
+  panel = React.createRef();
+  componentDidUpdate(_, prev) {
+    if (prev.step !== this.state.step && this.panel.current && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const dir = this.state.step > prev.step ? 1 : -1;
+      this.panel.current.animate([{ opacity: 0, transform: `translateX(${dir * 40}px)` }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    }
+  }
+  renderVals() {
+    const { step, f, tried } = this.state;
+    const rooms = { standard: ['Standard room', 25000], deluxe: ['Deluxe room', 35000], twin: ['Twin room', 38000], executive: ['Executive room', 50000] };
+    const [rName, rate] = rooms[f.room];
+    const nights = Math.round((new Date(f.checkOut) - new Date(f.checkIn)) / 864e5);
+    const ok = nights > 0;
+    const fmt = (d) => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    const naira = (n) => '₦' + n.toLocaleString('en-NG');
+    const nameErr = tried && step === 2 && !f.name.trim();
+    const phoneErr = tried && step === 2 && f.phone.replace(/\D/g, '').length < 11;
+    const set = {};
+    ['checkIn', 'checkOut', 'room', 'guests', 'name', 'phone', 'note'].forEach((k) => (set[k] = (e) => this.setState({ f: { ...this.state.f, [k]: e.target.value } })));
+    set.wa = (e) => this.setState({ f: { ...this.state.f, wa: e.target.checked } });
+    return {
+      f, set, panelRef: this.panel, step1: step === 1, step2: step === 2,
+      stepLabel: step === 1 ? 'step 1 of 2 · your stay' : 'step 2 of 2 · your details',
+      title: step === 1 ? 'when are you coming?' : 'how do we reach you?',
+      bar2: step === 2 ? '#111111' : '#D5E5E5', cta: step === 1 ? 'Continue' : 'Send request',
+      dateError: !ok, nameError: nameErr, phoneError: phoneErr,
+      nameBorder: nameErr ? '#C62828' : '#D5E5E5', phoneBorder: phoneErr ? '#C62828' : '#D5E5E5',
+      sum: { room: rName, rate: naira(rate) + ' / night', dates: ok ? `${fmt(f.checkIn)} – ${fmt(f.checkOut)}` : 'Pick your dates', nights: ok ? `${nights} night${nights > 1 ? 's' : ''}` : '–', total: ok ? naira(rate * nights) : '–' },
+      back: () => this.setState({ step: 1, tried: false }),
+      next: () => {
+        if (step === 1) { if (ok) this.setState({ step: 2, tried: false }); return; }
+        if (!f.name.trim() || f.phone.replace(/\D/g, '').length < 11) return this.setState({ tried: true });
+        window.location.href = 'Confirmation.dc.html';
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

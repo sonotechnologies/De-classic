@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./motion.js"></script>
+<style>body{margin:0;background:#FFFFFF;color:#111111;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#0B5C5C}a:hover{color:#111111}:focus-visible{outline:3px solid #111111;outline-offset:3px}::-webkit-scrollbar{height:0}</style>
+</helmet>
+<div data-screen-label="Room detail" style="min-height:100vh;background:#FFFFFF">
+  <dc-import name="Header" active="rooms" hint-size="100%,72px" style="position:sticky;top:0;z-index:100"></dc-import>
+  <section data-anim="wipe" style="background:#B1ECEC;padding:clamp(28px,4vw,56px) 0 clamp(120px,14vw,200px)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+      <a href="Rooms.dc.html" style="color:#0B5C5C;font-weight:600;text-decoration:none;font-size:15px;display:inline-flex;gap:8px">← All rooms</a>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 48px;margin-top:20px">
+        <h1 data-anim="rise" data-delay="200" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(52px,9vw,128px);line-height:0.9;letter-spacing:-0.06em">deluxe room</h1>
+        <span data-anim="rise" data-delay="280"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,3vw,44px);letter-spacing:-0.04em">₦35,000</span> <span style="font-size:15px">per night</span></span>
+      </div>
+    </div>
+  </section>
+  <section aria-label="Photos" style="margin-top:clamp(-180px,-11vw,-90px)">
+    <div style="overflow-x:auto;scroll-snap-type:x mandatory">
+      <div style="display:flex;gap:16px;padding:0 max(clamp(20px,4vw,40px), calc((100% - 1240px) / 2 + 40px));width:max-content">
+        <sc-for list="{{ photos }}" as="p" hint-placeholder-count="5">
+          <div data-anim="settle" data-delay="{{ p.delay }}" style="width:clamp(300px,52vw,760px);aspect-ratio:3/2;border-radius:24px;overflow:hidden;scroll-snap-align:start;background:#E8F9F9">
+            <img src="{{ p.src }}" alt="{{ p.alt }}" style="width:100%;height:100%;object-fit:cover;display:block">
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:12px auto 0;padding:0 clamp(20px,4vw,40px);font-size:13px;color:#5B6B6B">Swipe for more · 5 stand-in photos</div>
+  </section>
+  <section style="max-width:1240px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(20px,4vw,40px) clamp(72px,9vw,120px);display:flex;flex-wrap:wrap;gap:48px clamp(40px,7vw,120px)">
+    <div style="flex:1 1 340px;display:flex;flex-direction:column;gap:20px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,4vw,56px);line-height:0.95;letter-spacing:-0.05em">room for two, and a desk</h2>
+      <p style="margin:0;font-size:17px;line-height:1.6;color:#111111;max-width:480px;text-wrap:pretty">A bright room on the first floor with a queen bed, a proper work desk and a window over the street. Good for a couple, or for work trips when you need quiet and fast Wi-Fi.</p>
+      <dl style="margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:10px 24px;font-size:16px">
+        <dt style="color:#5B6B6B">Check in</dt><dd style="margin:0;font-weight:600">From 2pm</dd>
+        <dt style="color:#5B6B6B">Check out</dt><dd style="margin:0;font-weight:600">By 12 noon</dd>
+        <dt style="color:#5B6B6B">Sleeps</dt><dd style="margin:0;font-weight:600">2 adults</dd>
+        <dt style="color:#5B6B6B">Breakfast</dt><dd style="margin:0;font-weight:600">₦3,000 per person</dd>
+      </dl>
+    </div>
+    <div style="flex:1 1 340px">
+      <span style="font-size:14px;font-weight:600;color:#0B5C5C">in the room</span>
+      <ul style="list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 24px">
+        <sc-for list="{{ amen }}" as="a" hint-placeholder-count="10">
+          <li style="padding:14px 0;border-bottom:1px solid #D5E5E5;font-size:16px">{{ a }}</li>
+        </sc-for>
+      </ul>
+    </div>
+  </section>
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <div style="position:sticky;bottom:20px;z-index:80;max-width:1240px;margin:0 auto 40px;padding:0 40px">
+      <div style="background:#FFFFFF;border:1.5px solid #111111;border-radius:999px;padding:10px 10px 10px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+        <span style="display:flex;align-items:baseline;gap:12px"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.03em">deluxe room</span><span style="font-size:15px;color:#5B6B6B">₦35,000 per night</span></span>
+        <a href="Book.dc.html" style="display:inline-flex;align-items:center;height:52px;padding:0 28px;border-radius:999px;background:#111111;color:#FFFFFF;font-weight:600;text-decoration:none;transition:background 180ms ease-out" style-hover="background:#0B5C5C;color:#FFFFFF">Request this room</a>
+      </div>
+    </div>
+  </sc-if>
+  <dc-import name="Footer" bar-label="deluxe room" bar-price="₦35,000 / night" bar-cta="Request this room" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { m: window.innerWidth < 760 };
+  componentDidMount() { this.onR = () => this.setState({ m: window.innerWidth < 760 }); window.addEventListener('resize', this.onR); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const P = (id) => `https://images.unsplash.com/photo-${id}?w=1200&q=70&auto=format&fit=crop`;
+    const photos = [['1631049307264-da0ec9d70304', 'the bed'], ['1540518614846-7eded433c457', 'bed and seating'], ['1552321554-5fefe8c9ef14', 'the bathroom'], ['1505693416388-ac5ce068fe85', 'bedside'], ['1566665797739-1674de7a421a', 'from the doorway']]
+      .map(([id, a], i) => ({ src: P(id), alt: `Stand-in photo: ${a}`, delay: String(300 + i * 60) }));
+    return { photos, desktop: !this.state.m,
+      amen: ['Queen bed', 'Air conditioning', 'Fast Wi-Fi', 'Smart TV', 'Work desk', 'Hot shower', 'Fridge', 'Kettle', 'Wardrobe', 'Daily cleaning'] };
+  }
+}
+</script>
+</body>
+</html>
