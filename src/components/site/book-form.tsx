@@ -10,7 +10,13 @@ import { whatsappHref } from "@/lib/phone";
 import { fieldErrors, MAX_ROOMS, stepOneSchema, stepTwoSchema } from "@/lib/reservation-schema";
 import { LAST_REQUEST_KEY } from "@/lib/whatsapp-message";
 
-export type BookRoom = { slug: string; name: string; price: number; shortPrice: number | null; capacity: number };
+export type BookRoom = {
+  slug: string;
+  name: string;
+  price: number;
+  shortPrice: number | null;
+  capacity: number;
+};
 export type BookBranch = {
   slug: string;
   name: string;
@@ -19,7 +25,13 @@ export type BookBranch = {
   rooms: BookRoom[];
   offers: { id: string; title: string }[];
 };
-export type BookInitial = { branch: string; room: string; checkIn: string; checkOut: string; offer: string };
+export type BookInitial = {
+  branch: string;
+  room: string;
+  checkIn: string;
+  checkOut: string;
+  offer: string;
+};
 
 function isoLocal(offset: number) {
   const d = new Date();
@@ -60,14 +72,23 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
   });
   const set = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) => {
     setF((p) => ({ ...p, [k]: v }));
-    if (errors[k as string]) setErrors(({ [k as string]: _, ...rest }) => rest);
+    if (errors[k as string])
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[k as string];
+        return next;
+      });
   };
 
   // Default dates come from the guest's clock after hydration.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- initialise from the client clock after hydration
     setToday(isoLocal(0));
-    setF((p) => ({ ...p, checkIn: p.checkIn || isoLocal(0), checkOut: p.checkOut || isoLocal(1) }));
+    setF((p) => ({
+      ...p,
+      checkIn: p.checkIn || isoLocal(0),
+      checkOut: p.checkOut || isoLocal(1),
+    }));
   }, []);
 
   useEffect(() => {
@@ -88,7 +109,12 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
     if (!room) return null;
     if (shortStay) {
       const rate = room.shortPrice ?? 0;
-      return { rate: `${formatNaira(rate)} short stay`, dates: f.checkIn ? dateRange(f.checkIn, null) : "Pick a date", nights: f.arrivalTime ? `from ${f.arrivalTime}` : "–", total: formatNaira(rate * f.rooms) };
+      return {
+        rate: `${formatNaira(rate)} short stay`,
+        dates: f.checkIn ? dateRange(f.checkIn, null) : "Pick a date",
+        nights: f.arrivalTime ? `from ${f.arrivalTime}` : "–",
+        total: formatNaira(rate * f.rooms),
+      };
     }
     const nights = f.checkIn && f.checkOut ? nightsBetween(f.checkIn, f.checkOut) : 0;
     const ok = nights > 0;
@@ -101,13 +127,17 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
   }, [room, shortStay, f.checkIn, f.checkOut, f.arrivalTime, f.rooms]);
 
   if (!branch || !room) {
-    return <p className="text-[17px] text-slate">Online booking will open once the rooms are listed. Call or WhatsApp the front desk to book.</p>;
+    return <p className="text-slate text-[17px]">Online booking will open once the rooms are listed. Call or WhatsApp the front desk to book.</p>;
   }
 
   const maxGuests = Math.min(12, room.capacity * f.rooms);
 
   function payload() {
-    return { ...f, room: room!.slug, stayType: shortStay ? ("short_stay" as const) : ("overnight" as const) };
+    return {
+      ...f,
+      room: room!.slug,
+      stayType: shortStay ? ("short_stay" as const) : ("overnight" as const),
+    };
   }
 
   function next() {
@@ -115,7 +145,10 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
     if (step === 1) {
       const r = stepOneSchema.safeParse(payload());
       if (!r.success) return setErrors(fieldErrors(r.error));
-      if (f.guests > maxGuests) return setErrors({ guests: `That's more than ${plural(f.rooms, "room")} can sleep. Add a room or pick a bigger one.` });
+      if (f.guests > maxGuests)
+        return setErrors({
+          guests: `That's more than ${plural(f.rooms, "room")} can sleep. Add a room or pick a bigger one.`,
+        });
       setErrors({});
       setDir(1);
       setStep(2);
@@ -166,11 +199,14 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
 
   const err = (k: string) =>
     errors[k] ? (
-      <span id={`${k}-error`} role="alert" className="text-[15px] font-medium text-error">
+      <span id={`${k}-error`} role="alert" className="text-error text-[15px] font-medium">
         {errors[k]}
       </span>
     ) : null;
-  const aria = (k: string) => ({ "aria-invalid": !!errors[k] || undefined, "aria-describedby": errors[k] ? `${k}-error` : undefined });
+  const aria = (k: string) => ({
+    "aria-invalid": !!errors[k] || undefined,
+    "aria-describedby": errors[k] ? `${k}-error` : undefined,
+  });
   const border = (k: string) => (errors[k] ? "border-error" : "border-line");
 
   return (
@@ -183,27 +219,31 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
       className="flex flex-col gap-8"
     >
       <div>
-        <span className="mb-3 block text-sm font-semibold text-teal">{step === 1 ? "step 1 of 2 · your stay" : "step 2 of 2 · your details"}</span>
-        <h1 ref={headingRef} tabIndex={-1} className="m-0 font-display text-[clamp(44px,6vw,80px)] font-extrabold leading-[0.92] tracking-[-0.055em] outline-none">
+        <span className="text-teal mb-3 block text-sm font-semibold">{step === 1 ? "step 1 of 2 · your stay" : "step 2 of 2 · your details"}</span>
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="font-display m-0 text-[clamp(44px,6vw,80px)] leading-[0.92] font-extrabold tracking-[-0.055em] outline-none"
+        >
           {step === 1 ? "when are you coming?" : "how do we reach you?"}
         </h1>
         <div className="mt-5 flex gap-1.5" aria-hidden="true">
-          <span className="h-1.5 flex-1 rounded-full bg-ink" />
+          <span className="bg-ink h-1.5 flex-1 rounded-full" />
           <span className={clsx("h-1.5 flex-1 rounded-full", step === 2 ? "bg-ink" : "bg-line")} />
         </div>
       </div>
 
       {formError && (
-        <div role="alert" className="flex flex-col gap-2.5 rounded-card border-[1.5px] border-error bg-error-tint px-[18px] py-4">
-          <span className="text-base font-bold text-error-deep">Your request didn&apos;t send</span>
+        <div role="alert" className="rounded-card border-error bg-error-tint flex flex-col gap-2.5 border-[1.5px] px-[18px] py-4">
+          <span className="text-error-deep text-base font-bold">Your request didn&apos;t send</span>
           <span className="text-[15px] leading-normal">{formError}</span>
           <div className="flex flex-wrap gap-2.5">
-            <button type="submit" className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-sm font-semibold text-white">
+            <button type="submit" className="bg-ink inline-flex h-11 items-center rounded-full px-5 text-sm font-semibold text-white">
               Try again
             </button>
             <a
               href={fallbackWhatsapp}
-              className="inline-flex h-11 items-center rounded-full border-[1.5px] border-ink px-5 text-sm font-semibold text-ink no-underline"
+              className="border-ink text-ink inline-flex h-11 items-center rounded-full border-[1.5px] px-5 text-sm font-semibold no-underline"
             >
               Send on WhatsApp
             </a>
@@ -215,11 +255,22 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
         {step === 1 ? (
           <>
             {branches.length > 1 && (
-              <label className="flex flex-col gap-2">
-                <span className="text-sm font-semibold">Branch</span>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="bk-branch" className="text-sm font-semibold">
+                  Branch
+                </label>
                 <select
+                  id="bk-branch"
                   value={f.branch}
-                  onChange={(e) => setF((p) => ({ ...p, branch: e.target.value, room: "", offer: "", stayType: "overnight" }))}
+                  onChange={(e) =>
+                    setF((p) => ({
+                      ...p,
+                      branch: e.target.value,
+                      room: "",
+                      offer: "",
+                      stayType: "overnight",
+                    }))
+                  }
                   className={clsx(fieldBox, border("branch"))}
                   {...aria("branch")}
                 >
@@ -230,7 +281,7 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                   ))}
                 </select>
                 {err("branch")}
-              </label>
+              </div>
             )}
 
             {branch.allowsShortStay && roomsWithShort.length > 0 && (
@@ -241,8 +292,8 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                     <label
                       key={t}
                       className={clsx(
-                        "flex h-14 cursor-pointer items-center justify-center rounded-full border-[1.5px] text-base font-semibold has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-ink",
-                        f.stayType === t ? "border-ink bg-ink text-white" : "border-line bg-white text-ink",
+                        "has-[:focus-visible]:outline-ink flex h-14 cursor-pointer items-center justify-center rounded-full border-[1.5px] text-base font-semibold has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-3",
+                        f.stayType === t ? "border-ink bg-ink text-white" : "border-line text-ink bg-white",
                       )}
                     >
                       <input
@@ -265,9 +316,12 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
             )}
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5">
-              <label className="flex flex-col gap-2">
-                <span className="text-sm font-semibold">{shortStay ? "Date" : "Check in"}</span>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="bk-checkIn" className="text-sm font-semibold">
+                  {shortStay ? "Date" : "Check in"}
+                </label>
                 <input
+                  id="bk-checkIn"
                   type="date"
                   value={f.checkIn}
                   min={today}
@@ -276,11 +330,14 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                   {...aria("checkIn")}
                 />
                 {err("checkIn")}
-              </label>
+              </div>
               {shortStay ? (
-                <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold">Arriving around</span>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="bk-arrivalTime" className="text-sm font-semibold">
+                    Arriving around
+                  </label>
                   <input
+                    id="bk-arrivalTime"
                     type="time"
                     value={f.arrivalTime}
                     onChange={(e) => set("arrivalTime", e.target.value)}
@@ -288,11 +345,14 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                     {...aria("arrivalTime")}
                   />
                   {err("arrivalTime")}
-                </label>
+                </div>
               ) : (
-                <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold">Check out</span>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="bk-checkOut" className="text-sm font-semibold">
+                    Check out
+                  </label>
                   <input
+                    id="bk-checkOut"
                     type="date"
                     value={f.checkOut}
                     min={f.checkIn || today}
@@ -301,13 +361,21 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                     {...aria("checkOut")}
                   />
                   {err("checkOut")}
-                </label>
+                </div>
               )}
             </div>
 
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold">Room</span>
-              <select value={room.slug} onChange={(e) => set("room", e.target.value)} className={clsx(fieldBox, border("room"))} {...aria("room")}>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="bk-room" className="text-sm font-semibold">
+                Room
+              </label>
+              <select
+                id="bk-room"
+                value={room.slug}
+                onChange={(e) => set("room", e.target.value)}
+                className={clsx(fieldBox, border("room"))}
+                {...aria("room")}
+              >
                 {(shortStay ? roomsWithShort : branch.rooms).map((r) => (
                   <option key={r.slug} value={r.slug}>
                     {r.name} · {formatNaira(shortStay ? (r.shortPrice ?? 0) : r.price)}
@@ -315,37 +383,55 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                 ))}
               </select>
               {err("room")}
-            </label>
+            </div>
 
             <div className="grid grid-cols-2 gap-5">
-              <label className="flex flex-col gap-2">
-                <span className="text-sm font-semibold">Rooms</span>
-                <select value={f.rooms} onChange={(e) => set("rooms", Number(e.target.value))} className={clsx(fieldBox, "border-line")}>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="bk-rooms" className="text-sm font-semibold">
+                  Rooms
+                </label>
+                <select
+                  id="bk-rooms"
+                  value={f.rooms}
+                  onChange={(e) => set("rooms", Number(e.target.value))}
+                  className={clsx(fieldBox, "border-line")}
+                >
                   {Array.from({ length: MAX_ROOMS }, (_, i) => i + 1).map((n) => (
                     <option key={n} value={n}>
                       {plural(n, "room")}
                     </option>
                   ))}
                 </select>
-              </label>
-              <label className="flex flex-col gap-2">
-                <span className="text-sm font-semibold">Guests</span>
-                <select value={f.guests} onChange={(e) => set("guests", Number(e.target.value))} className={clsx(fieldBox, border("guests"))} {...aria("guests")}>
+              </div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="bk-guests" className="text-sm font-semibold">
+                  Guests
+                </label>
+                <select
+                  id="bk-guests"
+                  value={f.guests}
+                  onChange={(e) => set("guests", Number(e.target.value))}
+                  className={clsx(fieldBox, border("guests"))}
+                  {...aria("guests")}
+                >
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
                     <option key={n} value={n}>
                       {plural(n, "adult")}
                     </option>
                   ))}
                 </select>
-              </label>
+              </div>
             </div>
             {err("guests")}
           </>
         ) : (
           <>
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold">Full name</span>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="bk-name" className="text-sm font-semibold">
+                Full name
+              </label>
               <input
+                id="bk-name"
                 type="text"
                 value={f.name}
                 onChange={(e) => set("name", e.target.value)}
@@ -355,10 +441,13 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                 {...aria("name")}
               />
               {err("name")}
-            </label>
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold">Phone number</span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="bk-phone" className="text-sm font-semibold">
+                Phone number
+              </label>
               <input
+                id="bk-phone"
                 type="tel"
                 inputMode="tel"
                 value={f.phone}
@@ -369,7 +458,7 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                 {...aria("phone")}
               />
               {err("phone")}
-            </label>
+            </div>
             <fieldset className="m-0 flex flex-col gap-2 border-0 p-0">
               <legend className="mb-2 p-0 text-sm font-semibold">How should we reach you?</legend>
               <div className="grid grid-cols-2 gap-2">
@@ -377,21 +466,29 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                   <label
                     key={m}
                     className={clsx(
-                      "flex h-14 cursor-pointer items-center justify-center rounded-full border-[1.5px] text-base font-semibold has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-ink",
-                      f.contactMethod === m ? "border-ink bg-ink text-white" : "border-line bg-white text-ink",
+                      "has-[:focus-visible]:outline-ink flex h-14 cursor-pointer items-center justify-center rounded-full border-[1.5px] text-base font-semibold has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-3",
+                      f.contactMethod === m ? "border-ink bg-ink text-white" : "border-line text-ink bg-white",
                     )}
                   >
-                    <input type="radio" name="contactMethod" value={m} checked={f.contactMethod === m} onChange={() => set("contactMethod", m)} className="sr-only" />
+                    <input
+                      type="radio"
+                      name="contactMethod"
+                      value={m}
+                      checked={f.contactMethod === m}
+                      onChange={() => set("contactMethod", m)}
+                      className="sr-only"
+                    />
                     {m === "whatsapp" ? "WhatsApp" : "Phone call"}
                   </label>
                 ))}
               </div>
             </fieldset>
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold">
-                Email <span className="font-normal text-slate">Optional</span>
-              </span>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="bk-email" className="text-sm font-semibold">
+                Email <span className="text-slate font-normal">Optional</span>
+              </label>
               <input
+                id="bk-email"
                 type="email"
                 value={f.email}
                 onChange={(e) => set("email", e.target.value)}
@@ -400,30 +497,34 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
                 {...aria("email")}
               />
               {err("email")}
-            </label>
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold">
-                Anything we should know? <span className="font-normal text-slate">Optional</span>
-              </span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="bk-requests" className="text-sm font-semibold">
+                Anything we should know? <span className="text-slate font-normal">Optional</span>
+              </label>
               <textarea
+                id="bk-requests"
                 value={f.requests}
                 onChange={(e) => set("requests", e.target.value)}
                 rows={3}
                 maxLength={500}
                 placeholder="Late arrival, birthday, extra pillow"
-                className={clsx("w-full resize-y rounded-card border-[1.5px] bg-white px-4 py-3.5 text-base font-medium text-ink outline-none focus:border-ink", border("requests"))}
+                className={clsx(
+                  "rounded-card text-ink focus:border-ink w-full resize-y border-[1.5px] bg-white px-4 py-3.5 text-base font-medium outline-none",
+                  border("requests"),
+                )}
                 {...aria("requests")}
               />
               {err("requests")}
-            </label>
+            </div>
             {/* Honeypot: hidden from people, filled by bots. */}
-            <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden">
+            <div aria-hidden="true" className="absolute top-auto left-[-9999px] h-px w-px overflow-hidden">
               <label>
                 Website
                 <input type="text" tabIndex={-1} autoComplete="off" value={f.website} onChange={(e) => set("website", e.target.value)} />
               </label>
             </div>
-            <p className="m-0 text-sm leading-normal text-slate">
+            <p className="text-slate m-0 text-sm leading-normal">
               We only use your name and number to confirm this reservation. <a href="/privacy">Privacy</a>
             </p>
           </>
@@ -431,8 +532,8 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
       </div>
 
       {summary && (
-        <div className="flex flex-col gap-3 rounded-frame bg-aqua-tint p-6" aria-live="polite">
-          <span className="text-sm font-semibold text-teal">your stay</span>
+        <div className="rounded-frame bg-aqua-tint flex flex-col gap-3 p-6" aria-live="polite">
+          <span className="text-teal text-sm font-semibold">your stay</span>
           <div className="flex justify-between gap-4 text-base">
             <span>
               {room.name}
@@ -449,17 +550,22 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
               <span>
                 Offer: <span className="font-semibold">{offer.title}</span>
               </span>
-              <button type="button" onClick={() => set("offer", "")} className="border-0 bg-transparent p-0 text-sm font-semibold text-teal underline">
+              <button
+                type="button"
+                onClick={() => set("offer", "")}
+                className="text-teal border-0 bg-transparent p-0 text-sm font-semibold underline"
+              >
                 Remove
               </button>
             </div>
           )}
-          <div className="flex items-baseline justify-between gap-4 border-t border-line pt-3">
+          <div className="border-line flex items-baseline justify-between gap-4 border-t pt-3">
             <span className="text-base">Estimated total</span>
             <span className="font-display text-[28px] font-extrabold tracking-[-0.03em]">{summary.total}</span>
           </div>
-          <span className="text-sm leading-normal text-slate">
-            Nothing to pay now. The hotel confirms by phone or WhatsApp, and you pay at check in.{offer ? " Any offer discount is taken off when you pay." : ""}
+          <span className="text-slate text-sm leading-normal">
+            Nothing to pay now. The hotel confirms by phone or WhatsApp, and you pay at check in.
+            {offer ? " Any offer discount is taken off when you pay." : ""}
           </span>
         </div>
       )}
@@ -473,7 +579,7 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
               setStep(1);
               setFormError("");
             }}
-            className="h-14 rounded-full border-[1.5px] border-ink bg-white px-7 text-base font-semibold text-ink"
+            className="border-ink text-ink h-14 rounded-full border-[1.5px] bg-white px-7 text-base font-semibold"
           >
             Back
           </button>
@@ -481,7 +587,7 @@ export function BookForm({ branches, initial }: { branches: BookBranch[]; initia
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex h-14 min-w-[200px] flex-1 items-center justify-center gap-2.5 rounded-full border-0 bg-ink px-7 text-base font-semibold text-white transition-colors duration-[180ms] hover:bg-teal disabled:hover:bg-ink"
+          className="bg-ink hover:bg-teal disabled:hover:bg-ink inline-flex h-14 min-w-[200px] flex-1 items-center justify-center gap-2.5 rounded-full border-0 px-7 text-base font-semibold text-white transition-colors duration-[180ms]"
         >
           {pending && <Spinner />}
           {step === 1 ? "Continue" : pending ? "Sending…" : "Send request"}

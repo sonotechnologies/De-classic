@@ -1,14 +1,6 @@
 import type { ReservationStatus, Role } from "@/db/schema";
 
-export const STATUSES: ReservationStatus[] = [
-  "new",
-  "confirmed",
-  "declined",
-  "checked_in",
-  "completed",
-  "cancelled",
-  "no_show",
-];
+export const STATUSES: ReservationStatus[] = ["new", "confirmed", "declined", "checked_in", "completed", "cancelled", "no_show"];
 
 export const STATUS_LABEL: Record<ReservationStatus, string> = {
   new: "New",

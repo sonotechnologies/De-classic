@@ -16,7 +16,12 @@ import { whatsappText, type RequestSummary } from "@/lib/whatsapp-message";
 
 export type SubmitResult =
   | { ok: true; summary: RequestSummary }
-  | { ok: false; fieldErrors?: Record<string, string>; formError?: string; step?: 1 | 2 };
+  | {
+      ok: false;
+      fieldErrors?: Record<string, string>;
+      formError?: string;
+      step?: 1 | 2;
+    };
 
 const PER_PHONE_PER_HOUR = 3;
 const PER_IP_PER_HOUR = 8;
@@ -24,33 +29,57 @@ const PER_IP_PER_HOUR = 8;
 export async function submitReservation(input: ReservationInput): Promise<SubmitResult> {
   const settings = await getSettings();
   if (settings.requestsPaused) {
-    return { ok: false, formError: "Online requests are paused right now. Please call or WhatsApp the front desk to book." };
+    return {
+      ok: false,
+      formError: "Online requests are paused right now. Please call or WhatsApp the front desk to book.",
+    };
   }
 
   const parsed = reservationSchema.safeParse(input);
   if (!parsed.success) {
     const errors = fieldErrors(parsed.error);
     const stepTwo = ["name", "phone", "email", "contactMethod", "requests"];
-    return { ok: false, fieldErrors: errors, step: Object.keys(errors).every((k) => stepTwo.includes(k)) ? 2 : 1 };
+    return {
+      ok: false,
+      fieldErrors: errors,
+      step: Object.keys(errors).every((k) => stepTwo.includes(k)) ? 2 : 1,
+    };
   }
   const v = parsed.data;
 
-  const branch = await db.query.branches.findFirst({ where: and(eq(branches.slug, v.branch), eq(branches.isPublished, true)) });
+  const branch = await db.query.branches.findFirst({
+    where: and(eq(branches.slug, v.branch), eq(branches.isPublished, true)),
+  });
   if (!branch) return { ok: false, fieldErrors: { branch: "Pick a branch." }, step: 1 };
 
   const room = await db.query.roomTypes.findFirst({
     where: and(eq(roomTypes.branchId, branch.id), eq(roomTypes.slug, v.room), eq(roomTypes.isVisible, true)),
   });
-  if (!room) return { ok: false, fieldErrors: { room: "That room isn't available to book online. Pick another." }, step: 1 };
+  if (!room)
+    return {
+      ok: false,
+      fieldErrors: {
+        room: "That room isn't available to book online. Pick another.",
+      },
+      step: 1,
+    };
 
   const shortStay = v.stayType === "short_stay";
   if (shortStay && (!branch.allowsShortStay || room.shortStayPrice == null)) {
-    return { ok: false, fieldErrors: { stayType: "Short stays aren't offered for this room. Choose overnight." }, step: 1 };
+    return {
+      ok: false,
+      fieldErrors: {
+        stayType: "Short stays aren't offered for this room. Choose overnight.",
+      },
+      step: 1,
+    };
   }
   if (v.guests > room.capacity * v.rooms) {
     return {
       ok: false,
-      fieldErrors: { guests: `That's more than ${plural(v.rooms, "room")} can sleep. Add a room or pick a bigger one.` },
+      fieldErrors: {
+        guests: `That's more than ${plural(v.rooms, "room")} can sleep. Add a room or pick a bigger one.`,
+      },
       step: 1,
     };
   }
@@ -74,15 +103,31 @@ export async function submitReservation(input: ReservationInput): Promise<Submit
 
   // Honeypot: bots fill the hidden field. Pretend it worked and store nothing.
   if (input.website) {
-    return { ok: true, summary: buildSummary({ reference: makeReference(), v, room, branchName: branch.name, whatsapp: branch.whatsapp, offerTitle: null }) };
+    return {
+      ok: true,
+      summary: buildSummary({
+        reference: makeReference(),
+        v,
+        room,
+        branchName: branch.name,
+        whatsapp: branch.whatsapp,
+        offerTitle: null,
+      }),
+    };
   }
 
   const ipHash = await hashedIp();
   const hourAgo = new Date(Date.now() - 60 * 60 * 1000);
   const [[byPhone], [byIp]] = await Promise.all([
-    db.select({ n: count() }).from(reservations).where(and(eq(reservations.phone, v.phone), gte(reservations.createdAt, hourAgo))),
+    db
+      .select({ n: count() })
+      .from(reservations)
+      .where(and(eq(reservations.phone, v.phone), gte(reservations.createdAt, hourAgo))),
     ipHash
-      ? db.select({ n: count() }).from(reservations).where(and(eq(reservations.ipHash, ipHash), gte(reservations.createdAt, hourAgo)))
+      ? db
+          .select({ n: count() })
+          .from(reservations)
+          .where(and(eq(reservations.ipHash, ipHash), gte(reservations.createdAt, hourAgo)))
       : Promise.resolve([{ n: 0 }]),
   ]);
   if (byPhone.n >= PER_PHONE_PER_HOUR || byIp.n >= PER_IP_PER_HOUR) {
@@ -121,21 +166,42 @@ export async function submitReservation(input: ReservationInput): Promise<Submit
             requests: v.requests || null,
             ipHash,
           })
-          .returning({ id: reservations.id, reference: reservations.reference });
-        await tx.insert(reservationEvents).values({ reservationId: row.id, toStatus: "new", note: "Request received from the website" });
+          .returning({
+            id: reservations.id,
+            reference: reservations.reference,
+          });
+        await tx.insert(reservationEvents).values({
+          reservationId: row.id,
+          toStatus: "new",
+          note: "Request received from the website",
+        });
         return row;
       });
     } catch (e) {
       // Unique clash on the reference: try another code. Anything else is a real failure.
       if (!isUniqueViolation(e)) {
         console.error("[book] insert failed", e);
-        return { ok: false, formError: "Your request didn't send. Your details are still here. Try again, or send them to us on WhatsApp." };
+        return {
+          ok: false,
+          formError: "Your request didn't send. Your details are still here. Try again, or send them to us on WhatsApp.",
+        };
       }
     }
   }
-  if (!created) return { ok: false, formError: "Your request didn't send. Please try again in a moment." };
+  if (!created)
+    return {
+      ok: false,
+      formError: "Your request didn't send. Please try again in a moment.",
+    };
 
-  const summary = buildSummary({ reference: created.reference, v, room, branchName: branch.name, whatsapp: branch.whatsapp, offerTitle: offer?.title ?? null });
+  const summary = buildSummary({
+    reference: created.reference,
+    v,
+    room,
+    branchName: branch.name,
+    whatsapp: branch.whatsapp,
+    offerTitle: offer?.title ?? null,
+  });
 
   // Email the hotel after the response is sent, so the guest never waits on it.
   const reservationId = created.id;
@@ -171,7 +237,17 @@ export async function submitReservation(input: ReservationInput): Promise<Submit
 
 function buildSummary(args: {
   reference: string;
-  v: { name: string; phone: string; stayType: "overnight" | "short_stay"; checkIn: string; checkOut: string; arrivalTime: string; rooms: number; guests: number; contactMethod: "call" | "whatsapp" };
+  v: {
+    name: string;
+    phone: string;
+    stayType: "overnight" | "short_stay";
+    checkIn: string;
+    checkOut: string;
+    arrivalTime: string;
+    rooms: number;
+    guests: number;
+    contactMethod: "call" | "whatsapp";
+  };
   room: { name: string; pricePerNight: number; shortStayPrice: number | null };
   branchName: string;
   whatsapp: string;

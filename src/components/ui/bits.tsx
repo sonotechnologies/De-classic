@@ -32,11 +32,17 @@ export function Sticker({
     <div
       data-sticker=""
       aria-hidden="true"
-      className={clsx("sticker flex flex-col items-center justify-center rounded-full bg-ink text-white", className)}
-      style={{ width: size, height: size, ["--tilt" as string]: `${tilt}deg`, ["--tilt-hover" as string]: `${tilt < 0 ? -tiltHover : tiltHover}deg`, ...style }}
+      className={clsx("sticker bg-ink flex flex-col items-center justify-center rounded-full text-white", className)}
+      style={{
+        width: size,
+        height: size,
+        ["--tilt" as string]: `${tilt}deg`,
+        ["--tilt-hover" as string]: `${tilt < 0 ? -tiltHover : tiltHover}deg`,
+        ...style,
+      }}
     >
       {top && <span className="text-[11px] font-semibold">{top}</span>}
-      <span className={clsx("font-display font-extrabold leading-none tracking-[-0.04em]", big ? "text-[26px]" : "text-[22px]")}>{main}</span>
+      <span className={clsx("font-display leading-none font-extrabold tracking-[-0.04em]", big ? "text-[26px]" : "text-[22px]")}>{main}</span>
       {bottom && <span className={clsx("font-semibold", big ? "text-[11px]" : "text-[10px]")}>{bottom}</span>}
     </div>
   );
@@ -67,7 +73,7 @@ export function Frame({
       {src ? (
         <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
       ) : (
-        <span className="absolute inset-0 flex items-center justify-center p-4 text-center text-[13px] text-slate">Photo coming soon</span>
+        <span className="text-slate absolute inset-0 flex items-center justify-center p-4 text-center text-[13px]">Photo coming soon</span>
       )}
     </div>
   );
@@ -79,15 +85,15 @@ export function BuildingDrawing({ className }: { className?: string }) {
     <div
       role="img"
       aria-label="Drawing of the aqua and white hotel building"
-      className={clsx("relative flex items-end justify-center overflow-hidden rounded-frame bg-aqua px-[12%]", className)}
+      className={clsx("rounded-frame bg-aqua relative flex items-end justify-center overflow-hidden px-[12%]", className)}
       style={{ aspectRatio: "3/2" }}
     >
       <div className="absolute inset-x-0 bottom-0 h-[22%] bg-white" />
-      <div className="relative grid h-[70%] w-[62%] grid-cols-4 grid-rows-3 gap-[10%] rounded-t-[6px] border-[3px] border-b-0 border-ink bg-white px-[8%] pt-[8%]">
+      <div className="border-ink relative grid h-[70%] w-[62%] grid-cols-4 grid-rows-3 gap-[10%] rounded-t-[6px] border-[3px] border-b-0 bg-white px-[8%] pt-[8%]">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="rounded-[6px] border-2 border-ink bg-aqua" />
+          <div key={i} className="border-ink bg-aqua rounded-[6px] border-2" />
         ))}
-        <div className="col-span-2 col-start-2 rounded-t-[6px] bg-ink" />
+        <div className="bg-ink col-span-2 col-start-2 rounded-t-[6px]" />
       </div>
     </div>
   );
@@ -95,9 +101,7 @@ export function BuildingDrawing({ className }: { className?: string }) {
 
 /** Yellow "Sample" tag for placeholder content in the admin. */
 export function SampleTag({ className }: { className?: string }) {
-  return (
-    <span className={clsx("inline-block rounded-[6px] bg-sample px-1.5 py-px text-xs font-semibold text-sample-ink", className)}>Sample</span>
-  );
+  return <span className={clsx("bg-sample text-sample-ink inline-block rounded-[6px] px-1.5 py-px text-xs font-semibold", className)}>Sample</span>;
 }
 
 /** Flat aqua-tint loading block; opacity pulses 0.6 → 1 every 1.2s, no shimmer. */

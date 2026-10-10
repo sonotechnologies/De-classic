@@ -30,7 +30,11 @@ export function buttonClass(variant: Variant = "primary", size: Size = "md", cla
   return clsx(base, variants[variant], sizes[size], className);
 }
 
-type ButtonProps = ComponentProps<"button"> & { variant?: Variant; size?: Size; pending?: boolean };
+type ButtonProps = ComponentProps<"button"> & {
+  variant?: Variant;
+  size?: Size;
+  pending?: boolean;
+};
 
 export function Button({ variant = "primary", size = "md", pending, className, children, disabled, ...rest }: ButtonProps) {
   return (
@@ -41,7 +45,10 @@ export function Button({ variant = "primary", size = "md", pending, className, c
   );
 }
 
-type LinkProps = ComponentProps<typeof Link> & { variant?: Variant; size?: Size };
+type LinkProps = ComponentProps<typeof Link> & {
+  variant?: Variant;
+  size?: Size;
+};
 
 export function ButtonLink({ variant = "primary", size = "md", className, ...rest }: LinkProps) {
   return <Link className={buttonClass(variant, size, className)} {...rest} />;
@@ -56,7 +63,7 @@ export function Spinner({ className }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={clsx("inline-block size-4 animate-spin rounded-full border-2 border-slate border-t-white motion-reduce:animate-none", className)}
+      className={clsx("border-slate inline-block size-4 animate-spin rounded-full border-2 border-t-white motion-reduce:animate-none", className)}
     />
   );
 }
@@ -66,7 +73,7 @@ export function ArrowLink({ children, className, ...rest }: ComponentProps<typeo
   return (
     <Link
       className={clsx(
-        "inline-flex items-center gap-2 font-semibold text-teal no-underline transition-[gap] duration-[180ms] ease-out hover:gap-3 hover:text-teal",
+        "text-teal hover:text-teal inline-flex items-center gap-2 font-semibold no-underline transition-[gap] duration-[180ms] ease-out hover:gap-3",
         className,
       )}
       {...rest}

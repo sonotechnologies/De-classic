@@ -35,18 +35,39 @@ export const stepOneSchema = z
   .superRefine((v, ctx) => {
     const today = todayInLagos();
     if (!isIsoDate(v.checkIn)) {
-      ctx.addIssue({ code: "custom", path: ["checkIn"], message: MSG.checkInMissing });
+      ctx.addIssue({
+        code: "custom",
+        path: ["checkIn"],
+        message: MSG.checkInMissing,
+      });
       return;
     }
-    if (v.checkIn < today) ctx.addIssue({ code: "custom", path: ["checkIn"], message: MSG.checkInPast });
+    if (v.checkIn < today)
+      ctx.addIssue({
+        code: "custom",
+        path: ["checkIn"],
+        message: MSG.checkInPast,
+      });
     if (v.stayType === "overnight") {
       if (!isIsoDate(v.checkOut) || v.checkOut <= v.checkIn) {
-        ctx.addIssue({ code: "custom", path: ["checkOut"], message: MSG.checkOutOrder });
+        ctx.addIssue({
+          code: "custom",
+          path: ["checkOut"],
+          message: MSG.checkOutOrder,
+        });
       } else if (nightsBetween(v.checkIn, v.checkOut) > MAX_NIGHTS) {
-        ctx.addIssue({ code: "custom", path: ["checkOut"], message: MSG.tooLong });
+        ctx.addIssue({
+          code: "custom",
+          path: ["checkOut"],
+          message: MSG.tooLong,
+        });
       }
     } else if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(v.arrivalTime)) {
-      ctx.addIssue({ code: "custom", path: ["arrivalTime"], message: MSG.arrival });
+      ctx.addIssue({
+        code: "custom",
+        path: ["arrivalTime"],
+        message: MSG.arrival,
+      });
     }
   });
 

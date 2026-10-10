@@ -56,19 +56,24 @@ export default async function RoomDetailPage({ params }: PageProps<"/b/[branch]/
     <SiteShell
       branchSlug={branch.slug}
       sample={branch.isSample || room.isSample}
-      sticky={{ label: name, price: `${formatNaira(room.pricePerNight)} / night`, href: requestHref, cta: "Request this room" }}
+      sticky={{
+        label: name,
+        price: `${formatNaira(room.pricePerNight)} / night`,
+        href: requestHref,
+        cta: "Request this room",
+      }}
     >
       <main>
-        <section data-anim="wipe" className="bg-aqua pb-[clamp(120px,14vw,200px)] pt-[clamp(28px,4vw,56px)]">
+        <section data-anim="wipe" className="bg-aqua pt-[clamp(28px,4vw,56px)] pb-[clamp(120px,14vw,200px)]">
           <div className="wrap">
-            <Link href="/rooms" className="inline-flex gap-2 text-[15px] font-semibold text-teal no-underline">
+            <Link href="/rooms" className="text-teal inline-flex gap-2 text-[15px] font-semibold no-underline">
               ← All rooms
             </Link>
             <div className="mt-5 flex flex-wrap items-end justify-between gap-x-12 gap-y-4">
               <h1
                 data-anim="rise"
                 style={{ ["--d" as string]: "200ms" }}
-                className="m-0 font-display text-[clamp(52px,9vw,128px)] font-extrabold leading-[0.9] tracking-[-0.06em]"
+                className="font-display m-0 text-[clamp(52px,9vw,128px)] leading-[0.9] font-extrabold tracking-[-0.06em]"
               >
                 {name}
               </h1>
@@ -101,16 +106,17 @@ export default async function RoomDetailPage({ params }: PageProps<"/b/[branch]/
             </ul>
           </div>
           {room.images.length > 1 && (
-            <div className="wrap mt-3 text-[13px] text-slate">
-              Swipe for more · {room.images.length} photos{room.isSample ? ", stand-ins" : ""}
+            <div className="wrap text-slate mt-3 text-[13px]">
+              Swipe for more · {room.images.length} photos
+              {room.isSample ? ", stand-ins" : ""}
             </div>
           )}
         </section>
 
-        <section className="wrap flex flex-wrap gap-x-[clamp(40px,7vw,120px)] gap-y-12 pb-[clamp(72px,9vw,120px)] pt-[clamp(48px,6vw,88px)]">
+        <section className="wrap flex flex-wrap gap-x-[clamp(40px,7vw,120px)] gap-y-12 pt-[clamp(48px,6vw,88px)] pb-[clamp(72px,9vw,120px)]">
           <div className="flex flex-[1_1_340px] flex-col gap-5">
-            {room.tagline && <h2 className="m-0 font-headline text-[clamp(34px,4vw,56px)]">{room.tagline}</h2>}
-            <p className="m-0 max-w-[480px] text-pretty text-[17px] leading-[1.6]">{room.description}</p>
+            {room.tagline && <h2 className="font-headline m-0 text-[clamp(34px,4vw,56px)]">{room.tagline}</h2>}
+            <p className="m-0 max-w-[480px] text-[17px] leading-[1.6] text-pretty">{room.description}</p>
             <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2.5 text-base">
               <dt className="text-slate">Check in</dt>
               <dd className="m-0 font-semibold">From {friendlyTime(branch.checkInTime)}</dd>
@@ -130,10 +136,10 @@ export default async function RoomDetailPage({ params }: PageProps<"/b/[branch]/
           </div>
           {room.amenities.length > 0 && (
             <div className="flex-[1_1_340px]">
-              <span className="text-sm font-semibold text-teal">in the room</span>
+              <span className="text-teal text-sm font-semibold">in the room</span>
               <ul className="m-0 mt-4 grid list-none grid-cols-2 gap-x-6 p-0">
                 {room.amenities.map((a) => (
-                  <li key={a} className="border-b border-line py-3.5 text-base">
+                  <li key={a} className="border-line border-b py-3.5 text-base">
                     {a}
                   </li>
                 ))}
@@ -143,10 +149,10 @@ export default async function RoomDetailPage({ params }: PageProps<"/b/[branch]/
         </section>
 
         <div className="sticky bottom-5 z-[80] mx-auto mb-10 hidden max-w-[1240px] px-10 md:block">
-          <div className="flex items-center justify-between gap-6 rounded-full border-[1.5px] border-ink bg-white py-2.5 pl-8 pr-2.5">
+          <div className="border-ink flex items-center justify-between gap-6 rounded-full border-[1.5px] bg-white py-2.5 pr-2.5 pl-8">
             <span className="flex items-baseline gap-3">
               <span className="font-display text-[22px] font-bold tracking-[-0.03em]">{name}</span>
-              <span className="text-[15px] text-slate">{formatNaira(room.pricePerNight)} per night</span>
+              <span className="text-slate text-[15px]">{formatNaira(room.pricePerNight)} per night</span>
             </span>
             <ButtonLink href={requestHref} size="lg" className="px-7">
               Request this room

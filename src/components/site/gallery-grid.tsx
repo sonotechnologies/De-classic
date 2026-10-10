@@ -5,7 +5,14 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BuildingDrawing } from "@/components/ui/bits";
 
-export type GalleryPhoto = { id: string; url: string; alt: string; tag: "rooms" | "bar" | "exterior"; width: number; height: number };
+export type GalleryPhoto = {
+  id: string;
+  url: string;
+  alt: string;
+  tag: "rooms" | "bar" | "exterior";
+  width: number;
+  height: number;
+};
 
 const FILTERS = ["all", "rooms", "bar", "exterior"] as const;
 type Filter = (typeof FILTERS)[number];
@@ -51,62 +58,62 @@ export function GalleryGrid({ photos, heading }: { photos: GalleryPhoto[]; headi
     <>
       <section className="wrap flex flex-wrap items-end justify-between gap-6 pt-[clamp(40px,6vw,80px)]">
         {heading}
-      <div role="group" aria-label="Filter photos" className="flex flex-wrap gap-2">
-        {FILTERS.map((f) => (
-          <button
-            key={f}
-            type="button"
-            aria-pressed={filter === f}
-            onClick={() => {
-              setFilter(f);
-              setViewing(-1);
-            }}
-            className={clsx(
-              "h-11 rounded-full border-[1.5px] border-ink px-5 text-[15px] font-semibold",
-              filter === f ? "bg-ink text-white" : "bg-white text-ink",
-            )}
-          >
-            {f}
-          </button>
-        ))}
-      </div>
+        <div role="group" aria-label="Filter photos" className="flex flex-wrap gap-2">
+          {FILTERS.map((f) => (
+            <button
+              key={f}
+              type="button"
+              aria-pressed={filter === f}
+              onClick={() => {
+                setFilter(f);
+                setViewing(-1);
+              }}
+              className={clsx(
+                "border-ink h-11 rounded-full border-[1.5px] px-5 text-[15px] font-semibold",
+                filter === f ? "bg-ink text-white" : "text-ink bg-white",
+              )}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
       </section>
 
-      <section className="wrap pb-[clamp(72px,9vw,128px)] pt-10">
-      <div className="[column-gap:16px] [columns:3_280px]">
-        {list.map((p, i) => (
-          <button
-            key={p.id}
-            type="button"
-            onClick={(e) => {
-              lastTrigger.current = e.currentTarget;
-              setViewing(i);
-            }}
-            aria-label={`Open photo: ${p.alt}`}
-            className="mb-4 block w-full cursor-zoom-in overflow-hidden rounded-frame border-0 bg-aqua-tint p-0 [break-inside:avoid]"
-          >
-            <Image
-              src={p.url}
-              alt={p.alt}
-              width={p.width}
-              height={p.height}
-              sizes="(min-width: 1240px) 400px, (min-width: 760px) 33vw, 100vw"
-              className="block h-auto w-full"
-            />
-          </button>
-        ))}
-        {showDrawing && (
-          <>
-            <div className="mb-4 [break-inside:avoid]">
-              <BuildingDrawing />
-            </div>
-            <p className="mb-4 mt-0 text-[15px] leading-[1.6] text-slate [break-inside:avoid]">
-              Exterior photos come once the building is shot in daylight. This is a drawing of it until then.
-            </p>
-          </>
-        )}
-        {list.length === 0 && !showDrawing && <p className="m-0 text-[17px] text-slate">No photos here yet.</p>}
-      </div>
+      <section className="wrap pt-10 pb-[clamp(72px,9vw,128px)]">
+        <div className="[columns:3_280px] [column-gap:16px]">
+          {list.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              onClick={(e) => {
+                lastTrigger.current = e.currentTarget;
+                setViewing(i);
+              }}
+              aria-label={`Open photo: ${p.alt}`}
+              className="rounded-frame bg-aqua-tint mb-4 block w-full cursor-zoom-in [break-inside:avoid] overflow-hidden border-0 p-0"
+            >
+              <Image
+                src={p.url}
+                alt={p.alt}
+                width={p.width}
+                height={p.height}
+                sizes="(min-width: 1240px) 400px, (min-width: 760px) 33vw, 100vw"
+                className="block h-auto w-full"
+              />
+            </button>
+          ))}
+          {showDrawing && (
+            <>
+              <div className="mb-4 [break-inside:avoid]">
+                <BuildingDrawing />
+              </div>
+              <p className="text-slate mt-0 mb-4 [break-inside:avoid] text-[15px] leading-[1.6]">
+                Exterior photos come once the building is shot in daylight. This is a drawing of it until then.
+              </p>
+            </>
+          )}
+          {list.length === 0 && !showDrawing && <p className="text-slate m-0 text-[17px]">No photos here yet.</p>}
+        </div>
       </section>
 
       {current && (
@@ -124,7 +131,7 @@ export function GalleryGrid({ photos, heading }: { photos: GalleryPhoto[]; headi
           }}
         >
           <div className="flex h-[72px] items-center justify-between px-[clamp(20px,4vw,40px)]">
-            <span className="text-sm font-semibold text-teal" aria-live="polite">
+            <span className="text-teal text-sm font-semibold" aria-live="polite">
               {viewing + 1} of {list.length}
             </span>
             <button
@@ -132,7 +139,7 @@ export function GalleryGrid({ photos, heading }: { photos: GalleryPhoto[]; headi
               type="button"
               onClick={close}
               aria-label="Close viewer"
-              className="size-11 rounded-full border-[1.5px] border-ink bg-white text-[22px] text-ink"
+              className="border-ink text-ink size-11 rounded-full border-[1.5px] bg-white text-[22px]"
             >
               ×
             </button>
@@ -147,11 +154,16 @@ export function GalleryGrid({ photos, heading }: { photos: GalleryPhoto[]; headi
               type="button"
               onClick={() => step(-1)}
               aria-label="Previous photo"
-              className="h-12 rounded-full border-[1.5px] border-ink bg-white px-6 text-[15px] font-semibold text-ink"
+              className="border-ink text-ink h-12 rounded-full border-[1.5px] bg-white px-6 text-[15px] font-semibold"
             >
               ← Previous
             </button>
-            <button type="button" onClick={() => step(1)} aria-label="Next photo" className="h-12 rounded-full border-0 bg-ink px-6 text-[15px] font-semibold text-white">
+            <button
+              type="button"
+              onClick={() => step(1)}
+              aria-label="Next photo"
+              className="bg-ink h-12 rounded-full border-0 px-6 text-[15px] font-semibold text-white"
+            >
               Next →
             </button>
           </div>

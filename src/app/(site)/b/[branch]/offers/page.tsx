@@ -24,14 +24,14 @@ export default async function OffersPage({ params }: PageProps<"/b/[branch]/offe
   return (
     <SiteShell branchSlug={branch.slug} sample={branch.isSample || hasSample(offers)}>
       <main>
-        <section className="wrap pb-[clamp(32px,4vw,48px)] pt-[clamp(40px,6vw,80px)]">
-          <span data-anim="rise" style={{ ["--d" as string]: "100ms" }} className="mb-4 block text-sm font-semibold text-teal">
+        <section className="wrap pt-[clamp(40px,6vw,80px)] pb-[clamp(32px,4vw,48px)]">
+          <span data-anim="rise" style={{ ["--d" as string]: "100ms" }} className="text-teal mb-4 block text-sm font-semibold">
             offers
           </span>
           <h1
             data-anim="rise"
             style={{ ["--d" as string]: "160ms" }}
-            className="m-0 font-display text-[clamp(48px,8vw,116px)] font-extrabold leading-[0.9] tracking-[-0.055em]"
+            className="font-display m-0 text-[clamp(48px,8vw,116px)] leading-[0.9] font-extrabold tracking-[-0.055em]"
           >
             deals, while
             <br />
@@ -45,16 +45,16 @@ export default async function OffersPage({ params }: PageProps<"/b/[branch]/offe
               <article
                 key={o.id}
                 data-reveal=""
-                className="flex flex-wrap items-end gap-x-[clamp(32px,6vw,96px)] gap-y-6 rounded-frame bg-aqua p-[clamp(28px,4vw,56px)]"
+                className="rounded-frame bg-aqua flex flex-wrap items-end gap-x-[clamp(32px,6vw,96px)] gap-y-6 p-[clamp(28px,4vw,56px)]"
               >
                 <div className="flex flex-[1.4_1_320px] flex-col items-start gap-5">
                   <span className="rounded-full bg-white px-3.5 py-1.5 text-[13px] font-semibold">{offerTag(o)}</span>
-                  <h2 className="m-0 font-display text-[clamp(36px,5vw,72px)] font-extrabold leading-[0.92] tracking-[-0.055em]">{o.title}</h2>
+                  <h2 className="font-display m-0 text-[clamp(36px,5vw,72px)] leading-[0.92] font-extrabold tracking-[-0.055em]">{o.title}</h2>
                 </div>
                 <div className="flex flex-[1_1_280px] flex-col items-start gap-5">
                   <p className="m-0 text-[17px] leading-[1.6]">{o.description}</p>
                   {(o.terms || o.endsOn) && (
-                    <p className="m-0 text-sm leading-normal text-teal">
+                    <p className="text-teal m-0 text-sm leading-normal">
                       {o.endsOn ? `Book by ${longDate(o.endsOn)}. ` : ""}
                       {o.terms}
                     </p>
@@ -68,8 +68,8 @@ export default async function OffersPage({ params }: PageProps<"/b/[branch]/offe
           </section>
         ) : (
           <section className="wrap pb-[clamp(72px,9vw,128px)]">
-            <div className="flex flex-col items-start gap-5 rounded-frame bg-aqua p-[clamp(32px,5vw,72px)]">
-              <h2 className="m-0 font-display text-[clamp(36px,5vw,72px)] font-extrabold leading-[0.92] tracking-[-0.055em]">no deals right now</h2>
+            <div className="rounded-frame bg-aqua flex flex-col items-start gap-5 p-[clamp(32px,5vw,72px)]">
+              <h2 className="font-display m-0 text-[clamp(36px,5vw,72px)] leading-[0.92] font-extrabold tracking-[-0.055em]">no deals right now</h2>
               <p className="m-0 max-w-[440px] text-[17px] leading-[1.6]">
                 New offers usually go up at the start of the month. The rooms are still good value in the meantime.
               </p>

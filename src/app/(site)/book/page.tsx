@@ -29,7 +29,13 @@ export default async function BookPage({ searchParams }: PageProps<"/book">) {
         name: b.name,
         allowsShortStay: b.allowsShortStay,
         whatsapp: b.whatsapp,
-        rooms: rooms.map((r) => ({ slug: r.slug, name: r.name, price: r.pricePerNight, shortPrice: r.shortStayPrice, capacity: r.capacity })),
+        rooms: rooms.map((r) => ({
+          slug: r.slug,
+          name: r.name,
+          price: r.pricePerNight,
+          shortPrice: r.shortStayPrice,
+          capacity: r.capacity,
+        })),
         offers: offers.map((o) => ({ id: o.id, title: o.title })),
       };
     }),
@@ -54,11 +60,11 @@ export default async function BookPage({ searchParams }: PageProps<"/book">) {
 
   return (
     <SiteShell branchSlug={branch?.slug} sticky={false}>
-      <main className="mx-auto flex max-w-[640px] flex-col gap-12 px-5 pb-[clamp(72px,9vw,120px)] pt-[clamp(40px,6vw,72px)]">
+      <main className="mx-auto flex max-w-[640px] flex-col gap-12 px-5 pt-[clamp(40px,6vw,72px)] pb-[clamp(72px,9vw,120px)]">
         {settings.requestsPaused || !branch ? (
-          <div className="flex flex-col items-start gap-5 rounded-frame bg-aqua p-[clamp(28px,5vw,56px)]">
-            <span className="text-sm font-semibold text-teal">book</span>
-            <h1 className="m-0 font-display text-[clamp(44px,6vw,80px)] font-extrabold leading-[0.92] tracking-[-0.055em]">call to book</h1>
+          <div className="rounded-frame bg-aqua flex flex-col items-start gap-5 p-[clamp(28px,5vw,56px)]">
+            <span className="text-teal text-sm font-semibold">book</span>
+            <h1 className="font-display m-0 text-[clamp(44px,6vw,80px)] leading-[0.92] font-extrabold tracking-[-0.055em]">call to book</h1>
             <p className="m-0 max-w-[440px] text-[17px] leading-[1.6]">
               Online requests are paused for now. The front desk can book you in straight away by phone or WhatsApp.
             </p>
@@ -84,18 +90,18 @@ export default async function BookPage({ searchParams }: PageProps<"/book">) {
           />
         )}
 
-        <section aria-labelledby="house-rules" className="flex flex-col gap-3 border-t border-line pt-8">
-          <h2 id="house-rules" className="m-0 font-display text-[28px] font-bold tracking-[-0.03em]">
+        <section aria-labelledby="house-rules" className="border-line flex flex-col gap-3 border-t pt-8">
+          <h2 id="house-rules" className="font-display m-0 text-[28px] font-bold tracking-[-0.03em]">
             house rules
           </h2>
           <ul className="m-0 flex list-none flex-col p-0 text-base leading-normal">
             {branchRow && (
-              <li className="border-b border-line py-3">
+              <li className="border-line border-b py-3">
                 Check in from {friendlyTime(branchRow.checkInTime)}, check out by {friendlyTime(branchRow.checkOutTime)}.
               </li>
             )}
             {rules.map((r) => (
-              <li key={r} className="border-b border-line py-3">
+              <li key={r} className="border-line border-b py-3">
                 {r}
               </li>
             ))}

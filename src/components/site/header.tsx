@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { BRANCH_COOKIE_NAME } from "@/lib/branch-cookie";
 
 const LINKS = [
@@ -34,6 +34,7 @@ export function SiteHeader({
 
   useEffect(() => {
     if (!open) return;
+    const opener = openRef.current;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
@@ -42,19 +43,19 @@ export function SiteHeader({
     return () => {
       document.body.style.overflow = prev;
       window.removeEventListener("keydown", onKey);
-      openRef.current?.focus();
+      opener?.focus();
     };
   }, [open]);
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   return (
-    <header className="sticky top-0 z-[100] border-b border-line bg-white">
+    <header className="border-line sticky top-0 z-[100] border-b bg-white">
       <div className="wrap flex h-[72px] items-center justify-between gap-6">
         <Link
           href="/"
           aria-label="De Classic Hotel, home"
-          className="font-display text-[28px] font-extrabold leading-none tracking-[-0.05em] text-ink no-underline"
+          className="font-display text-ink text-[28px] leading-none font-extrabold tracking-[-0.05em] no-underline"
         >
           de classic
         </Link>
@@ -65,7 +66,7 @@ export function SiteHeader({
               href={l.href}
               aria-current={isActive(l.href) ? "page" : undefined}
               className={clsx(
-                "border-b-2 py-1.5 text-base font-medium text-ink no-underline hover:text-teal",
+                "text-ink hover:text-teal border-b-2 py-1.5 text-base font-medium no-underline",
                 isActive(l.href) ? "border-ink" : "border-transparent",
               )}
             >
@@ -81,7 +82,7 @@ export function SiteHeader({
           )}
           <Link
             href="/book"
-            className="inline-flex h-11 items-center rounded-full bg-ink px-[22px] text-[15px] font-semibold text-white no-underline transition-colors duration-[180ms] hover:bg-teal hover:text-white"
+            className="bg-ink hover:bg-teal inline-flex h-11 items-center rounded-full px-[22px] text-[15px] font-semibold text-white no-underline transition-colors duration-[180ms] hover:text-white"
           >
             Book now
           </Link>
@@ -91,16 +92,16 @@ export function SiteHeader({
             onClick={() => setOpen(true)}
             aria-label="Open menu"
             aria-expanded={open}
-            className="flex size-11 flex-col items-center justify-center gap-[5px] rounded-full border-[1.5px] border-ink bg-white p-0 md:hidden"
+            className="border-ink flex size-11 flex-col items-center justify-center gap-[5px] rounded-full border-[1.5px] bg-white p-0 md:hidden"
           >
-            <span className="block h-0.5 w-4 bg-ink" />
-            <span className="block h-0.5 w-4 bg-ink" />
+            <span className="bg-ink block h-0.5 w-4" />
+            <span className="bg-ink block h-0.5 w-4" />
           </button>
         </div>
       </div>
 
       {open && (
-        <div role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-[200] flex flex-col overflow-auto bg-aqua px-5 pb-8">
+        <div role="dialog" aria-modal="true" aria-label="Menu" className="bg-aqua fixed inset-0 z-[200] flex flex-col overflow-auto px-5 pb-8">
           <div className="flex h-[72px] items-center justify-between">
             <span className="font-display text-[28px] font-extrabold tracking-[-0.05em]">de classic</span>
             <button
@@ -108,7 +109,7 @@ export function SiteHeader({
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close menu"
-              className="size-11 rounded-full border-[1.5px] border-ink bg-transparent text-[22px] leading-none text-ink"
+              className="border-ink text-ink size-11 rounded-full border-[1.5px] bg-transparent text-[22px] leading-none"
             >
               ×
             </button>
@@ -120,7 +121,7 @@ export function SiteHeader({
                 href={l.href}
                 onClick={() => setOpen(false)}
                 aria-current={(l.href === "/" ? pathname === "/" : isActive(l.href)) ? "page" : undefined}
-                className="font-display text-[52px] font-bold leading-[1.05] tracking-[-0.04em] text-ink no-underline"
+                className="font-display text-ink text-[52px] leading-[1.05] font-bold tracking-[-0.04em] no-underline"
               >
                 {l.label}
               </Link>
@@ -135,13 +136,13 @@ export function SiteHeader({
             <Link
               href="/book"
               onClick={() => setOpen(false)}
-              className="flex h-14 items-center justify-center rounded-full bg-ink text-[17px] font-semibold text-white no-underline"
+              className="bg-ink flex h-14 items-center justify-center rounded-full text-[17px] font-semibold text-white no-underline"
             >
               Book now
             </Link>
             <a
               href={phoneHref}
-              className="flex h-14 items-center justify-center rounded-full border-[1.5px] border-ink text-[17px] font-semibold text-ink no-underline"
+              className="border-ink text-ink flex h-14 items-center justify-center rounded-full border-[1.5px] text-[17px] font-semibold no-underline"
             >
               Call {phoneLabel}
             </a>
@@ -152,27 +153,23 @@ export function SiteHeader({
   );
 }
 
-export function BranchSwitcher({
-  branches,
-  current,
-  onPicked,
-}: {
-  branches: HeaderBranch[];
-  current: string | null;
-  onPicked?: () => void;
-}) {
+export function BranchSwitcher({ branches, current, onPicked }: { branches: HeaderBranch[]; current: string | null; onPicked?: () => void }) {
   const router = useRouter();
+  const uid = useId();
   return (
-    <label className="flex h-11 items-center gap-2 rounded-full border-[1.5px] border-line bg-white pl-4 pr-2 text-[15px] focus-within:border-ink">
-      <span className="text-[13px] font-semibold text-teal">branch</span>
+    <label className="border-line focus-within:border-ink flex h-11 items-center gap-2 rounded-full border-[1.5px] bg-white pr-2 pl-4 text-[15px]">
+      <span id={`${uid}-branch`} className="text-teal text-[13px] font-semibold">
+        branch
+      </span>
       <select
+        aria-labelledby={`${uid}-branch`}
         value={current ?? branches[0]?.slug}
         onChange={(e) => {
           document.cookie = `${BRANCH_COOKIE_NAME}=${encodeURIComponent(e.target.value)}; path=/; max-age=31536000; samesite=lax`;
           onPicked?.();
           router.refresh();
         }}
-        className="h-full min-w-0 border-0 bg-transparent font-medium text-ink outline-none"
+        className="text-ink h-full min-w-0 border-0 bg-transparent font-medium outline-none"
       >
         {branches.map((b) => (
           <option key={b.slug} value={b.slug}>

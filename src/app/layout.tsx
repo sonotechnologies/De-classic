@@ -41,7 +41,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en-NG" className={`${bricolage.variable} ${figtree.variable}`} suppressHydrationWarning>
       <head>
         {/* Marks the page as scripted before first paint so scroll motion never hides content when JS is off. */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>

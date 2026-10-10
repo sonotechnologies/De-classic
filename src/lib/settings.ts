@@ -63,4 +63,3 @@ export async function saveSettings(values: Partial<SiteSettings>) {
       set: { value: sql.raw("excluded.value"), updatedAt: new Date() },
     });
 }
-

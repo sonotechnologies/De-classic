@@ -18,10 +18,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
   try {
     const branches = await getPublishedBranches();
-    for (const b of branches) pages.push({ url: `${base}/locations/${b.slug}`, changeFrequency: "monthly", priority: 0.8 });
+    for (const b of branches)
+      pages.push({
+        url: `${base}/locations/${b.slug}`,
+        changeFrequency: "monthly",
+        priority: 0.8,
+      });
     // Room pages are listed for the default branch, which is what /rooms/[slug] serves without a branch cookie.
     if (branches[0]) {
-      for (const r of await getVisibleRooms(branches[0].id)) pages.push({ url: `${base}/rooms/${r.slug}`, changeFrequency: "weekly", priority: 0.8 });
+      for (const r of await getVisibleRooms(branches[0].id))
+        pages.push({
+          url: `${base}/rooms/${r.slug}`,
+          changeFrequency: "weekly",
+          priority: 0.8,
+        });
     }
   } catch {
     /* database unavailable at build: static pages only */

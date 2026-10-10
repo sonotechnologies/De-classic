@@ -1,9 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 
-export type BarBranch = { slug: string; name: string; rooms: { slug: string; name: string }[] };
+export type BarBranch = {
+  slug: string;
+  name: string;
+  rooms: { slug: string; name: string }[];
+};
 
 function isoLocal(offsetDays: number) {
   const d = new Date();
@@ -14,6 +18,7 @@ function isoLocal(offsetDays: number) {
 /** The white pill on the paint line under the hero: dates and room, prefilled into the Book page. */
 export function BookingBar({ branches, current }: { branches: BarBranch[]; current: string }) {
   const router = useRouter();
+  const uid = useId();
   const [branch, setBranch] = useState(current);
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -49,12 +54,15 @@ export function BookingBar({ branches, current }: { branches: BarBranch[]; curre
       onSubmit={submit}
       data-anim="settle"
       style={{ ["--d" as string]: "480ms" }}
-      className="flex max-w-[calc(100%-clamp(0px,36vw,520px)+120px)] flex-wrap items-stretch rounded-frame border-[1.5px] border-ink bg-white p-2 max-md:max-w-none md:rounded-full"
+      className="rounded-frame border-ink flex max-w-[calc(100%-clamp(0px,36vw,520px)+120px)] flex-wrap items-stretch border-[1.5px] bg-white p-2 max-md:max-w-none md:rounded-full"
     >
       {branches.length > 1 && (
         <label className={`${field} flex-[1_1_140px]`}>
-          <span className="text-[13px] font-semibold text-teal">branch</span>
+          <span id={`${uid}-branch`} className="text-teal text-[13px] font-semibold">
+            branch
+          </span>
           <select
+            aria-labelledby={`${uid}-branch`}
             value={branch}
             onChange={(e) => {
               setBranch(e.target.value);
@@ -71,16 +79,36 @@ export function BookingBar({ branches, current }: { branches: BarBranch[]; curre
         </label>
       )}
       <label className={`${field} flex-[1_1_140px] ${branches.length > 1 ? divider : ""}`}>
-        <span className="text-[13px] font-semibold text-teal">check in</span>
-        <input type="date" value={checkIn} min={today} onChange={(e) => setCheckIn(e.target.value)} className={input} />
+        <span id={`${uid}-check-in`} className="text-teal text-[13px] font-semibold">
+          check in
+        </span>
+        <input
+          aria-labelledby={`${uid}-check-in`}
+          type="date"
+          value={checkIn}
+          min={today}
+          onChange={(e) => setCheckIn(e.target.value)}
+          className={input}
+        />
       </label>
-      <label className={`${field} flex-[1_1_140px] border-l border-line`}>
-        <span className="text-[13px] font-semibold text-teal">check out</span>
-        <input type="date" value={checkOut} min={checkIn || today} onChange={(e) => setCheckOut(e.target.value)} className={input} />
+      <label className={`${field} border-line flex-[1_1_140px] border-l`}>
+        <span id={`${uid}-check-out`} className="text-teal text-[13px] font-semibold">
+          check out
+        </span>
+        <input
+          aria-labelledby={`${uid}-check-out`}
+          type="date"
+          value={checkOut}
+          min={checkIn || today}
+          onChange={(e) => setCheckOut(e.target.value)}
+          className={input}
+        />
       </label>
       <label className={`${field} flex-[1_1_150px] ${divider}`}>
-        <span className="text-[13px] font-semibold text-teal">room</span>
-        <select value={room} onChange={(e) => setRoom(e.target.value)} className={input}>
+        <span id={`${uid}-room`} className="text-teal text-[13px] font-semibold">
+          room
+        </span>
+        <select aria-labelledby={`${uid}-room`} value={room} onChange={(e) => setRoom(e.target.value)} className={input}>
           <option value="">Any room</option>
           {rooms.map((r) => (
             <option key={r.slug} value={r.slug}>
@@ -91,7 +119,7 @@ export function BookingBar({ branches, current }: { branches: BarBranch[]; curre
       </label>
       <button
         type="submit"
-        className="min-h-14 flex-[1_1_160px] rounded-full border-0 bg-ink text-base font-semibold text-white transition-colors duration-[180ms] hover:bg-teal"
+        className="bg-ink hover:bg-teal min-h-14 flex-[1_1_160px] rounded-full border-0 text-base font-semibold text-white transition-colors duration-[180ms]"
       >
         Check availability
       </button>

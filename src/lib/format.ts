@@ -30,7 +30,12 @@ const TZ = "Africa/Lagos";
 
 /** Today's date in Lagos as YYYY-MM-DD. */
 export function todayInLagos(now = new Date()): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
 }
 
 export function addDays(iso: string, days: number): string {
@@ -51,7 +56,11 @@ export function isIsoDate(s: string): boolean {
 
 /** "16 Oct" */
 export function shortDate(iso: string): string {
-  return new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+  return new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    timeZone: "UTC",
+  });
 }
 
 /** "Thu 16 Oct" */
@@ -66,7 +75,11 @@ export function dayDate(iso: string): string {
 
 /** "31 October" */
 export function longDate(iso: string): string {
-  return new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
+  return new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  });
 }
 
 /** "16 – 18 Oct" or "30 Oct – 2 Nov". */
@@ -106,8 +119,19 @@ export function relativeTime(date: Date, now = new Date()): string {
 
 /** "Today, 10:42" or "8 Oct, 10:42" in Lagos time. */
 export function stamp(date: Date, now = new Date()): string {
-  const time = date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: TZ });
-  const day = todayInLagos(date) === todayInLagos(now) ? "Today" : date.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: TZ });
+  const time = date.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: TZ,
+  });
+  const day =
+    todayInLagos(date) === todayInLagos(now)
+      ? "Today"
+      : date.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          timeZone: TZ,
+        });
   return `${day}, ${time}`;
 }
 

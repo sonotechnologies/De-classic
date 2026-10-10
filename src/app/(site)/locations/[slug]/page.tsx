@@ -31,7 +31,12 @@ export default async function LocationPage({ params }: PageProps<"/locations/[sl
   const [gallery, rooms] = await Promise.all([getGallery(branch.id), getVisibleRooms(branch.id)]);
   return (
     <SiteShell branchSlug={branch.slug}>
-      <JsonLd data={hotelJsonLd(branch, rooms.map((r) => r.pricePerNight))} />
+      <JsonLd
+        data={hotelJsonLd(
+          branch,
+          rooms.map((r) => r.pricePerNight),
+        )}
+      />
       <LocationDetail branch={branch} exterior={gallery.find((g) => g.tag === "exterior")} />
     </SiteShell>
   );

@@ -18,7 +18,15 @@ export const getCurrentUser = cache(async (): Promise<StaffUser | null> => {
   if (!id) return null;
   const user = await db.query.users.findFirst({
     where: eq(users.id, id),
-    columns: { id: true, name: true, email: true, role: true, branchId: true, mustChangePassword: true, isActive: true },
+    columns: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      branchId: true,
+      mustChangePassword: true,
+      isActive: true,
+    },
   });
   if (!user || !user.isActive) return null;
   // Branch staff must belong to a branch; without one they can see nothing.

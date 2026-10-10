@@ -1,18 +1,5 @@
 import { relations } from "drizzle-orm";
-import {
-  boolean,
-  date,
-  index,
-  integer,
-  jsonb,
-  pgEnum,
-  pgTable,
-  primaryKey,
-  text,
-  timestamp,
-  uniqueIndex,
-  uuid,
-} from "drizzle-orm/pg-core";
+import { boolean, date, index, integer, jsonb, pgEnum, pgTable, primaryKey, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 
 export const roleEnum = pgEnum("role", ["owner", "manager", "front_desk"]);
 export const stayTypeEnum = pgEnum("stay_type", ["overnight", "short_stay"]);
@@ -143,7 +130,9 @@ export const users = pgTable("users", {
   passwordHash: text("password_hash").notNull(),
   role: roleEnum("role").notNull(),
   /** Empty for the owner, who sees every branch. */
-  branchId: uuid("branch_id").references(() => branches.id, { onDelete: "set null" }),
+  branchId: uuid("branch_id").references(() => branches.id, {
+    onDelete: "set null",
+  }),
   isActive: boolean("is_active").notNull().default(true),
   mustChangePassword: boolean("must_change_password").notNull().default(false),
   failedLogins: integer("failed_logins").notNull().default(0),
@@ -160,12 +149,16 @@ export const reservations = pgTable(
     branchId: uuid("branch_id")
       .notNull()
       .references(() => branches.id, { onDelete: "restrict" }),
-    roomTypeId: uuid("room_type_id").references(() => roomTypes.id, { onDelete: "set null" }),
+    roomTypeId: uuid("room_type_id").references(() => roomTypes.id, {
+      onDelete: "set null",
+    }),
     /** Snapshot so history survives a deleted room type. */
     roomName: text("room_name").notNull(),
     /** Kobo, the rate quoted when the guest sent the request. */
     quotedRate: integer("quoted_rate").notNull().default(0),
-    offerId: uuid("offer_id").references(() => offers.id, { onDelete: "set null" }),
+    offerId: uuid("offer_id").references(() => offers.id, {
+      onDelete: "set null",
+    }),
     offerTitle: text("offer_title"),
     stayType: stayTypeEnum("stay_type").notNull(),
     checkIn: date("check_in").notNull(),
@@ -196,7 +189,9 @@ export const reservationEvents = pgTable(
     reservationId: uuid("reservation_id")
       .notNull()
       .references(() => reservations.id, { onDelete: "cascade" }),
-    userId: uuid("user_id").references(() => users.id, { onDelete: "set null" }),
+    userId: uuid("user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
     /** Snapshot of who acted, kept if the account is removed. */
     userName: text("user_name"),
     fromStatus: reservationStatusEnum("from_status"),
@@ -260,7 +255,9 @@ export const reviews = pgTable("reviews", {
   branchId: uuid("branch_id")
     .notNull()
     .references(() => branches.id, { onDelete: "cascade" }),
-  reservationId: uuid("reservation_id").references(() => reservations.id, { onDelete: "set null" }),
+  reservationId: uuid("reservation_id").references(() => reservations.id, {
+    onDelete: "set null",
+  }),
   name: text("name").notNull(),
   rating: integer("rating").notNull(),
   text: text("text").notNull().default(""),
@@ -276,38 +273,68 @@ export const branchesRelations = relations(branches, ({ many }) => ({
 }));
 
 export const roomTypesRelations = relations(roomTypes, ({ one, many }) => ({
-  branch: one(branches, { fields: [roomTypes.branchId], references: [branches.id] }),
+  branch: one(branches, {
+    fields: [roomTypes.branchId],
+    references: [branches.id],
+  }),
   images: many(roomImages),
   offerLinks: many(offerRoomTypes),
 }));
 
 export const roomImagesRelations = relations(roomImages, ({ one }) => ({
-  roomType: one(roomTypes, { fields: [roomImages.roomTypeId], references: [roomTypes.id] }),
+  roomType: one(roomTypes, {
+    fields: [roomImages.roomTypeId],
+    references: [roomTypes.id],
+  }),
 }));
 
 export const offersRelations = relations(offers, ({ one, many }) => ({
-  branch: one(branches, { fields: [offers.branchId], references: [branches.id] }),
+  branch: one(branches, {
+    fields: [offers.branchId],
+    references: [branches.id],
+  }),
   roomLinks: many(offerRoomTypes),
 }));
 
 export const offerRoomTypesRelations = relations(offerRoomTypes, ({ one }) => ({
-  offer: one(offers, { fields: [offerRoomTypes.offerId], references: [offers.id] }),
-  roomType: one(roomTypes, { fields: [offerRoomTypes.roomTypeId], references: [roomTypes.id] }),
+  offer: one(offers, {
+    fields: [offerRoomTypes.offerId],
+    references: [offers.id],
+  }),
+  roomType: one(roomTypes, {
+    fields: [offerRoomTypes.roomTypeId],
+    references: [roomTypes.id],
+  }),
 }));
 
 export const menuCategoriesRelations = relations(menuCategories, ({ one, many }) => ({
-  branch: one(branches, { fields: [menuCategories.branchId], references: [branches.id] }),
+  branch: one(branches, {
+    fields: [menuCategories.branchId],
+    references: [branches.id],
+  }),
   items: many(menuItems),
 }));
 
 export const menuItemsRelations = relations(menuItems, ({ one }) => ({
-  category: one(menuCategories, { fields: [menuItems.categoryId], references: [menuCategories.id] }),
+  category: one(menuCategories, {
+    fields: [menuItems.categoryId],
+    references: [menuCategories.id],
+  }),
 }));
 
 export const reservationsRelations = relations(reservations, ({ one, many }) => ({
-  branch: one(branches, { fields: [reservations.branchId], references: [branches.id] }),
-  roomType: one(roomTypes, { fields: [reservations.roomTypeId], references: [roomTypes.id] }),
-  offer: one(offers, { fields: [reservations.offerId], references: [offers.id] }),
+  branch: one(branches, {
+    fields: [reservations.branchId],
+    references: [branches.id],
+  }),
+  roomType: one(roomTypes, {
+    fields: [reservations.roomTypeId],
+    references: [roomTypes.id],
+  }),
+  offer: one(offers, {
+    fields: [reservations.offerId],
+    references: [offers.id],
+  }),
   events: many(reservationEvents),
 }));
 
@@ -316,11 +343,17 @@ export const reservationEventsRelations = relations(reservationEvents, ({ one })
     fields: [reservationEvents.reservationId],
     references: [reservations.id],
   }),
-  user: one(users, { fields: [reservationEvents.userId], references: [users.id] }),
+  user: one(users, {
+    fields: [reservationEvents.userId],
+    references: [users.id],
+  }),
 }));
 
 export const usersRelations = relations(users, ({ one }) => ({
-  branch: one(branches, { fields: [users.branchId], references: [branches.id] }),
+  branch: one(branches, {
+    fields: [users.branchId],
+    references: [branches.id],
+  }),
 }));
 
 export type Branch = typeof branches.$inferSelect;

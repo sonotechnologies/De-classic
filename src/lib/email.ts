@@ -33,7 +33,10 @@ export async function sendMail(mail: Mail): Promise<{ sent: boolean; error?: str
     return { sent: true };
   } catch (e) {
     console.error("[email] failed", e);
-    return { sent: false, error: e instanceof Error ? e.message : "Unknown error" };
+    return {
+      sent: false,
+      error: e instanceof Error ? e.message : "Unknown error",
+    };
   }
 }
 
@@ -77,5 +80,10 @@ export function staffInviteEmail(args: { to: string; name: string; tempPassword:
   const link = `${siteUrl()}/admin/login`;
   const text = `Hi ${args.name},\n\nYou now have a ${args.role} account on the De Classic Hotel admin.\n\nSign in: ${link}\nEmail: ${args.to}\nTemporary password: ${args.tempPassword}\n\nYou'll be asked to choose your own password when you first sign in.`;
   const html = `<div style="font-family:Arial,sans-serif;color:#111111;max-width:520px"><p>Hi ${esc(args.name)},</p><p>You now have a <b>${esc(args.role)}</b> account on the De Classic Hotel admin.</p><p>Email: ${esc(args.to)}<br>Temporary password: <code style="background:#E8F9F9;padding:2px 6px;border-radius:6px">${esc(args.tempPassword)}</code></p><p><a href="${esc(link)}" style="display:inline-block;background:#111111;color:#FFFFFF;border-radius:999px;padding:12px 22px;text-decoration:none;font-weight:600">Sign in</a></p><p style="font-size:13px;color:#5B6B6B">You'll be asked to choose your own password when you first sign in.</p></div>`;
-  return { to: [args.to], subject: "Your De Classic admin account", text, html };
+  return {
+    to: [args.to],
+    subject: "Your De Classic admin account",
+    text,
+    html,
+  };
 }

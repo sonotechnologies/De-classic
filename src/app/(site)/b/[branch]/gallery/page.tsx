@@ -23,12 +23,19 @@ export default async function GalleryPage({ params }: PageProps<"/b/[branch]/gal
     <SiteShell branchSlug={branch.slug} sample={branch.isSample || hasSample(photos)}>
       <main>
         <GalleryGrid
-          photos={photos.map(({ id, url, alt, tag, width, height }) => ({ id, url, alt, tag, width, height }))}
+          photos={photos.map(({ id, url, alt, tag, width, height }) => ({
+            id,
+            url,
+            alt,
+            tag,
+            width,
+            height,
+          }))}
           heading={
             <h1
               data-anim="rise"
               style={{ ["--d" as string]: "120ms" }}
-              className="m-0 font-display text-[clamp(48px,8vw,116px)] font-extrabold leading-[0.9] tracking-[-0.055em]"
+              className="font-display m-0 text-[clamp(48px,8vw,116px)] leading-[0.9] font-extrabold tracking-[-0.055em]"
             >
               have a look
             </h1>

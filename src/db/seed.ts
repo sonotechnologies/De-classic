@@ -63,7 +63,10 @@ async function main() {
         { place: "Agric junction", time: "5 min drive" },
         { place: "Ikorodu garage", time: "15 min drive" },
         { place: "Ikorodu ferry terminal", time: "20 min drive" },
-        { place: "Lagos State University of Science and Technology", time: "20 min drive" },
+        {
+          place: "Lagos State University of Science and Technology",
+          time: "20 min drive",
+        },
       ],
       checkInTime: "14:00",
       checkOutTime: "12:00",
@@ -102,7 +105,18 @@ async function main() {
       price: 35_000,
       short: 15_000,
       capacity: 2,
-      amenities: ["Queen bed", "Work desk", "Fast Wi-Fi", "Air conditioning", "Smart TV", "Hot shower", "Fridge", "Kettle", "Wardrobe", "Daily cleaning"],
+      amenities: [
+        "Queen bed",
+        "Work desk",
+        "Fast Wi-Fi",
+        "Air conditioning",
+        "Smart TV",
+        "Hot shower",
+        "Fridge",
+        "Kettle",
+        "Wardrobe",
+        "Daily cleaning",
+      ],
       photos: [
         ["1631049307264-da0ec9d70304", "the bed"],
         ["1540518614846-7eded433c457", "bed and seating"],
@@ -115,8 +129,7 @@ async function main() {
       name: "Executive room",
       slug: "executive",
       tagline: "more space, a bigger bed",
-      description:
-        "A king bed, a sitting area and a mini fridge, on a quieter floor. For guests who want to spread out after a night downstairs.",
+      description: "A king bed, a sitting area and a mini fridge, on a quieter floor. For guests who want to spread out after a night downstairs.",
       price: 50_000,
       short: 20_000,
       capacity: 2,
@@ -138,7 +151,17 @@ async function main() {
       price: 75_000,
       short: 30_000,
       capacity: 3,
-      amenities: ["King bed", "Separate lounge", "Large bathroom", "Air conditioning", "Two smart TVs", "Fast Wi-Fi", "Mini fridge", "Kettle", "Daily cleaning"],
+      amenities: [
+        "King bed",
+        "Separate lounge",
+        "Large bathroom",
+        "Air conditioning",
+        "Two smart TVs",
+        "Fast Wi-Fi",
+        "Mini fridge",
+        "Kettle",
+        "Daily cleaning",
+      ],
       photos: [
         ["1566665797739-1674de7a421a", "the suite"],
         ["1540518614846-7eded433c457", "the lounge"],
@@ -219,19 +242,61 @@ async function main() {
   await db.insert(s.offerRoomTypes).values(insertedRooms.map((r) => ({ offerId: weekend.id, roomTypeId: r.id })));
 
   const menu: [string, [string, number][]][] = [
-    ["cocktails", [["Chapman", 3500], ["De Classic sunset", 5000], ["Mojito", 5000], ["Long Island", 6500]]],
-    ["beer and stout", [["Star", 1500], ["Guinness", 1800], ["Heineken", 2000], ["Desperados", 2500]]],
-    ["spirits", [["Hennessy VS, glass", 4000], ["Jameson, glass", 3000], ["Hennessy VS, bottle", 75000], ["Jameson, bottle", 45000]]],
-    ["small chops", [["Peppered gizzard", 4000], ["Suya platter", 6000], ["Asun", 5000], ["Small chops tray", 7500]]],
+    [
+      "cocktails",
+      [
+        ["Chapman", 3500],
+        ["De Classic sunset", 5000],
+        ["Mojito", 5000],
+        ["Long Island", 6500],
+      ],
+    ],
+    [
+      "beer and stout",
+      [
+        ["Star", 1500],
+        ["Guinness", 1800],
+        ["Heineken", 2000],
+        ["Desperados", 2500],
+      ],
+    ],
+    [
+      "spirits",
+      [
+        ["Hennessy VS, glass", 4000],
+        ["Jameson, glass", 3000],
+        ["Hennessy VS, bottle", 75000],
+        ["Jameson, bottle", 45000],
+      ],
+    ],
+    [
+      "small chops",
+      [
+        ["Peppered gizzard", 4000],
+        ["Suya platter", 6000],
+        ["Asun", 5000],
+        ["Small chops tray", 7500],
+      ],
+    ],
   ];
   for (const [i, [cat, items]] of menu.entries()) {
     const [c] = await db.insert(s.menuCategories).values({ branchId: branch.id, name: cat, sortOrder: i }).returning();
     await db.insert(s.menuItems).values(
-      items.map(([name, price], j) => ({ categoryId: c.id, name, price: price * 100, isSample: true, sortOrder: j })),
+      items.map(([name, price], j) => ({
+        categoryId: c.id,
+        name,
+        price: price * 100,
+        isSample: true,
+        sortOrder: j,
+      })),
     );
   }
 
-  const dims = { "4/5": [960, 1200], "1/1": [1000, 1000], "3/2": [1200, 800] } as const;
+  const dims = {
+    "4/5": [960, 1200],
+    "1/1": [1000, 1000],
+    "3/2": [1200, 800],
+  } as const;
   const gallery: [string, "rooms" | "bar", keyof typeof dims, string][] = [
     ["1522771739844-6a9f6d5f14af", "rooms", "4/5", "standard room"],
     ["1514362545857-3bc16c4c7d1b", "bar", "1/1", "a cocktail"],

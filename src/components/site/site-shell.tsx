@@ -35,7 +35,13 @@ export async function SiteShell({
   let bar: Sticky | null = null;
   if (sticky === "default" && branch) {
     const from = lowestPrice(await getVisibleRooms(branch.id));
-    if (from != null) bar = { label: "rooms from", price: formatNaira(from), href: "/book", cta: "Book now" };
+    if (from != null)
+      bar = {
+        label: "rooms from",
+        price: formatNaira(from),
+        href: "/book",
+        cta: "Book now",
+      };
   } else if (sticky && sticky !== "default") {
     bar = sticky;
   }

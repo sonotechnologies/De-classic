@@ -25,14 +25,26 @@ export function hotelJsonLd(branch: Branch, prices: number[], hotelName = "De Cl
       addressRegion: "Lagos",
       addressCountry: "NG",
     },
-    ...(naira.length ? { priceRange: `₦${Math.min(...naira).toLocaleString("en-NG")} – ₦${Math.max(...naira).toLocaleString("en-NG")} per night` } : {}),
+    ...(naira.length
+      ? {
+          priceRange: `₦${Math.min(...naira).toLocaleString("en-NG")} – ₦${Math.max(...naira).toLocaleString("en-NG")} per night`,
+        }
+      : {}),
     checkinTime: branch.checkInTime,
     checkoutTime: branch.checkOutTime,
     ...(branch.mapUrl ? { hasMap: branch.mapUrl } : {}),
     amenityFeature: [
       { "@type": "LocationFeatureSpecification", name: "Bar", value: true },
-      { "@type": "LocationFeatureSpecification", name: "Free Wi-Fi", value: true },
-      { "@type": "LocationFeatureSpecification", name: "Free parking", value: true },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Free Wi-Fi",
+        value: true,
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Free parking",
+        value: true,
+      },
     ],
   };
 }
@@ -42,7 +54,9 @@ export function JsonLd({ data }: { data: object }) {
     <script
       type="application/ld+json"
       // JSON.stringify output with "<" escaped cannot break out of the script tag.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
     />
   );
 }

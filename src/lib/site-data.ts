@@ -2,27 +2,14 @@ import "server-only";
 import { and, asc, eq, gte, isNull, lte, or } from "drizzle-orm";
 import { cache } from "react";
 import { db } from "@/db";
-import {
-  branches,
-  galleryImages,
-  menuCategories,
-  menuItems,
-  offers,
-  roomImages,
-  roomTypes,
-  type Branch,
-} from "@/db/schema";
+import { branches, galleryImages, menuCategories, menuItems, offers, roomImages, roomTypes, type Branch } from "@/db/schema";
 import { todayInLagos } from "./format";
 
 /** Slug used when the visitor has not picked a branch: resolves to the first published branch. */
 export const DEFAULT_BRANCH_TOKEN = "_";
 
 export const getPublishedBranches = cache(async (): Promise<Branch[]> => {
-  return db
-    .select()
-    .from(branches)
-    .where(eq(branches.isPublished, true))
-    .orderBy(asc(branches.sortOrder), asc(branches.name));
+  return db.select().from(branches).where(eq(branches.isPublished, true)).orderBy(asc(branches.sortOrder), asc(branches.name));
 });
 
 /**

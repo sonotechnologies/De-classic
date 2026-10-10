@@ -8,7 +8,11 @@ import { users, type Role } from "@/db/schema";
 
 declare module "next-auth" {
   interface Session {
-    user: { id: string; role: Role; branchId: string | null } & DefaultSession["user"];
+    user: {
+      id: string;
+      role: Role;
+      branchId: string | null;
+    } & DefaultSession["user"];
   }
   interface User {
     role?: Role;
@@ -47,7 +51,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const parsed = credentialsSchema.safeParse(raw);
         if (!parsed.success) return null;
         const { email, password } = parsed.data;
-        const user = await db.query.users.findFirst({ where: eq(users.email, email) });
+        const user = await db.query.users.findFirst({
+          where: eq(users.email, email),
+        });
         if (!user || !user.isActive) {
           // Spend similar time as a real check so response timing does not reveal which emails exist.
           await bcrypt.compare(password, "$2b$12$3/hUU3aomWQ/Nc2b.q5Es.7MZQqsXxloA2aa6BT6CHALDbiG1tFLC");
@@ -67,7 +73,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
         await db.update(users).set({ failedLogins: 0, lockedUntil: null, lastLoginAt: new Date() }).where(eq(users.id, user.id));
-        return { id: user.id, name: user.name, email: user.email, role: user.role, branchId: user.branchId };
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          branchId: user.branchId,
+        };
       },
     }),
   ],

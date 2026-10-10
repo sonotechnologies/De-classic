@@ -10,7 +10,10 @@ export function barOpening(branch: Pick<Branch, "barHours">): { time: string; wo
   const m = /^(\d{1,2})(?::\d{2})?\s*(am|pm)?$/i.exec(start);
   if (!m) return { time: start, word: start };
   const h = Number(m[1]);
-  return { time: start, word: h <= 12 && start.indexOf(":") === -1 ? WORDS[h] : start };
+  return {
+    time: start,
+    word: h <= 12 && start.indexOf(":") === -1 ? WORDS[h] : start,
+  };
 }
 
 /** "5 min drive from Agric junction" from the first landmark. */
@@ -41,5 +44,14 @@ export function offerTag(offer: { badge: string; endsOn: string | null }): strin
   if (offer.badge) return offer.badge;
   if (!offer.endsOn) return "while it lasts";
   const d = new Date(offer.endsOn + "T00:00:00Z");
-  return "ends " + d.toLocaleDateString("en-GB", { day: "numeric", month: "long", timeZone: "UTC" }).toLowerCase();
+  return (
+    "ends " +
+    d
+      .toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        timeZone: "UTC",
+      })
+      .toLowerCase()
+  );
 }
