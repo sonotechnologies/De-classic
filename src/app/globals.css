@@ -1,0 +1,266 @@
+@import "tailwindcss";
+
+/* ── Design tokens (De Classic System sheet) ─────────────────────────────── */
+@theme {
+  --breakpoint-md: 760px;
+
+  --color-aqua: #b1ecec;
+  --color-aqua-tint: #e8f9f9;
+  --color-white: #ffffff;
+  --color-ink: #111111;
+  --color-teal: #0b5c5c;
+  --color-slate: #5b6b6b;
+  --color-line: #d5e5e5;
+  --color-line-soft: #eef4f4;
+  --color-gold: #c9a24b;
+  --color-night: #0e0e0f;
+  --color-night-line: #2a2a2a;
+  --color-night-muted: #cfcfcf;
+  --color-row-hover: #f6fcfc;
+  --color-error: #c62828;
+  --color-error-deep: #8a2a2a;
+  --color-error-tint: #fdecec;
+  --color-danger: #9b2c2c;
+  --color-success: #1b6b34;
+  --color-success-tint: #ddf3e1;
+  --color-sample: #fff4d6;
+  --color-sample-ink: #6b5310;
+  --color-canvas: #f3f5f5;
+
+  --font-display: var(--font-bricolage), "Bricolage Grotesque", sans-serif;
+  --font-sans: var(--font-figtree), Figtree, sans-serif;
+
+  --radius-field: 12px;
+  --radius-card: 16px;
+  --radius-frame: 24px;
+
+  --ease-paint: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-pop: cubic-bezier(0.3, 1.4, 0.5, 1);
+
+  --animate-pulse-soft: pulse-soft 1.2s ease-in-out infinite alternate;
+
+  @keyframes pulse-soft {
+    from {
+      opacity: 0.6;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Page container: 1240px content, 20px → 40px gutter. */
+@utility wrap {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 40px);
+}
+
+/* Lines up horizontal scroll rows with the container edge. */
+@utility scroll-gutter {
+  padding-inline: max(clamp(20px, 4vw, 40px), calc((100% - 1240px) / 2 + 40px));
+}
+
+/* On the scroll container: snapping respects the same gutter instead of pulling the first card to the edge. */
+@utility snap-gutter {
+  scroll-padding-inline: max(clamp(20px, 4vw, 40px), calc((100% - 1240px) / 2 + 40px));
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Lowercase Bricolage headline. Size comes from text-hero / text-section or an explicit clamp. */
+@utility font-headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+@utility text-section {
+  font-size: clamp(34px, 5vw, 72px);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: var(--color-teal);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+  .theme-night :focus-visible {
+    outline-color: var(--color-gold);
+  }
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* ── Sticker ─────────────────────────────────────────────────────────────── */
+.sticker {
+  transform: rotate(var(--tilt, 8deg));
+  transition: transform 200ms ease-out;
+}
+.group:hover .sticker,
+.sticker:hover {
+  transform: rotate(var(--tilt-hover, 18deg));
+}
+
+/* ── Load motion: CSS only, so it never waits for JavaScript ─────────────── */
+@keyframes wipe {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em);
+  }
+}
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes pop {
+  from {
+    transform: scale(0) rotate(-60deg);
+  }
+  to {
+    transform: rotate(var(--tilt, 8deg));
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--from-x, 40px));
+  }
+}
+
+[data-anim="wipe"] {
+  animation: wipe 400ms var(--ease-paint) both;
+  animation-delay: var(--d, 0ms);
+}
+@media (min-width: 760px) {
+  [data-anim="rise"] {
+    animation: rise 360ms var(--ease-paint) both;
+    animation-delay: var(--d, 0ms);
+  }
+  [data-anim="settle"] {
+    animation: settle 400ms var(--ease-paint) both;
+    animation-delay: var(--d, 0ms);
+  }
+}
+
+/* ── Scroll motion: driven by <Motion/>; only active once JS has marked the page ── */
+.js [data-sticker].is-in {
+  animation: pop 380ms var(--ease-pop) 120ms backwards;
+}
+@media (min-width: 760px) {
+  .js [data-reveal]:not(.is-in) {
+    opacity: 0;
+  }
+  .js [data-reveal].is-in {
+    animation: reveal 400ms var(--ease-paint) backwards;
+  }
+  .js [data-block].block-pending {
+    position: relative;
+    z-index: 2;
+    transform: translateY(96px);
+  }
+  .js [data-block].block-in {
+    transition: transform 400ms var(--ease-paint);
+  }
+  .js [data-lights].lights-pending {
+    background-color: var(--color-white) !important;
+  }
+  .js [data-lights].lights-pending > * {
+    visibility: hidden;
+  }
+}
+
+.step-slide {
+  animation: slide-in 260ms var(--ease-paint);
+}
+.admin-fade {
+  animation: fade-in 180ms ease-out;
+}
+
+/* Reduced motion: everything becomes a short fade. */
+@media (prefers-reduced-motion: reduce) {
+  [data-anim],
+  .js [data-sticker].is-in,
+  .js [data-reveal].is-in,
+  .step-slide {
+    animation: fade-in 200ms ease-out both !important;
+    animation-delay: var(--d, 0ms) !important;
+  }
+  .js [data-reveal]:not(.is-in) {
+    opacity: 1;
+  }
+  .js [data-block].block-pending {
+    transform: none;
+  }
+  .js [data-lights].lights-pending {
+    background-color: inherit !important;
+  }
+  .js [data-lights].lights-pending > * {
+    visibility: visible;
+  }
+  .sticker,
+  .group:hover .sticker {
+    transition: none;
+  }
+  .animate-pulse-soft {
+    animation: none;
+  }
+}
+
+/* Floating WhatsApp button and footer make room for the sticky mobile booking bar. */
+.wa-float {
+  bottom: 24px;
+}
+@media (max-width: 759px) {
+  body:has([data-sticky-bar]) .wa-float {
+    bottom: 88px;
+  }
+  body:has([data-sticky-bar]) .site-footer {
+    padding-bottom: 112px;
+  }
+}
