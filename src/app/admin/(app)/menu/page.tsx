@@ -68,7 +68,7 @@ export default async function MenuAdminPage({ searchParams }: PageProps<"/admin/
       {cats.map((c, ci) => (
         <Panel key={c.id}>
           <div className="bg-aqua-tint flex flex-wrap items-center justify-between gap-3 px-[18px] py-3">
-            <span className="text-[15px] font-bold capitalize">{c.name}</span>
+            <span className="text-[15px] font-bold">{c.name.charAt(0).toUpperCase() + c.name.slice(1)}</span>
             <div className="flex flex-wrap items-center gap-1.5">
               <ActButton
                 run={moveCategory.bind(null, c.id, -1)}
