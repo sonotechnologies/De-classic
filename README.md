@@ -47,8 +47,7 @@ Cloudinary and Resend are optional in development:
    - `DATABASE_URL`, `AUTH_SECRET` (`npx auth secret`), `NEXT_PUBLIC_SITE_URL`
    - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
    - `RESEND_API_KEY`, `EMAIL_FROM` (a sender on a domain verified in Resend)
-3. Run `npm run db:migrate` and `npm run db:seed` once against the Neon database. In production the seeded owner must choose a new password at first sign-in.
-4. Deploy. The build prerenders the public pages, so the database must be reachable at build time.
+3. Deploy. Vercel runs the `vercel-build` script, which applies migrations, seeds the database if it is empty, then builds. The seed never touches a database that already has data. The seeded owner must choose a new password at first sign-in.
 
 After launch:
 
